@@ -1,0 +1,102 @@
+{
+	"name": "ni-python-dataplugins",
+	"displayName": "NI Python DataPlugins",
+	"description": "Create and export NI DataPlugins in Python",
+	"version": "0.0.8",
+	"publisher": "NI",
+	"engines": {
+		"vscode": "^1.41.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"icon": "icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/"
+	},
+	"galleryBanner": {
+		"color": "#C80000",
+		"theme": "dark"
+	},
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.createDataPlugin",
+				"title": "NI DataPlugins: Create new Python-DataPlugin"
+			},
+			{
+				"command": "extension.exportPlugin",
+				"title": "Export Python-DataPlugin",
+				"category": "NI DataPlugins"
+			},
+			{
+				"command": "extension.checkSyntax",
+				"title": "Verify the code syntax of your DataPlugin",
+				"category": "NI DataPlugins"
+			},
+			{
+				"command": "extension.openLatest",
+				"title": "Open last used Python-DataPlugin",
+				"category": "NI DataPlugins"
+			},
+			{
+				"command": "extension.exportPluginExplorer",
+				"title": "NI DataPlugins: Export DataPlugin",
+				"category": "NI DataPlugins"
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "extension.exportPluginExplorer",
+					"when": "false"
+				}
+			],
+			"explorer/context": [
+				{
+					"when": "resourceLangId == python",
+					"command": "extension.exportPluginExplorer",
+					"group": "NI"
+				},
+				{
+					"when": "explorerResourceIsFolder",
+					"command": "extension.createDataPlugin",
+					"group": "NI"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"compile": "tsc -p ./",
+		"createpkg": "vsce package",
+		"pretest": "npm run compile",
+		"test": "node ./out/test/runTest.js",
+		"vscode:prepublish": "npm run compile",
+		"watch": "tsc -watch -p ./"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.1",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.41.0",
+		"eslint": "^6.8.0",
+		"@typescript-eslint/parser": "^2.18.0",
+		"@typescript-eslint/eslint-plugin": "^2.18.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.0.1",
+		"typescript": "^3.7.5",
+		"vscode-test": "^1.3.0"
+	},
+	"dependencies": {
+		"@types/js-yaml": "^3.12.2",
+		"@types/yaml": "^1.2.0",
+		"js-yaml": "^3.13.1",
+		"open": "^7.0.0",
+		"yaml": "^1.7.2"
+	}
+}
