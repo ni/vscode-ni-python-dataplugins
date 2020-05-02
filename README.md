@@ -1,6 +1,7 @@
 # NI DataPlugins extension for Visual Studio Code
 
-A [Visual Studio Code](https://code.visualstudio.com/) extension that provides development support for [NI DataPlugins](https://www.ni.com/downloads/dataplugins) written in [Python](https://www.python.org).
+A [Visual Studio Code](https://code.visualstudio.com/) extension that provides development support for [NI DataPlugins](https://www.ni.com/downloads/dataplugins) written in [Python](https://www.python.org).<br>
+General documentation about developing Visual Studio Code extensions you can find [here](https://code.visualstudio.com/api) and [here](https://vscode-docs.readthedocs.io/en/stable/extensions/debugging-extensions/).
 
 [![Build Status](https://janschummers.visualstudio.com/vscode-ni-python-dataplugins/_apis/build/status/jschumme.vscode-ni-python-dataplugins?branchName=master)](https://janschummers.visualstudio.com/vscode-ni-python-dataplugins/_build/latest?definitionId=1&branchName=master)
 
@@ -16,3 +17,4 @@ A [Visual Studio Code](https://code.visualstudio.com/) extension that provides d
 NI DataPlugins: Create new Python-DataPlugin
 ```
 **Step 3.** Export the DataPlugin. Right click on the \*.py file you want to export -> Choose "NI DataPlugins: Export DataPlugin".
+
