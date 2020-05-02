@@ -50,8 +50,10 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
    if (!pluginType) {
       return null;
    }
-
-   return new DataPlugin(scriptName, pluginType.label === 'Direct', Languages.Python);
+   const dataPlugin: DataPlugin = new DataPlugin(scriptName, pluginType.label === 'Direct', Languages.Python);
+   await dataPlugin.createMainPy();
+   await dataPlugin.createExampleDataFile();
+   return dataPlugin;
 }
 
 export async function exportPlugin() {

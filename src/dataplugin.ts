@@ -9,7 +9,8 @@ import * as vscu from './vscode-utils';
 import { FileExtensions } from './file-extensions.enum';
 import { Languages } from './plugin-languages.enum';
 
-const DataPluginFolder = config.dataPluginFolder;
+const dataPluginFolder = config.dataPluginFolder;
+const dirNamePath = path.dirname(__dirname);
 const listPath = path.join(path.dirname(__dirname), 'scriptPathsList.yml');
 
 export class DataPlugin {
@@ -68,52 +69,20 @@ export class DataPlugin {
       this._name = name;
       this._direct = direct;
       this._language = language;
-      this._scriptPath = `${DataPluginFolder}\\${name}\\Main.py`;
-      this._exampleDataFile = `${DataPluginFolder}\\${name}\\Example.csv`;
+      this._scriptPath = `${dataPluginFolder}\\${name}\\Main.py`;
+      this._exampleDataFile = `${dataPluginFolder}\\${name}\\Example.csv`;
 
-      vscu.createFolder(`${DataPluginFolder}\\${name}`);
+      vscu.createFolder(`${dataPluginFolder}\\${name}`);
 
-      if (!fs.existsSync(this.scriptPath)) {
-         // Reads the default-script-indirect.py and writes the content in the new file Main.py
-         if (direct === false) {
-            fs.readFile(path.join(path.dirname(__dirname), 'templates', 'default-script-indirect.py'), async (err, content) => {
-               if (err) { throw err; }
-               fs.writeFile(path.join(this.scriptPath), content, async err => {
-                  if (err) { return vscode.window.showErrorMessage(config.extPrefix + 'Failed to create indirect DataPlugin!'); }
-                  // vscode.window.showInformationMessage(prefix + 'Successfully created indirect Main.py');
-                  DataPlugin.updateList(this.name, this.scriptPath);
-                  await DataPlugin.showDataPluginInVSCode(DataPluginFolder, name, this._scriptPath);
-               });
-            });
-         }
-         // Reads the default-script-direct.py and writes the content in the new file Main.py
-         if (direct === true) {
-            fs.readFile(path.join(path.dirname(__dirname), 'templates', 'default-script-direct.py'), (err, content) => {
-               if (err) { throw err; }
-               fs.writeFile(path.join(this.scriptPath), content, async err => {
-                  if (err) { return vscode.window.showErrorMessage(config.extPrefix + 'Failed to create direct DataPlugin!'); }
-                  vscode.window.showInformationMessage(config.extPrefix + 'Template files created');
-                  DataPlugin.updateList(this.name, this.scriptPath);
-                  await DataPlugin.showDataPluginInVSCode(DataPluginFolder, name, this._scriptPath);
-               });
-            });
-         }
-         // Reads the example.csv and writes the content in the new file
-         fs.readFile(path.join(path.dirname(__dirname), 'example.csv'), (err, content) => {
-            if (err) { throw err; }
-            fs.writeFile(path.join(this.exampleDataFile), content, async err => {
-               if (err) { return vscode.window.showErrorMessage(config.extPrefix + 'Failed to create example file!'); }
-            });
-         });
-      } else {
+      if (fs.existsSync(this.scriptPath)) {
          vscode.window.showInformationMessage(config.extPrefix + 'Example file already exists');
-         DataPlugin.showDataPluginInVSCode(DataPluginFolder, name, this._scriptPath);
+         DataPlugin.showDataPluginInVSCode(dataPluginFolder, name, this._scriptPath);
       }
    }
 
    public static async exportPlugin(uri: vscode.Uri[], fileExtensions: string) {
       const options: vscode.SaveDialogOptions = {
-         defaultUri: vscode.Uri.parse(DataPluginFolder),
+         defaultUri: vscode.Uri.parse(dataPluginFolder),
          filters: { 'Uri': ['uri'] },
       };
 
@@ -127,15 +96,19 @@ export class DataPlugin {
                const fileName = path.basename(fileInfos.fsPath, path.extname(fileInfos.fsPath)); // Gets the fileName without extension and path.
                fs.writeFile(fileInfos.fsPath, `<usireginfo><storetype name="${fileName}"><type>python</type><alias>${fileName}</alias><description>${fileName}</description><filepath>uspTdmMarshaller.dll</filepath><exportsupported>NO</exportsupported><caching>YES</caching><easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath><script>${pythonScriptPath}</script>]]></easypluginparam><querysupported>0</querysupported><fastloadsupported>0</fastloadsupported><filefilters extension="${fileExtensions}"><description>${fileName} Dateien (' + fileExtensions + ')</description></filefilters><platform>x64</platform>`
                   , err => {
-                     if (err) { return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export DataPlugin!`); }
+                     if (err) {
+                        return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export DataPlugin!`);
+                     }
                      fs.appendFile(fileInfos.fsPath, '></storetype></usireginfo>', async err => {
-                        if (err) { return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export Python script!`); }
+                        if (err) {
+                           return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export Python script!`);
+                        }
 
                         const result = await vscode.window.showInformationMessage(`${config.extPrefix} Sucessfully exported DataPlugin`, 'Open in Explorer', 'Register DataPlugin');
-                        if (result && result === 'Open in Explorer') {
+                        if (result === 'Open in Explorer') {
                            await open(path.dirname(fileInfos.fsPath));
                         }
-                        if (result && result === 'Register DataPlugin') {
+                        if (result === 'Register DataPlugin') {
                            await open(fileInfos.fsPath);
                         }
                      });
@@ -158,5 +131,32 @@ export class DataPlugin {
       // Opens the VSCode explorer
       await vscode.commands.executeCommand('workbench.view.explorer');
       await vscu.openDocumentAndShow(path);
+   }
+
+   public async createMainPy(): Promise<void> {
+      const templatePy = this.direct ? 'default-script-direct.py' : 'default-script-indirect.py';
+      fs.readFile(path.join(dirNamePath, 'templates', templatePy), (err, content) => {
+         if (err) { throw err; }
+         fs.writeFile(path.join(this.scriptPath), content, async err => {
+            if (err) {
+               vscode.window.showErrorMessage(config.extPrefix + 'Failed to create DataPlugin!');
+            }
+
+            vscode.window.showInformationMessage(config.extPrefix + 'Template files created');
+            DataPlugin.updateList(this.name, this.scriptPath);
+            await DataPlugin.showDataPluginInVSCode(dataPluginFolder, this.name, this.scriptPath);
+         });
+      });
+   }
+
+   public async createExampleDataFile(): Promise<void> {
+      fs.readFile(path.join(dirNamePath, 'templates', 'example.csv'), (err, content) => {
+         if (err) { throw err; }
+         fs.writeFile(path.join(this.exampleDataFile), content, async err => {
+            if (err) {
+               return vscode.window.showErrorMessage(config.extPrefix + 'Failed to create example file!');
+            }
+         });
+      });
    }
 }
