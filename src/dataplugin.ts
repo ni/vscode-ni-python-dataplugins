@@ -3,7 +3,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as open from 'open';
 import * as vscode from 'vscode';
-import * as yaml from 'js-yaml';
 import * as config from './config';
 import * as vscu from './vscode-utils';
 import { FileExtensions } from './file-extensions.enum';
