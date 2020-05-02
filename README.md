@@ -15,7 +15,4 @@ A [Visual Studio Code](https://code.visualstudio.com/) extension that provides d
 ```
 NI DataPlugins: Create new Python-DataPlugin
 ```
-**Step 3.** Export the DataPlugin. Launch VS Code Command Palette (Ctrl+Shift+P), paste the following command, and press enter.
-```
-NI DataPlugins: Export Python-DataPlugin
-```
+**Step 3.** Export the DataPlugin. Right click on the \*.py file you want to export -> Choose "NI DataPlugins: Export DataPlugin".
