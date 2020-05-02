@@ -2,9 +2,13 @@
 	"rules": {
 		"no-string-throw": true,
 		"no-unused-expression": true,
-		"no-duplicate-variable": true,
+    "no-duplicate-variable": true,
+    "no-consecutive-blank-lines": true,
+    "no-console": false,
 		"curly": true,
-		"class-name": true,
+    "class-name": true,
+    "prefer-template": [true, "allow-single-concat"],
+    "quotemark": [true, "single", "avoid-escape", "avoid-template"],
 		"semicolon": [
 			true,
 			"always"

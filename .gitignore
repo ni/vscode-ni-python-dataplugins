@@ -2,3 +2,4 @@ node_modules
 out
 *.code-workspace
 .vscode-test
+scriptPathsList.yml
