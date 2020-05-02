@@ -1,0 +1,29 @@
+{
+  "readChannelLength": {
+    "prefix": "def read_channel_length",
+    "body": [
+      "def read_channel_length(self, grp_index, chn_index):",
+      "\treturn len(self.data)"
+    ],
+    "description": "Code snippet for: read_channel_length"
+  },
+  "readStore": {
+    "prefix": "def read_store",
+    "body": [
+      "def read_store(self, parameter):",
+      "\tfile_path = os.path.realpath(parameter['file'])",
+      "\tself.tdm_model['Example'] = {\"description\": \"Example file\"}",
+      "\treturn self.tdm_model"
+    ],
+    "description": "Code snippet for: read_store"
+  },
+  "read_channel_values": {
+    "prefix": "def read_channel_values",
+    "body": [
+      "def read_channel_values(self, grp_index, chn_index, numberToSkip, numberToTake):",
+      "\tvalues = []",
+      "\tvalues[numberToSkip:numberToTake+numberToSkip]"
+    ],
+    "description": "Code snippet for: read_channel_values"
+  }
+}
