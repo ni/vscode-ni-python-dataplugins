@@ -10,6 +10,7 @@ A [Visual Studio Code](https://code.visualstudio.com/) extension that provides d
 - Click the ... at the top-right corner of the Extensions pane and select "Install from VSIX...".
 - Locate the .vsix file you download and click "Open".
 - Click "Restart" to confirm.
+
 **Step 2.** Create a new DataPlugin. Launch VS Code Command Palette (Ctrl+Shift+P), paste the following command, and press enter.
 ```
 NI DataPlugins: Create new Python-DataPlugin
