@@ -8,6 +8,7 @@ import * as config from './config';
 import * as vscu from './vscode-utils';
 import { FileExtensions } from './file-extensions.enum';
 import { Languages } from './plugin-languages.enum';
+import { UriTemplate } from './uri-template';
 
 const dataPluginFolder = config.dataPluginFolder;
 const dirNamePath = path.dirname(__dirname);
@@ -94,25 +95,25 @@ export class DataPlugin {
                if (err) { throw err; }
 
                const fileName = path.basename(fileInfos.fsPath, path.extname(fileInfos.fsPath)); // Gets the fileName without extension and path.
-               fs.writeFile(fileInfos.fsPath, `<usireginfo><storetype name="${fileName}"><type>python</type><alias>${fileName}</alias><description>${fileName}</description><filepath>uspTdmMarshaller.dll</filepath><exportsupported>NO</exportsupported><caching>YES</caching><easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath><script>${pythonScriptPath}</script>]]></easypluginparam><querysupported>0</querysupported><fastloadsupported>0</fastloadsupported><filefilters extension="${fileExtensions}"><description>${fileName} Dateien (' + fileExtensions + ')</description></filefilters><platform>x64</platform>`
-                  , err => {
+               const uriTemplate = new UriTemplate(fileExtensions, fileName, pythonScriptPath);
+               fs.writeFile(fileInfos.fsPath, uriTemplate.templateString, err => {
+                  if (err) {
+                     return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export DataPlugin!`);
+                  }
+                  fs.appendFile(fileInfos.fsPath, '></storetype></usireginfo>', async err => {
                      if (err) {
-                        return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export DataPlugin!`);
+                        return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export Python script!`);
                      }
-                     fs.appendFile(fileInfos.fsPath, '></storetype></usireginfo>', async err => {
-                        if (err) {
-                           return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export Python script!`);
-                        }
 
-                        const result = await vscode.window.showInformationMessage(`${config.extPrefix} Sucessfully exported DataPlugin`, 'Open in Explorer', 'Register DataPlugin');
-                        if (result === 'Open in Explorer') {
-                           await open(path.dirname(fileInfos.fsPath));
-                        }
-                        if (result === 'Register DataPlugin') {
-                           await open(fileInfos.fsPath);
-                        }
-                     });
+                     const result = await vscode.window.showInformationMessage(`${config.extPrefix} Sucessfully exported DataPlugin`, 'Open in Explorer', 'Register DataPlugin');
+                     if (result === 'Open in Explorer') {
+                        await open(path.dirname(fileInfos.fsPath));
+                     }
+                     if (result === 'Register DataPlugin') {
+                        await open(fileInfos.fsPath);
+                     }
                   });
+               });
             });
          }
       });
