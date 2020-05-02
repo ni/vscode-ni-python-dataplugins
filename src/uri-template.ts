@@ -13,7 +13,7 @@ export class UriTemplate {
          `<querysupported>0</querysupported>` +
          `<fastloadsupported>0</fastloadsupported>` +
          `<filefilters extension="${fileExtensions}"><description>${fileName} Dateien (' + fileExtensions + ')</description></filefilters>` +
-         `<platform>x64</platform>`
+         `<platform>x64</platform></storetype></usireginfo>`
    }
 
    get templateString(): string {

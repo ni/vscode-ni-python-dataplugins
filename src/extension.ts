@@ -10,12 +10,10 @@ export function activate(context: vscode.ExtensionContext) {
    const createDataPluginCommand = vscode.commands.registerCommand('nipy.createDataPlugin', async () => { commands.createDataPlugin(); });
    const checkSyntaxCommand = vscode.commands.registerCommand('nipy.checkSyntax', async () => { commands.checkSyntax(); });
    const exportPluginFromContextMenuCommand = vscode.commands.registerCommand('nipy.exportPluginFromContextMenu', async (uri: vscode.Uri) => { commands.exportPluginFromContextMenu(uri); });
-   const exportPluginCommand = vscode.commands.registerCommand('nipy.exportPlugin', async () => { commands.exportPlugin(); });
 
    context.subscriptions.push(
       createDataPluginCommand,
       checkSyntaxCommand,
-      exportPluginFromContextMenuCommand,
-      exportPluginCommand
+      exportPluginFromContextMenuCommand
    );
 }

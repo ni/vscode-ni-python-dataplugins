@@ -56,27 +56,6 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
    return dataPlugin;
 }
 
-export async function exportPlugin() {
-   const optionsOpen: vscode.OpenDialogOptions = {
-      defaultUri: vscode.Uri.parse(config.userDocuments),
-      filters: { 'Python': ['py'] },
-      canSelectFolders: false,
-      canSelectMany: false
-   };
-
-   const extensions = await vscu.showInputBox('Please enter the file extensions your DataPlugin can handle in the right syntax: ', '*.tdm; *.xls ...');
-
-   if (extensions !== undefined) {
-      await vscode.window.showOpenDialog({ ...optionsOpen }).then(async fileUri => {
-         if (fileUri?.[0]) {
-            if (extensions !== undefined) {
-               await DataPlugin.exportPlugin(fileUri, extensions.toString());
-            }
-         }
-      });
-   }
-}
-
 export async function exportPluginFromContextMenu(uri: vscode.Uri) {
    const extensions = await vscu.showInputBox('Please enter the file extensions your DataPlugin can handle in the right syntax: ', '*.tdm; *.xls ...');
 
