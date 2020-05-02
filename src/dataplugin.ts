@@ -76,7 +76,7 @@ export class DataPlugin {
       if (!fs.existsSync(this.scriptPath)) {
          // Reads the default-script-indirect.py and writes the content in the new file Main.py
          if (direct === false) {
-            fs.readFile(path.join(path.dirname(__dirname), 'default-script-indirect.py'), async (err, content) => {
+            fs.readFile(path.join(path.dirname(__dirname), 'templates', 'default-script-indirect.py'), async (err, content) => {
                if (err) { throw err; }
                fs.writeFile(path.join(this.scriptPath), content, async err => {
                   if (err) { return vscode.window.showErrorMessage(config.extPrefix + 'Failed to create indirect DataPlugin!'); }
@@ -88,7 +88,7 @@ export class DataPlugin {
          }
          // Reads the default-script-direct.py and writes the content in the new file Main.py
          if (direct === true) {
-            fs.readFile(path.join(path.dirname(__dirname), 'default-script-direct.py'), (err, content) => {
+            fs.readFile(path.join(path.dirname(__dirname), 'templates', 'default-script-direct.py'), (err, content) => {
                if (err) { throw err; }
                fs.writeFile(path.join(this.scriptPath), content, async err => {
                   if (err) { return vscode.window.showErrorMessage(config.extPrefix + 'Failed to create direct DataPlugin!'); }
