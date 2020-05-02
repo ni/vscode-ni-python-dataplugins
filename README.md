@@ -1,6 +1,6 @@
 # NI DataPlugins extension for Visual Studio Code
 
-A [Visual Studio Code](https://code.visualstudio.com/) extension provides development support for [NI DataPlugins](https://www.ni.com/downloads/dataplugins).
+A [Visual Studio Code](https://code.visualstudio.com/) extension provides development support for [NI DataPlugins](https://www.ni.com/downloads/dataplugins) written in [Python](https://www.python.org).
 
 [![Build Status](https://janschummers.visualstudio.com/vscode-ni-python-dataplugins/_apis/build/status/jschumme.vscode-ni-python-dataplugins?branchName=master)](https://janschummers.visualstudio.com/vscode-ni-python-dataplugins/_build/latest?definitionId=1&branchName=master)
 
