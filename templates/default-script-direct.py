@@ -1,4 +1,5 @@
 import csv
+import datetime
 import os
 import sys
 
@@ -19,6 +20,7 @@ class Plugin:
             self.channelNames = reader.fieldnames
 
         self.tdm_model['Example'] = {
+            "author": "National Instruments",
             "description": "Example file"}
         self.tdm_model['Example']['groups'] = []
 
@@ -30,7 +32,7 @@ class Plugin:
         group1 = {
             "name": "Example",
             "description": "The first group",
-            "author": "National Instruments",
+            "time": datetime.datetime(2020, 2, 11, 15, 31, 59, 342380),
             "channels": [{
                 "name": self.channelNames[0],
                 "description": "",
