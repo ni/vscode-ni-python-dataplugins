@@ -1,4 +1,91 @@
 {
+  "DataTypeChnFloat32": {
+    "prefix": [
+      "DataTypeChnFloat32"
+    ],
+    "body": [
+      "\"DataTypeChnFloat32\""
+    ],
+    "description": "Defines a float32 data type"
+  },
+  "DataTypeChnFloat64": {
+    "prefix": [
+      "DataTypeChnFloat64"
+    ],
+    "body": [
+      "\"DataTypeChnFloat64\""
+    ],
+    "description": "Defines a float64 data type"
+  },
+  "DataTypeChnString": {
+    "prefix": [
+      "DataTypeChnString"
+    ],
+    "body": [
+      "\"DataTypeChnString\""
+    ],
+    "description": "Defines a string data type"
+  },
+  "DataTypeChnDate": {
+    "prefix": [
+      "DataTypeChnDate"
+    ],
+    "body": [
+      "\"DataTypeChnDate\""
+    ],
+    "description": "Defines a date data type"
+  },
+  "DataTypeChnUInt8": {
+    "prefix": [
+      "DataTypeChnUInt8"
+    ],
+    "body": [
+      "\"DataTypeChnUInt8\""
+    ],
+    "description": "Defines a byte data type"
+  },
+  "DataTypeChnInt16": {
+    "prefix": [
+      "DataTypeChnInt16"
+    ],
+    "body": [
+      "\"DataTypeChnInt16\""
+    ],
+    "description": "Defines a int16 data type"
+  },
+  "DataTypeChnInt32": {
+    "prefix": [
+      "DataTypeChnInt32"
+    ],
+    "body": [
+      "\"DataTypeChnInt32\""
+    ],
+    "description": "Defines a int32 data type"
+  },
+  "DataTypeChnInt64": {
+    "prefix": [
+      "DataTypeChnInt64"
+    ],
+    "body": [
+      "\"DataTypeChnInt64\""
+    ],
+    "description": "Defines a int64 data type"
+  },
+  "main": {
+    "prefix": "if __name__",
+    "body": [
+      "if __name__ == \"__main__\":",
+      "\tprint(\"For testing your plugin first, you can run that python file directly from command line\")",
+      "\tp = Plugin()",
+      "\tparameter = {",
+      "\t\t\"file\": \"C:\\Users\\Public\\Documents\\National Instruments\\DIAdem 2020\\Data\\Example.csv\"",
+      "\t}",
+      "\tprint(\"\\n %s\" % p.read_store(parameter))",
+      "\tprint(\"\\nChannel length: %s\" % p.read_channel_length(0, 0))",
+      "\tprint(\"\\nChannel values: %s\" % p.read_channel_values(0, 0, 0, 1024))"
+    ],
+    "description": "Code snippet for: __main__"
+  },
   "readChannelLength": {
     "prefix": "def read_channel_length",
     "body": [
@@ -17,7 +104,7 @@
     ],
     "description": "Code snippet for: read_store"
   },
-  "read_channel_values": {
+  "readChannelValues": {
     "prefix": "def read_channel_values",
     "body": [
       "def read_channel_values(self, grp_index, chn_index, numberToSkip, numberToTake):",
