@@ -45,6 +45,18 @@
         "category": "NI DataPlugins"
       }
     ],
+    "configuration": [
+      {
+        "title": "vscode-ni-python-dataplugins",
+        "properties": {
+          "NI-Data-Plugin.useCodeSnippetsOnMethodSuggest": {
+            "type": "boolean",
+            "default": false,
+            "description": "Complete functions with their parameter signature."
+          }
+        }
+      }
+    ],
     "menus": {
       "commandPalette": [
         {
