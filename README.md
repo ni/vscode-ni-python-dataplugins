@@ -18,6 +18,10 @@ NI DataPlugins: Create new Python-DataPlugin
 ```
 **Step 3.** Export the DataPlugin. Right click on the \*.py file you want to export -> Choose "NI DataPlugins: Export DataPlugin".
 
+# Settings
+
+**Export-Path** Set the export path for all your plugins in Preferences: Open Settings -> Extensions -> vscode-ni-dataplugins -> Plugin Export Path 
+
 # Contribute
 
 Contribute to this project by finding issues, requesting features or creating Pull Requests. General documentation about developing extensions for Visual Studio Code can be found [here](https://code.visualstudio.com/api) and [here](https://vscode-docs.readthedocs.io/en/stable/extensions/debugging-extensions/).

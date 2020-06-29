@@ -47,12 +47,12 @@
     ],
     "configuration": [
       {
-        "title": "vscode-ni-python-dataplugins",
+        "title": "Vscode-NI-Python-DataPlugins",
         "properties": {
-          "NI-Data-Plugin.useCodeSnippetsOnMethodSuggest": {
-            "type": "boolean",
-            "default": false,
-            "description": "Complete functions with their parameter signature."
+          "NI-Data-Plugin.PluginExportPath": {
+            "type": ["string", "null"],
+            "default": null,
+            "description": "Specifies the folder path for plugin export."
           }
         }
       }

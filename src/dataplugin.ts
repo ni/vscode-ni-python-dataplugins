@@ -88,16 +88,17 @@ export class DataPlugin {
       const pythonScriptPath = uri[0].fsPath;
 
       if(`${config.exportPath}` != ""){
+         vscu.createFolder(`${config.exportPath}`);
          vscode.window.showInformationMessage(config.exportPath + ' used');
 
          fs.readFile(uri[0].fsPath, (err, content) => {
             if (err) { throw err; }
 
-            const fileName = `${DataPlugin.name}`;
-            const exportPath = `${config.exportPath}` + "\\" + fileName + ".uri";
+           
+            const exportPath = `${config.exportPath}` + "\\" + this.name + ".uri";
 
-
-            const uriTemplate = new UriTemplate(fileExtensions, fileName, pythonScriptPath);
+8
+            const uriTemplate = new UriTemplate(fileExtensions, this.name, pythonScriptPath);
             fs.writeFile(exportPath, uriTemplate.templateString, async err => {
                if (err) {
                   return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export DataPlugin!`);
