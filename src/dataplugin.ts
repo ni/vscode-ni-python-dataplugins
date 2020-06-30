@@ -79,19 +79,18 @@ export class DataPlugin {
       }
    }
 
-
    public static async exportPluginWrite(uri: vscode.Uri[], fileExtensions: string, newExportPath: string | undefined, name: string) {
       const pythonScriptPath = uri[0].fsPath;
 
       let exportPath: string;
       fs.readFile(uri[0].fsPath, (err, content) => {
          if (err) { throw err; }
-         if(newExportPath == undefined){
-            exportPath = `${config.exportPath}` + "\\" + this.name + ".uri";
-         }else{
+         if (newExportPath === undefined) {
+            exportPath = `${config.exportPath}\\this.name.uri`;
+         }else {
             exportPath = newExportPath;
          }
-         
+
          const uriTemplate = new UriTemplate(fileExtensions, this.name, pythonScriptPath);
 
          fs.writeFile(exportPath, uriTemplate.templateString, async err => {
@@ -109,26 +108,26 @@ export class DataPlugin {
           });
       });
    }
-   
+
    public static async exportPlugin(uri: vscode.Uri[], fileExtensions: string) {
       const options: vscode.SaveDialogOptions = {
          defaultUri: vscode.Uri.parse(dataPluginFolder),
          filters: { 'Uri': ['uri'] },
       };
 
-      if(`${config.exportPath}` != ""){
+      if (`${config.exportPath}` !== '') {
          vscu.createFolder(`${config.exportPath}`);
          this.exportPluginWrite(uri, fileExtensions, undefined, this.name);
-      }else{
+      }else {
          await vscode.window.showSaveDialog({ ...options }).then(fileInfos => {
             if (!fileInfos) {
                return;
             }
             const fileName = path.basename(fileInfos.fsPath, path.extname(fileInfos.fsPath));
             this.exportPluginWrite(uri, fileExtensions, fileInfos.fsPath, fileName);
-   
+
          });
-      }      
+      }
    }
 
    public static async showDataPluginInVSCode(folder: string, name: string, path: string) {

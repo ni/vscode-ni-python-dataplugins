@@ -8,8 +8,8 @@ suite('DataPlugin Test Suite', () => {
    vscode.window.showInformationMessage('Start DataPlugin tests.');
 
    test('should be able to create class', () => {
-      let directDataPlugin: DataPlugin = new DataPlugin('DirectDataPlugin', true, Languages.Python);
-      let indirectDataPlugin: DataPlugin = new DataPlugin('IndirectDataPlugin', false, Languages.Python);
+      const directDataPlugin: DataPlugin = new DataPlugin('DirectDataPlugin', true, Languages.Python);
+      const indirectDataPlugin: DataPlugin = new DataPlugin('IndirectDataPlugin', false, Languages.Python);
 
       assert.ok(directDataPlugin.name === 'DirectDataPlugin');
       assert.ok(directDataPlugin.exampleDataFile === `${config.dataPluginFolder}\\${directDataPlugin.name}\\Example.csv`);
