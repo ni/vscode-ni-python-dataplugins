@@ -20,7 +20,13 @@ NI DataPlugins: Create new Python-DataPlugin
 
 # Settings
 
-**Export-Path** Set the export path for all your plugins in Preferences: Open Settings -> Extensions -> Vscode-NI-Python-DataPlugins -> Plugin Export Path 
+```json
+{
+    "NI-DataPlugins.PluginExportPath": ""
+}
+```
+
+**Export-Path** Set the export path for all your plugins in Preferences -> Settings -> Extensions -> Vscode-NI-Python-DataPlugins -> Plugin Export Path 
 
 # Contribute
 
