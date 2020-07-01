@@ -1,63 +1,72 @@
 {
-	"extends": "tslint:recommended",
-	"rules": {
-		"no-string-throw": true,
-		"no-unused-expression": true,
-    	"no-duplicate-variable": true,
-		"no-consecutive-blank-lines": true,
-		"no-console": false,
-		"curly": true,
-		"class-name": true,
-    	"prefer-template": [true, "allow-single-concat"],
-    	"quotemark": [true, "single", "avoid-escape", "avoid-template"],
-		"semicolon": [
-			true,
-			"always"
-		],
-		"triple-equals": true,
-		"trailing-comma": false,
-		"no-output-on-prefix": true,
-		"no-inputs-metadata-property": true,
-		"no-outputs-metadata-property": true,
-		"no-host-metadata-property": false,
-		"no-input-rename": true,
-		"no-output-rename": true,
-		"use-lifecycle-interface": true,
-		"use-pipe-transform-interface": true,
-		"component-class-suffix": false,
-		"directive-class-suffix": true,
-		"no-empty-interface": false,
-		"variable-name": [
-		  true,
-		  "ban-keywords",
-		  "check-format",
-		  "allow-leading-underscore"
-		],
-		"whitespace": [true,
-			"check-branch",
-			"check-decl",
-			"check-operator",
-			"check-module",
-			"check-separator",
-			"check-rest-spread",
-			"check-type",
-			"check-typecast",
-			"check-type-operator",
-			"check-preblock",
-			"check-postbrace"
-		  ],
-		  "member-access": true,
-		  "member-ordering": [
-			true,
-			{
-			  "order": [
-				"static-field",
-				"instance-field",
-				"static-method",
-				"instance-method"
-			  ]
-			}
-		  ]
-	},
-	"defaultSeverity": "warning"
+  "extends": "tslint:recommended",
+  "rules": {
+    "no-string-throw": true,
+    "no-unused-expression": true,
+    "no-duplicate-variable": true,
+    "no-consecutive-blank-lines": true,
+    "no-console": false,
+    "curly": true,
+    "class-name": true,
+    "prefer-template": [
+      true,
+      "allow-single-concat"
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape",
+      "avoid-template"
+    ],
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "triple-equals": true,
+    "trailing-comma": false,
+    "no-output-on-prefix": true,
+    "no-inputs-metadata-property": true,
+    "no-outputs-metadata-property": true,
+    "no-host-metadata-property": false,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "use-lifecycle-interface": true,
+    "use-pipe-transform-interface": true,
+    "component-class-suffix": false,
+    "directive-class-suffix": true,
+    "no-empty-interface": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore"
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-module",
+      "check-separator",
+      "check-rest-spread",
+      "check-type",
+      "check-typecast",
+      "check-type-operator",
+      "check-preblock",
+      "check-postbrace"
+    ],
+    "member-access": true,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ]
+  },
+  "defaultSeverity": "warning"
 }
