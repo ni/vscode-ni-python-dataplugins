@@ -83,6 +83,7 @@ export class DataPlugin {
       const pythonScriptPath = uri[0].fsPath;
       const dirName = path.basename(path.dirname(pythonScriptPath));
       let exportPath: string;
+
       fs.readFile(uri[0].fsPath, (err, content) => {
          if (err) { throw err; }
          if (newExportPath === undefined) {
@@ -91,7 +92,7 @@ export class DataPlugin {
             exportPath = newExportPath;
          }
 
-         const uriTemplate = new UriTemplate(fileExtensions,`${dirName}.uri` , pythonScriptPath);
+         const uriTemplate = new UriTemplate(fileExtensions, `${dirName}.uri`, pythonScriptPath);
 
          fs.writeFile(exportPath, uriTemplate.templateString, async err => {
             if (err) {
@@ -126,7 +127,6 @@ export class DataPlugin {
             }
             const fileName = path.basename(fileInfos.fsPath, path.extname(fileInfos.fsPath));
             this.writePlugin(uri, fileExtensions, fileInfos.fsPath);
-
          });
       }
    }

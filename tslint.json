@@ -15,6 +15,23 @@
 			"always"
 		],
 		"triple-equals": true,
+		"trailing-comma": false,
+		"no-output-on-prefix": true,
+		"no-inputs-metadata-property": true,
+		"no-outputs-metadata-property": true,
+		"no-host-metadata-property": false,
+		"no-input-rename": true,
+		"no-output-rename": true,
+		"use-lifecycle-interface": true,
+		"use-pipe-transform-interface": true,
+		"component-class-suffix": false,
+		"directive-class-suffix": true,
+		"no-empty-interface": false,
+		"variable-name": [
+		  true,
+		  "ban-keywords",
+		  "check-format"
+		],
 		"whitespace": [true,
 			"check-branch",
 			"check-decl",
@@ -28,9 +45,9 @@
 			"check-preblock",
 			"check-postbrace"
 		  ],
-		  "member-access": false,
+		  "member-access": true,
 		  "member-ordering": [
-			false,
+			true,
 			{
 			  "order": [
 				"static-field",
