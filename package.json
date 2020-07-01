@@ -45,6 +45,21 @@
         "category": "NI DataPlugins"
       }
     ],
+    "configuration": [
+      {
+        "title": "Vscode-NI-Python-DataPlugins",
+        "properties": {
+          "NI-DataPlugins.PluginExportPath": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "default": null,
+            "description": "Specifies the folder path for plugin export."
+          }
+        }
+      }
+    ],
     "menus": {
       "commandPalette": [
         {

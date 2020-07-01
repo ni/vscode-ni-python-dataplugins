@@ -79,39 +79,56 @@ export class DataPlugin {
       }
    }
 
+   public static async writePlugin(uri: vscode.Uri[], fileExtensions: string, newExportPath: string | undefined) {
+      const pythonScriptPath = uri[0].fsPath;
+      const dirName = path.basename(path.dirname(pythonScriptPath));
+      let exportPath: string;
+
+      fs.readFile(uri[0].fsPath, (err, content) => {
+         if (err) { throw err; }
+         if (newExportPath === undefined) {
+            exportPath = `${config.exportPath}\\${dirName}.uri`;
+         } else {
+            exportPath = newExportPath;
+         }
+
+         const uriTemplate = new UriTemplate(fileExtensions, `${dirName}.uri`, pythonScriptPath);
+
+         fs.writeFile(exportPath, uriTemplate.templateString, async err => {
+            if (err) {
+               return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export DataPlugin!`);
+            }
+
+            const result = await vscode.window.showInformationMessage(`${config.extPrefix} Sucessfully exported DataPlugin`, 'Open in Explorer', 'Register DataPlugin');
+            if (result === 'Open in Explorer') {
+               await open(path.dirname(exportPath));
+            }
+            if (result === 'Register DataPlugin') {
+               await open(exportPath);
+            }
+         });
+      });
+   }
+
    public static async exportPlugin(uri: vscode.Uri[], fileExtensions: string) {
+      const pluginName = path.basename(path.dirname(uri[0].fsPath));
       const options: vscode.SaveDialogOptions = {
-         defaultUri: vscode.Uri.parse(dataPluginFolder),
+         defaultUri: vscode.Uri.parse(`${dataPluginFolder}\\${pluginName}`),
          filters: { 'Uri': ['uri'] },
       };
 
-      const pythonScriptPath = uri[0].fsPath;
-
-      await vscode.window.showSaveDialog({ ...options }).then(fileInfos => {
-         if (!fileInfos) {
-            return;
-         }
-
-         fs.readFile(uri[0].fsPath, (err, content) => {
-            if (err) { throw err; }
-
-            const fileName = path.basename(fileInfos.fsPath, path.extname(fileInfos.fsPath)); // Gets the fileName without extension and path.
-            const uriTemplate = new UriTemplate(fileExtensions, fileName, pythonScriptPath);
-            fs.writeFile(fileInfos.fsPath, uriTemplate.templateString, async err => {
-               if (err) {
-                  return vscode.window.showErrorMessage(`${config.extPrefix} Failed to export DataPlugin!`);
-               }
-
-               const result = await vscode.window.showInformationMessage(`${config.extPrefix} Sucessfully exported DataPlugin`, 'Open in Explorer', 'Register DataPlugin');
-               if (result === 'Open in Explorer') {
-                  await open(path.dirname(fileInfos.fsPath));
-               }
-               if (result === 'Register DataPlugin') {
-                  await open(fileInfos.fsPath);
-               }
-            });
+      if (`${config.exportPath}` !== '') {
+         vscu.createFolder(`${config.exportPath}`);
+         this.writePlugin(uri, fileExtensions, undefined);
+      } else {
+         await vscode.window.showSaveDialog({ ...options }).then(fileInfos => {
+            if (!fileInfos) {
+               return;
+            }
+            const fileName = path.basename(fileInfos.fsPath, path.extname(fileInfos.fsPath));
+            this.writePlugin(uri, fileExtensions, fileInfos.fsPath);
          });
-      });
+      }
    }
 
    public static async showDataPluginInVSCode(folder: string, name: string, path: string) {
