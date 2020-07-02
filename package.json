@@ -108,11 +108,12 @@
     "mocha": "^8.0.1",
     "npm-check": "^5.9.2",
     "tslint": "^6.1.2",
-    "typescript": "^3.9.5",
+    "typescript": "^3.9.6",
     "vsce": "^1.77.0",
     "vscode-test": "^1.4.0"
   },
   "dependencies": {
+    "eslint": "^7.3.1",
     "open": "^7.0.4"
   }
 }
