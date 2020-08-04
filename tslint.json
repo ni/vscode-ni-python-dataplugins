@@ -5,7 +5,7 @@
     "no-unused-expression": true,
     "no-duplicate-variable": true,
     "no-consecutive-blank-lines": true,
-    "no-console": false,
+    "no-console": true,
     "curly": true,
     "class-name": true,
     "prefer-template": [
