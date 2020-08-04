@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 import * as config from './config';
 import * as vscu from './vscode-utils';
 import { DataPlugin } from './dataplugin';
@@ -25,34 +26,37 @@ export async function checkSyntax() {
 }
 
 export async function createDataPlugin(): Promise<DataPlugin | null> {
+   const examples: string[] = vscu.loadExamples();
+   const examplesNames: string[] = new Array();
+   for (let i = 0; i < examples.length; i++) {
+      examplesNames[i] = path.basename(examples[i]);
+   }
+
    const scriptName: string | undefined = await vscu.showInputBox('DataPlugin name: ', 'Please enter your DataPlugin name');
    if (!scriptName) {
       return null;
    }
 
-   const pluginQuickPickItems: vscode.QuickPickItem[] = [
-      {
-         label: 'Direct',
-         description: 'Template for direct loading of data'
-      }, {
-         label: 'Indirect',
-         description: 'Template for loading data by callback functions'
-      }
-   ];
+   const items: vscode.QuickPickItem[] = [];
+
+   for (const item of examplesNames) {
+      items.push({
+         label: item,
+      });
+   }
 
    const pluginType = await vscu.showQuickPick(
       'Please choose your DataPlugin type',
       false,
       false,
-      pluginQuickPickItems
+      items
    );
 
    if (!pluginType) {
       return null;
    }
-   const dataPlugin: DataPlugin = new DataPlugin(scriptName, pluginType.label === 'Direct', Languages.Python);
+   const dataPlugin: DataPlugin = new DataPlugin(scriptName, pluginType.label, Languages.Python);
    await dataPlugin.createMainPy();
-   await dataPlugin.createExampleDataFile();
    return dataPlugin;
 }
 

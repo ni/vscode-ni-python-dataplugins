@@ -8,14 +8,13 @@ suite('DataPlugin Test Suite', () => {
    vscode.window.showInformationMessage('Start DataPlugin tests.');
 
    test('should be able to create class', () => {
-      const directDataPlugin: DataPlugin = new DataPlugin('DirectDataPlugin', true, Languages.Python);
-      const indirectDataPlugin: DataPlugin = new DataPlugin('IndirectDataPlugin', false, Languages.Python);
+      const directDataPlugin: DataPlugin = new DataPlugin('DirectDataPlugin', 'default-script-direct', Languages.Python);
+      const indirectDataPlugin: DataPlugin = new DataPlugin('IndirectDataPlugin', 'default-script-indirect', Languages.Python);
 
       assert.ok(directDataPlugin.name === 'DirectDataPlugin');
-      assert.ok(directDataPlugin.exampleDataFile === `${config.dataPluginFolder}\\${directDataPlugin.name}\\Example.csv`);
       assert.ok(directDataPlugin.language === Languages.Python);
-      assert.ok(directDataPlugin.direct === true);
+      assert.ok(directDataPlugin.example === 'default-script-direct');
       assert.ok(directDataPlugin.scriptPath === `${config.dataPluginFolder}\\${directDataPlugin.name}\\Main.py`);
-      assert.ok(indirectDataPlugin.direct === false);
+      assert.ok(indirectDataPlugin.example === 'default-script-indirect');
    });
 });

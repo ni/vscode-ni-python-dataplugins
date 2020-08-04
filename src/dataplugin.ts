@@ -1,5 +1,5 @@
 
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as open from 'open';
 import * as vscode from 'vscode';
@@ -14,10 +14,10 @@ const dirNamePath = path.dirname(__dirname);
 
 export class DataPlugin {
    private _name: string;
+   private _folderPath: string;
    private _scriptPath: string;
-   private _exampleDataFile: string;
    private _language: Languages;
-   private _direct: boolean;
+   private _example: string;
    private _fileExtensions: FileExtensions[] = new Array();
 
    get name(): string {
@@ -28,20 +28,20 @@ export class DataPlugin {
       this._name = name;
    }
 
+   get folderPath(): string {
+      return this._folderPath;
+   }
+
+   set folderPath(path: string) {
+      this._folderPath = path;
+   }
+
    get scriptPath(): string {
       return this._scriptPath;
    }
 
    set scriptPath(path: string) {
       this._scriptPath = path;
-   }
-
-   get exampleDataFile(): string {
-      return this._exampleDataFile;
-   }
-
-   set exampleDataFile(path: string) {
-      this._exampleDataFile = path;
    }
 
    get language(): Languages {
@@ -52,8 +52,8 @@ export class DataPlugin {
       this._language = language;
    }
 
-   get direct(): boolean {
-      return this._direct;
+   get example(): string {
+      return this._example;
    }
 
    get fileExtensions(): FileExtensions[] {
@@ -64,12 +64,12 @@ export class DataPlugin {
       this._fileExtensions = fileExtensionss;
    }
 
-   constructor(name: string, direct: boolean, language: Languages) {
+   constructor(name: string, example: string, language: Languages) {
       this._name = name;
-      this._direct = direct;
+      this._example = example;
       this._language = language;
-      this._scriptPath = `${dataPluginFolder}\\${name}\\Main.py`;
-      this._exampleDataFile = `${dataPluginFolder}\\${name}\\Example.csv`;
+      this._folderPath = `${dataPluginFolder}\\${name}`;
+      this._scriptPath = `${dataPluginFolder}\\${name}\\${example}.py`;
 
       vscu.createFolder(`${dataPluginFolder}\\${name}`);
 
@@ -141,28 +141,14 @@ export class DataPlugin {
    }
 
    public async createMainPy(): Promise<void> {
-      const templatePy = this.direct ? 'default-script-direct.py' : 'default-script-indirect.py';
-      fs.readFile(path.join(dirNamePath, 'templates', templatePy), (err, content) => {
-         if (err) { throw err; }
-         fs.writeFile(path.join(this.scriptPath), content, async err => {
-            if (err) {
-               vscode.window.showErrorMessage(config.extPrefix + 'Failed to create DataPlugin!');
-            }
+      const templatePy = `${this.example}.py`;
 
-            vscode.window.showInformationMessage(config.extPrefix + 'Template files created');
-            await DataPlugin.showDataPluginInVSCode(dataPluginFolder, this.name, this.scriptPath);
-         });
-      });
-   }
-
-   public async createExampleDataFile(): Promise<void> {
-      fs.readFile(path.join(dirNamePath, 'templates', 'example.csv'), (err, content) => {
-         if (err) { throw err; }
-         fs.writeFile(path.join(this.exampleDataFile), content, async err => {
-            if (err) {
-               return vscode.window.showErrorMessage(config.extPrefix + 'Failed to create example file!');
-            }
-         });
-      });
+      fs.copy(path.join(dirNamePath, 'examples', this.example), path.join(this.folderPath), async err => {
+         if (err) {
+            vscode.window.showErrorMessage(config.extPrefix + 'Failed to create DataPlugin!');
+         }
+         vscode.window.showInformationMessage(config.extPrefix + 'Template files created');
+         await DataPlugin.showDataPluginInVSCode(dataPluginFolder, this.name, this.scriptPath);
+       });
    }
 }

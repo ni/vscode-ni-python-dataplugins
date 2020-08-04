@@ -1,10 +1,22 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as vscode from 'vscode';
 
 export async function createFolder(folder: string) {
    if (!fs.existsSync(folder)) {
       fs.mkdirSync(folder);
    }
+}
+
+export function loadExamples(): string[] {
+   const exampleFolder = path.resolve(`${path.dirname(__dirname)}\\examples`);
+
+   const examplesNames: string[] = fs.readdirSync(exampleFolder).filter(file => fs.statSync(path.join(exampleFolder, file)).isDirectory());
+   const examplesPaths: string[] = new Array();
+   for (let i = 0; i < examplesNames.length; i++) {
+      examplesPaths[i] = `${exampleFolder}\\${examplesNames[i]}`;
+   }
+   return examplesPaths;
 }
 
 export function isDocumentEmpty() {
