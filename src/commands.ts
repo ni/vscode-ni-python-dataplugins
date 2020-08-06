@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as config from './config';
 import * as vscu from './vscode-utils';
@@ -37,19 +38,24 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
       return null;
    }
 
-   const items: vscode.QuickPickItem[] = [];
+   if(fs.existsSync(`${config.dataPluginFolder}\\${scriptName}`)){
+      await vscode.window.showInformationMessage(`${config.extPrefix} There is already a DataPlugin named "${scriptName}"!`);
+      return null; 
+   }
+
+   const pluginQuickPickItems: vscode.QuickPickItem[] = [];
 
    for (const item of examplesNames) {
-      items.push({
+      pluginQuickPickItems.push({
          label: item,
       });
    }
 
    const pluginType = await vscu.showQuickPick(
-      'Please choose your DataPlugin type',
+      'Please choose a template to start with',
       false,
       false,
-      items
+      pluginQuickPickItems
    );
 
    if (!pluginType) {
