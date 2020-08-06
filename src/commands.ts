@@ -38,9 +38,9 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
       return null;
    }
 
-   if(fs.existsSync(`${config.dataPluginFolder}\\${scriptName}`)){
+   if (fs.existsSync(`${config.dataPluginFolder}\\${scriptName}`)) {
       await vscode.window.showInformationMessage(`${config.extPrefix} There is already a DataPlugin named "${scriptName}"!`);
-      return null; 
+      return null;
    }
 
    const pluginQuickPickItems: vscode.QuickPickItem[] = [];
@@ -62,7 +62,6 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
       return null;
    }
    const dataPlugin: DataPlugin = new DataPlugin(scriptName, pluginType.label, Languages.Python);
-   await dataPlugin.createMainPy();
    return dataPlugin;
 }
 

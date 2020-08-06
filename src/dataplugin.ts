@@ -71,12 +71,13 @@ export class DataPlugin {
       this._folderPath = `${dataPluginFolder}\\${name}`;
       this._scriptPath = `${dataPluginFolder}\\${name}\\${example}.py`;
 
-      vscu.createFolder(`${dataPluginFolder}\\${name}`);
-
       if (fs.existsSync(this.scriptPath)) {
          vscode.window.showInformationMessage(config.extPrefix + 'Example file already exists');
          DataPlugin.showDataPluginInVSCode(dataPluginFolder, name, this._scriptPath);
+      } else {
+         this.createMainPy();
       }
+
    }
 
    public static async writePlugin(uri: vscode.Uri[], fileExtensions: string, newExportPath: string | undefined) {
@@ -141,7 +142,6 @@ export class DataPlugin {
    }
 
    public async createMainPy(): Promise<void> {
-      const templatePy = `${this.example}.py`;
 
       fs.copy(path.join(dirNamePath, 'examples', this.example), path.join(this.folderPath), async err => {
          if (err) {
