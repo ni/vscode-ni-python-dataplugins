@@ -1,6 +1,6 @@
-enum ErrorType {
-   FILEEXISTS,
-   UNKNOWN
+export enum ErrorType {
+   UNKNOWN = 'UNKNOWN',
+   FILEEXISTS = 'FILEEXISTS'
 }
 
 export class DataPluginError extends Error {

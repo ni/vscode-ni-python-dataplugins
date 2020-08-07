@@ -1,40 +1,63 @@
 import * as assert from 'assert';
-import * as fs from 'fs-extra';
-import { Guid } from 'guid-typescript';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import * as config from '../../config';
 import * as vscu from '../../vscode-utils';
-import * as path from 'path';
+import { after } from 'mocha';
 import { DataPlugin } from '../../dataplugin';
+import { ErrorType } from '../../dataplugin-error';
+import { Guid } from 'guid-typescript';
 import { Languages } from '../../plugin-languages.enum';
 
 suite('DataPlugin Test Suite', () => {
+   const dataPluginsToClean: DataPlugin[] = [];
    vscode.window.showInformationMessage('Start DataPlugin tests.');
+
+   after(() => {
+      vscode.window.showInformationMessage('All tests done!');
+      dataPluginsToClean.forEach((dataPlugin) => {
+         vscu.disposeDataPlugin(dataPlugin);
+      });
+   });
+
+   test('should create class and initialize', async () => {
+      const baseTemplate: string = 'default-script-direct';
+      const randomName: string = Guid.create().toString();
+      const dataPlugin: DataPlugin = new DataPlugin(randomName, baseTemplate, Languages.Python);
+      await dataPlugin.pluginIsInitialized();
+      dataPluginsToClean.push(dataPlugin);
+
+      assert.ok(dataPlugin.name === randomName);
+      assert.ok(dataPlugin.language === Languages.Python);
+      assert.ok(dataPlugin.baseTemplate === baseTemplate);
+      assert.ok(dataPlugin.scriptPath === `${config.dataPluginFolder}\\${dataPlugin.name}\\${baseTemplate}.py`);
+   }).timeout(10000);
 
    test('should be able to create every template as class', async () => {
       const examples: string[] = vscu.loadExamples();
-      const examplesNames: string[] = new Array();
-      for (let i = 0; i < examples.length; i++) {
-         examplesNames[i] = path.basename(examples[i]);
-         const dataPlugin: DataPlugin = new DataPlugin(examplesNames[i], examplesNames[i], Languages.Python);
+      for (const example of examples) {
+         const randomName: string = Guid.create().toString();
+         const examplesName: string = path.basename(example);
+         const dataPlugin: DataPlugin = new DataPlugin(randomName, examplesName, Languages.Python);
          await dataPlugin.pluginIsInitialized();
-         assert.ok(dataPlugin.name === examplesNames[i]);
+         dataPluginsToClean.push(dataPlugin);
+
+         assert.ok(dataPlugin.name === randomName);
          assert.ok(dataPlugin.language === Languages.Python);
-         assert.ok(dataPlugin.baseTemplate === examplesNames[i]);
-         assert.ok(dataPlugin.scriptPath === `${config.dataPluginFolder}\\${dataPlugin.name}\\${examplesNames[i]}.py`);
+         assert.ok(dataPlugin.baseTemplate === examplesName);
+         assert.ok(dataPlugin.scriptPath === `${config.dataPluginFolder}\\${dataPlugin.name}\\${examplesName}.py`);
       }
    }).timeout(10000);
 
-   // test('should be able to write plugin', async () => {
-   //    const randomName : string = Guid.create().toString();
-   //    const dataPlugin: DataPlugin = new DataPlugin(`plugin-${randomName}`, 'default-script-direct', Languages.Python);
-   //    await dataPlugin.pluginIsInitialized();
-   //    const exportPath: string = `${dataPlugin.folderPath}\\plugin-${randomName}.uri`;
-
-   //    const pluginUri: vscode.Uri = vscode.Uri.file(dataPlugin.scriptPath);
-   //    const pluginUriArray: vscode.Uri[] = [pluginUri];
-   //    // TODO test is stuck because info message cannot be clicked
-   //    await DataPlugin.writeUriFile(pluginUriArray, '*.tdm', `${exportPath}`);
-   //    assert.ok(fs.existsSync(exportPath));
-   // }).timeout(10000);
+   test('should throw FileExistsError', async () => {
+      const randomName: string = Guid.create().toString();
+      const dataPlugin: DataPlugin = new DataPlugin(randomName, 'default-script-direct', Languages.Python);
+      await dataPlugin.pluginIsInitialized();
+      try {
+         // tslint:disable-next-line: no-unused-expression
+         new DataPlugin(randomName, 'default-script-direct', Languages.Python);
+      } catch (e) {
+         assert.equal(e.errorType, ErrorType.FILEEXISTS);
+      }
+   });
 });

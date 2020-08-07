@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as open from 'open';
 import * as path from 'path';
 import * as vscode from 'vscode';
@@ -6,9 +6,12 @@ import * as config from './config';
 import * as fileutils from './file-utils';
 import { DataPlugin } from './dataplugin';
 
+export async function disposeDataPlugin(dataPlugin: DataPlugin) {
+   const pluginFolder : string = dataPlugin.folderPath;
+   fs.remove(pluginFolder);
+}
+
 export async function exportDataPlugin(scriptPath: string, fileExtensions: string, exportPath: string) {
-   // const dirName = path.basename(path.dirname(exportPath));
-   // fileutils.createFolderSync(dirName);
    await fileutils.writeUriFile(scriptPath, fileExtensions, exportPath);
 
    const result = await vscode.window.showInformationMessage(`${config.extPrefix} Sucessfully exported DataPlugin`, 'Open in Explorer', 'Register DataPlugin');
