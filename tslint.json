@@ -55,6 +55,7 @@
       "check-preblock",
       "check-postbrace"
     ],
+    "max-classes-per-file": false,
     "member-access": true,
     "member-ordering": [
       true,
