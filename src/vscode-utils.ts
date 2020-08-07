@@ -1,7 +1,24 @@
 import * as fs from 'fs';
+import * as open from 'open';
 import * as path from 'path';
 import * as vscode from 'vscode';
+import * as config from './config';
+import * as fileutils from './file-utils';
 import { DataPlugin } from './dataplugin';
+
+export async function exportDataPlugin(scriptPath: string, fileExtensions: string, exportPath: string) {
+   // const dirName = path.basename(path.dirname(exportPath));
+   // fileutils.createFolderSync(dirName);
+   await fileutils.writeUriFile(scriptPath, fileExtensions, exportPath);
+
+   const result = await vscode.window.showInformationMessage(`${config.extPrefix} Sucessfully exported DataPlugin`, 'Open in Explorer', 'Register DataPlugin');
+   if (result === 'Open in Explorer') {
+      await open(path.dirname(exportPath));
+   }
+   if (result === 'Register DataPlugin') {
+      await open(exportPath);
+   }
+}
 
 export function loadExamples(): string[] {
    const exampleFolder = path.resolve(`${path.dirname(__dirname)}\\examples`);

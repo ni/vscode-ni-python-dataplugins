@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as config from './config';
+import * as fileutils from './file-utils';
 import * as vscu from './vscode-utils';
 import { DataPlugin } from './dataplugin';
 import { Languages } from './plugin-languages.enum';
@@ -75,8 +76,21 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
 
 export async function exportPluginFromContextMenu(uri: vscode.Uri) {
    const extensions = await vscu.showInputBox('Please enter the file extensions your DataPlugin can handle in the right syntax: ', '*.tdm; *.xls ...');
+   const scriptPath: string = uri.fsPath;
+   const pluginName: string = path.basename(path.dirname(scriptPath));
 
-   if (extensions !== undefined) {
-      await DataPlugin.exportPlugin([uri], extensions.toString());
+   let exportPath: string = config.exportPath || '';
+   if (extensions) {
+      if (!exportPath) {
+         const options: vscode.SaveDialogOptions = {
+            defaultUri: vscode.Uri.parse(`${config.dataPluginFolder}\\${pluginName}`),
+            filters: { 'Uri': ['uri'] },
+         };
+
+         const fileInfos = await vscode.window.showSaveDialog({ ...options });
+         exportPath = fileInfos?.fsPath || '';
+      }
+
+      await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}\\${pluginName}.uri`);
    }
 }

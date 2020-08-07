@@ -1,7 +1,7 @@
 export class UriTemplate {
 
    private _templateString: string = '';
-   constructor(fileExtensions: string, fileName: string, pythonScriptPath: string) {
+   constructor(fileName: string, pythonScriptPath: string, fileExtensions: string) {
       this._templateString = `<usireginfo><storetype name="${fileName}">` +
          '<type>python</type>' +
          `<alias>${fileName}</alias>` +
@@ -12,7 +12,7 @@ export class UriTemplate {
          `<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath><script>${pythonScriptPath}</script>]]></easypluginparam>` +
          '<querysupported>0</querysupported>' +
          '<fastloadsupported>0</fastloadsupported>' +
-         `<filefilters extension="${fileExtensions}"><description>${fileName} Dateien (' + fileExtensions + ')</description></filefilters>` +
+         `<filefilters extension="${fileExtensions}"><description>${fileName} Dateien (${fileExtensions})</description></filefilters>` +
          '<platform>x64</platform></storetype></usireginfo>';
    }
 
