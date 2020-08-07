@@ -61,8 +61,16 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
    if (!pluginType) {
       return null;
    }
-   const dataPlugin: DataPlugin = new DataPlugin(scriptName, pluginType.label, Languages.Python);
-   return dataPlugin;
+
+   try {
+      const dataPlugin: DataPlugin = new DataPlugin(scriptName, pluginType.label, Languages.Python);
+      await dataPlugin.pluginIsInitialized();
+      await vscu.showDataPluginInVSCode(dataPlugin);
+      return dataPlugin;
+   } catch (e) {
+      vscode.window.showErrorMessage(e.message);
+      throw e;
+   }
 }
 
 export async function exportPluginFromContextMenu(uri: vscode.Uri) {

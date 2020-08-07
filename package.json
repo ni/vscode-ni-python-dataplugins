@@ -114,7 +114,9 @@
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.1",
+    "@types/uuid": "^8.0.1",
     "fs-extra": "^9.0.1",
+    "guid-typescript": "^1.0.9",
     "open": "^7.1.0"
   }
 }

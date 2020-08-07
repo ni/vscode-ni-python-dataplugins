@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
 import * as commands from './commands';
 import * as config from './config';
-import * as vscu from './vscode-utils';
+import * as fileutils from './file-utils';
 
 export function activate(context: vscode.ExtensionContext) {
 
-   vscu.createFolder(config.dataPluginFolder);
+   fileutils.createFolderSync(config.dataPluginFolder);
 
    const createDataPluginCommand = vscode.commands.registerCommand('nipy.createDataPlugin', async () => { commands.createDataPlugin(); });
    const checkSyntaxCommand = vscode.commands.registerCommand('nipy.checkSyntax', async () => { commands.checkSyntax(); });

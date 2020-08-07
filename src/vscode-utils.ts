@@ -1,12 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-
-export async function createFolder(folder: string) {
-   if (!fs.existsSync(folder)) {
-      fs.mkdirSync(folder);
-   }
-}
+import { DataPlugin } from './dataplugin';
 
 export function loadExamples(): string[] {
    const exampleFolder = path.resolve(`${path.dirname(__dirname)}\\examples`);
@@ -23,9 +18,18 @@ export function isDocumentEmpty() {
    return !(vscode.window.activeTextEditor?.document.getText.toString());
 }
 
-export async function openDocumentAndShow(path: string) {
-   const textDocument = await vscode.workspace.openTextDocument(path);
+export async function openDocumentAndShow(docPath: string) {
+   const textDocument = await vscode.workspace.openTextDocument(docPath);
    return await vscode.window.showTextDocument(textDocument);
+}
+
+export async function showDataPluginInVSCode(dataPlugin: DataPlugin) {
+   // Creates the DIAdem folder in the workspace.
+   vscode.workspace.updateWorkspaceFolders(0, 0, { uri: vscode.Uri.file(`${dataPlugin.folderPath}`), name: dataPlugin.name });
+
+   // Opens the VSCode explorer
+   await vscode.commands.executeCommand('workbench.view.explorer');
+   await openDocumentAndShow(dataPlugin.scriptPath);
 }
 
 export async function showInputBox(prompt: string, placeHolder: string): Promise<string | undefined> {
