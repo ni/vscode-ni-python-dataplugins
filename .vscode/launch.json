@@ -20,7 +20,7 @@
          "preLaunchTask": "npm: watch"
       },
       {
-         "name": "Extension Tests",
+         "name": "Unit/Integration Tests",
          "type": "extensionHost",
          "request": "launch",
          "runtimeExecutable": "${execPath}",
@@ -33,6 +33,16 @@
             "${workspaceFolder}/out/test/**/*.js"
          ],
          "preLaunchTask": "npm: compile"
+      },
+      {
+         "name": "E2E Tests",
+         "type": "node",
+         "request": "launch",
+         "cwd": "${workspaceRoot}",
+         "runtimeExecutable": "npm",
+         "runtimeArgs": [
+            "run", "test:e2e"
+        ],
       }
    ]
 }
