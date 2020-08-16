@@ -4,7 +4,7 @@ on:
       - master
 
 jobs:
-  build:
+  test:
     strategy:
       matrix:
         os: [windows-latest]
