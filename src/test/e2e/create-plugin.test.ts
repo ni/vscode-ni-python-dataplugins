@@ -15,7 +15,7 @@ describe('Basic UI Tests', () => {
    it('Should show input box that waits for DataPlugin name to be entered', async () => {
       const workbench = new Workbench();
       await workbench.executeCommand('NI DataPlugins: Create new Python-DataPlugin');
-      const enterDataPluginNameInputBox = await driver.wait(() => { return new InputBox()});
+      const enterDataPluginNameInputBox = await driver.wait(() => { return new InputBox(); });
       const placeholderText = await enterDataPluginNameInputBox.getPlaceHolder();
       assert.equal('Please enter your DataPlugin name', placeholderText);
    }).timeout(10000);
