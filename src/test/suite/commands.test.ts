@@ -4,7 +4,7 @@ suite('Commands Test Suite', () => {
    vscode.window.showInformationMessage('Start Commands tests.');
 
    test('should be able to run command: nipy.checkSyntax', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(60 * 1000);
       try {
          vscode.commands.executeCommand('nipy.checkSyntax').then(() => {
             done();
@@ -16,7 +16,7 @@ suite('Commands Test Suite', () => {
    });
 
    test('should be able to run command: nipy.createDataPlugin', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(60 * 1000);
       try {
          vscode.commands.executeCommand('nipy.createDataPlugin').then(() => {
             done();
@@ -28,7 +28,7 @@ suite('Commands Test Suite', () => {
    });
 
    test('should be able to run command: nipy.exportPluginFromContextMenu', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(60 * 1000);
       try {
          vscode.commands.executeCommand('nipy.exportPluginFromContextMenu').then(() => {
             done();
