@@ -92,7 +92,7 @@
     "createpkg": "vsce package",
     "depcheck": "npm-check -u",
     "lint": "tslint -p ./ --fix",
-    "pretest": "npm run compile",
+    "pretest": "npm run compile && npm run lint",
     "test": "node ./out/test/runTest.js",
     "test:e2e": "extest setup-and-run out/test/e2e/*.js",
     "vscode:prepublish": "npm run compile",
