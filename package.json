@@ -7,7 +7,7 @@
   "author": "National Instruments",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jschumme/vscode-ni-python-dataplugins/issues"
+    "url": "https://github.com/ni/vscode-ni-python-dataplugins/issues"
   },
   "engines": {
     "vscode": "^1.47.0"
@@ -18,7 +18,7 @@
   "icon": "icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jschumme/vscode-ni-python-dataplugins"
+    "url": "https://github.com/ni/vscode-ni-python-dataplugins"
   },
   "galleryBanner": {
     "color": "#C80000",
@@ -91,7 +91,7 @@
     "compile": "tsc -p ./",
     "createpkg": "vsce package",
     "depcheck": "npm-check -u",
-    "lint": "tslint -p ./ --fix",
+    "lint": "tslint -p ./",
     "pretest": "npm run compile && npm run lint",
     "test": "node ./out/test/runTest.js",
     "test:e2e": "extest setup-and-run out/test/e2e/*.js",
