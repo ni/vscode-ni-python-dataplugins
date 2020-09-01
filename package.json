@@ -94,7 +94,7 @@
     "lint": "tslint -p ./",
     "pretest": "npm run compile && npm run lint",
     "test": "node ./out/test/runTest.js",
-    "test:e2e": "extest setup-and-run out/test/e2e/*.js",
+    "test:e2e": "extest setup-and-run out/test/e2e/*.js -u -o ./src/test/e2e/settings.json",
     "vscode:prepublish": "npm run compile",
     "watch": "tsc -watch -p ./"
   },
