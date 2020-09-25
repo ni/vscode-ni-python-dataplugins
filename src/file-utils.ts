@@ -10,7 +10,7 @@ export function createFolderSync(folder: string) {
 
 export async function writeUriFile(scriptPath: string, fileExtensions: string, exportPath: string): Promise<void> {
    const dirName = path.basename(path.dirname(scriptPath));
-   const uriTemplate = new UriTemplate(`${dirName}.uri`, scriptPath, fileExtensions);
+   const uriTemplate = new UriTemplate(`${dirName}`, scriptPath, fileExtensions);
 
    try {
       return fs.writeFile(exportPath, uriTemplate.templateString, { flag: 'w' });
