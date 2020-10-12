@@ -1,3 +1,5 @@
+name: CI
+
 on:
   push:
     branches:
@@ -8,10 +10,7 @@ on:
 
 jobs:
   test:
-    strategy:
-      matrix:
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -25,10 +24,7 @@ jobs:
       with:
         run: npm test
   e2e:
-    strategy:
-      matrix:
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2

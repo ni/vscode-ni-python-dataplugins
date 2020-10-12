@@ -2,7 +2,7 @@
   "name": "vscode-ni-python-dataplugins",
   "displayName": "NI Python DataPlugins",
   "description": "Create and export NI DataPlugins in Python",
-  "version": "0.2.0",
+  "version": "0.2.6",
   "publisher": "NI",
   "author": "National Instruments",
   "license": "MIT",
@@ -81,12 +81,12 @@
   },
   "scripts": {
     "compile": "tsc -p ./",
-    "createpkg": "vsce package",
+    "createpkg": "vsce package -o vscode-ni-python-dataplugins.vsix",
     "depcheck": "npm-check -u",
     "lint": "tslint -p ./",
     "pretest": "npm run compile && npm run lint",
     "test": "node ./out/test/runTest.js",
-    "test:e2e": "extest setup-and-run out/test/e2e/*.js",
+    "test:e2e": "extest setup-and-run out/test/e2e/*.js -u -o ./src/test/e2e/settings.json",
     "vscode:prepublish": "npm run compile",
     "watch": "tsc -watch -p ./"
   },

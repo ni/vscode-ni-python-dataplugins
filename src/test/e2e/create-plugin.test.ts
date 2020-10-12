@@ -1,5 +1,6 @@
 import * as assert from 'assert';
-import { InputBox, Workbench, Notification, WebDriver, VSBrowser, NotificationType } from 'vscode-extension-tester';
+import { Guid } from 'guid-typescript';
+import { InputBox, Workbench, TextEditor, WebDriver, VSBrowser, EditorView, SideBarView } from 'vscode-extension-tester';
 
 /*
    API Reference: https://github.com/redhat-developer/vscode-extension-tester/wiki/Page-Object-APIs
@@ -12,11 +13,34 @@ describe('Basic UI Tests', () => {
       driver = VSBrowser.instance.driver;
    });
 
-   it('Should show input box that waits for DataPlugin name to be entered', async () => {
+   it('Should create a new DataPlugin project', async () => {
+      const randomName: string = Guid.create().toString();
       const workbench = new Workbench();
       await workbench.executeCommand('NI DataPlugins: Create new Python-DataPlugin');
-      const enterDataPluginNameInputBox = await driver.wait(() => { return new InputBox(); });
-      const placeholderText = await enterDataPluginNameInputBox.getPlaceHolder();
-      assert.equal('Please enter your DataPlugin name', placeholderText);
-   }).timeout(10000);
+      await new Promise(res => setTimeout(res, 500));
+
+      // Input box requesting a DataPlugin name?
+      const enterDataPluginNameInputBox = await driver.wait(() => { return new InputBox(); }, 1000);
+      const placeholderText1 = await enterDataPluginNameInputBox.getPlaceHolder();
+      assert.equal('Please enter your DataPlugin name', placeholderText1);
+      await enterDataPluginNameInputBox.setText(randomName);
+      await enterDataPluginNameInputBox.confirm();
+      await new Promise(res => setTimeout(res, 500));
+
+      // Input box requesting a template?
+      const chooseTemplateDropDown = await driver.wait(() => { return new InputBox(); }, 1000);
+      const placeholderText2 = await chooseTemplateDropDown.getPlaceHolder();
+      assert.equal('Please choose a template to start with', placeholderText2);
+      await new Promise(res => setTimeout(res, 500));
+      await chooseTemplateDropDown.setText('default-script-indirect');
+      await chooseTemplateDropDown.confirm();
+
+      // Project with correct name created in SideBar?
+      const sideBarView = await driver.wait(() => { return new SideBarView(); }, 5000);
+      await new Promise(res => setTimeout(res, 5000));
+      const sideBarContent = await sideBarView.getContent().wait();
+      const section = await sideBarContent.getSection('Untitled (Workspace)');
+      const item = await section.findItem(randomName);
+      assert.notEqual(undefined, item);
+   }).timeout(40000);
 });
