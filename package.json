@@ -35,11 +35,6 @@
         "title": "NI DataPlugins: Create new Python-DataPlugin"
       },
       {
-        "command": "nipy.checkSyntax",
-        "title": "Verify the code syntax of your DataPlugin",
-        "category": "NI DataPlugins"
-      },
-      {
         "command": "nipy.exportPluginFromContextMenu",
         "title": "NI DataPlugins: Export DataPlugin",
         "category": "NI DataPlugins"
