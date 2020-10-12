@@ -19,9 +19,7 @@ jobs:
       with:
         node-version: 10.x
     - run: npm install
-    - name: Run tests
-      with:
-        run: npm test
+    - run: npm test
   e2e:
     runs-on: windows-latest
     steps:
