@@ -77,7 +77,11 @@ export class DataPlugin {
 
    public async createMainPy(): Promise<void> {
       try {
-         return fs.copy(path.join(dirNamePath, 'examples', this.baseTemplate), path.join(this.folderPath));
+         const assetFolder: string = path.join(dirNamePath, 'assets');
+         const exampleFolder: string = path.join(dirNamePath, 'examples', this.baseTemplate);
+         await fs.copy(exampleFolder, this.folderPath);
+         await fs.copy(path.join(assetFolder, 'launch.json'), path.join(this.folderPath, '.vscode', 'launch.json'));
+         return Promise.resolve();
       } catch (e) {
          throw new Error(config.extPrefix + 'Failed to create DataPlugin!');
       }
