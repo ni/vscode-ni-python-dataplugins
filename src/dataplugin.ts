@@ -77,10 +77,15 @@ export class DataPlugin {
 
    public async createMainPy(): Promise<void> {
       try {
+         const launchFile = 'launch.json';
+         const loadFile = 'load_data_with_diadem.py';
          const assetFolder: string = path.join(dirNamePath, 'assets');
          const exampleFolder: string = path.join(dirNamePath, 'examples', this.baseTemplate);
+
          await fs.copy(exampleFolder, this.folderPath);
-         await fs.copy(path.join(assetFolder, 'launch.json'), path.join(this.folderPath, '.vscode', 'launch.json'));
+         await fs.copy(path.join(assetFolder, loadFile), path.join(this.folderPath, '.ni', loadFile));
+         await fs.copy(path.join(assetFolder, launchFile), path.join(this.folderPath, '.vscode', launchFile));
+
          return Promise.resolve();
       } catch (e) {
          throw new Error(config.extPrefix + 'Failed to create DataPlugin!');

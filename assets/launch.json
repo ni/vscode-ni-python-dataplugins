@@ -6,17 +6,14 @@
    "version": "1.0.0",
    "configurations": [
       {
-         "name": "Load Data with DataPlugin",
-         "type": "extensionHost",
+         "name": "Load Data with DIAdem",
+         "type": "python",
          "request": "launch",
-         "runtimeExecutable": "${execPath}",
+         "program": "${workspaceFolder}/.ni/load_data_with_diadem.py",
          "args": [
             "--disable-extensions"
-         ],
-         "outFiles": [
-            "${workspaceFolder}/out/**/*.js"
-         ],
-         "preLaunchTask": "npm: watch"
+         ],         
+         "console": "externalTerminal"
       }
    ]
 }
