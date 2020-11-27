@@ -9,10 +9,11 @@
          "name": "Load Data with DIAdem",
          "type": "python",
          "request": "launch",
-         "program": "${workspaceFolder}/.ni/load_data_with_diadem.py",
+         "program": "${workspaceFolder}/.ni/diadem_load.py",
          "args": [
-            "--disable-extensions"
-         ],         
+            "--DataPlugin_Name=\"${workspaceFolderBasename}\"",
+            "--data_file=\"${workspaceFolder}\\Example.csv \""
+         ],        
          "console": "externalTerminal"
       }
    ]

@@ -78,7 +78,7 @@ export class DataPlugin {
    public async createMainPy(): Promise<void> {
       try {
          const launchFile = 'launch.json';
-         const loadFile = 'load_data_with_diadem.py';
+         const loadFile = 'diadem_load.py';
          const assetFolder: string = path.join(dirNamePath, 'assets');
          const exampleFolder: string = path.join(dirNamePath, 'examples', this.baseTemplate);
 
