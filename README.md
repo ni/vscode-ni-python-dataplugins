@@ -2,7 +2,7 @@
 
 A [Visual Studio Code](https://code.visualstudio.com/) extension that provides development support for [NI DataPlugins](https://www.ni.com/downloads/dataplugins) written in [Python](https://www.python.org).<br>
 
-![.github/workflows/ci.yml](https://github.com/ni/vscode-ni-python-dataplugins/workflows/.github/workflows/ci.yml/badge.svg)
+![CI](https://github.com/ni/vscode-ni-python-dataplugins/workflows/CI/badge.svg)
 
 # Quick start
 
