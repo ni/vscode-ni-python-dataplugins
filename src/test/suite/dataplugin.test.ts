@@ -21,7 +21,7 @@ suite('DataPlugin Test Suite', () => {
    });
 
    test('should create class and initialize', async () => {
-      const baseTemplate: string = 'default-script-direct';
+      const baseTemplate: string = 'hello-world';
       const randomName: string = Guid.create().toString();
       const dataPlugin: DataPlugin = new DataPlugin(randomName, baseTemplate, Languages.Python);
       await dataPlugin.pluginIsInitialized();
@@ -51,11 +51,11 @@ suite('DataPlugin Test Suite', () => {
 
    test('should throw FileExistsError', async () => {
       const randomName: string = Guid.create().toString();
-      const dataPlugin: DataPlugin = new DataPlugin(randomName, 'default-script-direct', Languages.Python);
+      const dataPlugin: DataPlugin = new DataPlugin(randomName, 'hello-world', Languages.Python);
       await dataPlugin.pluginIsInitialized();
       try {
          // tslint:disable-next-line: no-unused-expression
-         new DataPlugin(randomName, 'default-script-direct', Languages.Python);
+         new DataPlugin(randomName, 'hello-world', Languages.Python);
       } catch (e) {
          assert.equal(e.errorType, ErrorType.FILEEXISTS);
       }

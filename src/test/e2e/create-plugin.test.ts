@@ -32,7 +32,7 @@ describe('Basic UI Tests', () => {
       const placeholderText2 = await chooseTemplateDropDown.getPlaceHolder();
       assert.equal('Please choose a template to start with', placeholderText2);
       await new Promise(res => setTimeout(res, 500));
-      await chooseTemplateDropDown.setText('default-script-indirect');
+      await chooseTemplateDropDown.setText('hello-world');
       await chooseTemplateDropDown.confirm();
 
       // Project with correct name created in SideBar?
