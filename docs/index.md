@@ -39,11 +39,27 @@ This method is called by DIAdem, LabVIEW or DataFinder when it attempts to open 
 parameter['file'] # String: Contains the absolute path to the data file
 parameter['datafinder'] # Boolean: Denotes if data file was accessed by DataFinder and the bulk data was not touched.
 ```
-Use the file parameter to access your file using text, csv or binary readers. The data has to be filled into a python dictionary.
+Use the file parameter to access your file using text, csv or binary readers. The data has to be filled into a python dictionary. It represents the [structure of tdm/tdms files](https://www.ni.com/en-us/support/documentation/supplemental/06/the-ni-tdms-file-format.html) that consist of one root, 0...m groups and 0...n channels:
+
+![tdm structure with file, groups and channels](https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/tdm_structure.jpg?raw=true)
+
+<details>
+<summary>Example dictionary and model</summary>
+<p>
+
 ```python 
-tdm_model = {}
+tdm_model = {
+   "Example_Root": {
+      "description": "This is my example file description",
+      "groups": [
+
+      ]
+   }
+}
 ```
 
+</p>
+</details>
 
 ## Export
 Export Python DataPlugins to make them available on other systems. Use DIAdem to export a DataPlugin as a URI file.
