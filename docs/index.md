@@ -41,7 +41,7 @@ parameter['datafinder'] # Boolean: Denotes if data file was accessed by DataFind
 ```
 Use the file parameter to access your file using text, csv or binary readers. The data has to be filled into a python dictionary. It represents the [structure of tdm/tdms files](https://www.ni.com/en-us/support/documentation/supplemental/06/the-ni-tdms-file-format.html) that consist of one root, 0...m groups and 0...n channels:
 
-![tdm structure with file, groups and channels](https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/tdm_structure.jpg?raw=true)
+![tdm structure with file, groups and channels](https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/tdm_structure.jpg?raw=true)
 
 <details>
 <summary>Example dictionary and model</summary>
