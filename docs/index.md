@@ -40,3 +40,14 @@ tdm_model = {}
 
 ### Export Python DataPlugins
 Export Python DataPlugins to make them available on other systems. Use DIAdem to export a DataPlugin as a URI file.
+
+### Known Limitations
+<details>
+  <summary>Numpy and Pandas</summary>
+  <p>Unfortunately, Numpy and Pandas are not well supported to run in embedded Python and, therefore, cannot be used in DataPlugins.</p>
+</details>
+
+<details>
+  <summary>datetime.strptime</summary>
+  <p>Unfortunately, Numpy and Pandas are not well supported to run in embedded Python and, therefore, cannot be used in DataPlugins.</p>
+</details>
