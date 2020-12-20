@@ -1,3 +1,10 @@
+- [Python DataPlugins](#python-dataplugins)
+  * [Get Started](#get-started)
+    + [Plugin class](#plugin-class)
+    + [Store read](#store-read)
+  * [Export](#export)
+  * [Known Limitations](#known-limitations)
+
 # Python DataPlugins
 
 Create a DataPlugin to load, to register, or to search your own file formats in LabVIEW or DIAdem, or to index and to browse your own file formats with DataFinder.
@@ -38,10 +45,10 @@ tdm_model = {}
 ```
 
 
-### Export Python DataPlugins
+## Export
 Export Python DataPlugins to make them available on other systems. Use DIAdem to export a DataPlugin as a URI file.
 
-### Known Limitations
+## Known Limitations
 <details>
   <summary>Numpy and Pandas</summary>
   <p>Unfortunately, Numpy and Pandas are not well supported to run in embedded Python and, therefore, cannot be used in DataPlugins.</p>
