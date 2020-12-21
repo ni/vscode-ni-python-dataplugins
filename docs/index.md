@@ -34,8 +34,8 @@ Every Python DataPlugins needs to implement a read_store method. This method is 
 <summary>Example Code</summary>
 <p>
 
+
 ```python 
-import csv
 import datetime
 import os
 from pathlib import Path
@@ -44,23 +44,68 @@ def read_store(self, parameter):
       Read data file and return a python dictionary
       that contains groups and channels in a TDM-like structure.
    """
-   file_path = os.path.realpath(parameter["file"]) # String: Contains the absolute path to the data file
-   is_datafinder_indexer = parameter["datafinder"] # Boolean: Denotes if data file was accessed by SystemLink DataFinder and the bulk data was not touched.
 
-   # open file using the csv.DictReader
-   with open(file_path, newline="") as csvfile:
-      tab_delimiter = "\t"
-      reader = csv.DictReader(csvfile, delimiter=tab_delimiter)
-      self.data = list(reader)
-      self.channelNames = reader.fieldnames
+   # String: Contains the absolute path to the data file
+   file_path = os.path.realpath(parameter["file"])
+   # Boolean: Denotes if data file was accessed by SystemLink DataFinder and the bulk data was not touched. 
+   is_datafinder_indexer = parameter["datafinder"]
+
+   tdm_tree = {
+      "author": "HelloWorkd test",
+      "description": "File containing a json dict read by python plugin",
+      "groups": [{
+            "name": "Group_1",
+            "description": "The first group",
+            "channels": [{
+               "name": "Index",
+               "description": "",
+               "info": "Going up",
+               "unit_string": "s",
+               "type": "DataTypeChnFloat64",
+               "values": [1, 2, 3]
+            }, {
+               "name": "Vals_1",
+               "description": "",
+               "unit_string": "km/h",
+               "type": "DataTypeChnFloat64",
+               "values": [1.1, 2.1, 3.1]
+            }, {
+               "name": "Vals_2",
+               "description": "",
+               "unit_string": "km/h",
+               "type": "DataTypeChnFloat64",
+               "values": [1.2, 2.2, 3.2]
+            }, {
+               "name": "Str_1",
+               "description": "",
+               "type": "DataTypeChnString",
+               "values": ["abc", "def", "hij"]
+            }]
+      }, {
+            "name": "Group_2",
+            "description": "The first group",
+            "channels": [{
+               "name": "Index",
+               "description": "",
+               "info": "Going up",
+               "unit_string": "s",
+               "type": "DataTypeChnFloat64",
+               "values": [1, 2, 3, 4]
+            }
+            ]
+      }]
+   }
+
+   return {Path(file_path).stem: tdm_tree}
 ```
+
 
 </p>
 </details>
 
 Use the file parameter to access your file using text, csv or binary readers. The data has to be filled into a python dictionary. It represents the [structure of tdm/tdms files](https://www.ni.com/en-us/support/documentation/supplemental/06/the-ni-tdms-file-format.html) that consist of one root, 0...m groups and 0...n channels:
 
-<img alt="TDM structure with file, groups and channels" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/tdm_structure.png?raw=true" width="500"><br>
+<img alt="TDM structure with file, groups and channels" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/images/tdm_structure.png?raw=true" width="500"><br>
 
 <details>
 <summary>Example dictionary</summary>
@@ -218,7 +263,7 @@ def read_store(self, parameter):
 ## Export
 Export Python DataPlugins to make them available on other systems. Use DIAdem to export a DataPlugin as a URI file.
 
-<img alt="Exporting DataPlugins in DIAdem" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/diadem_export.png?raw=true" width="600"><br>
+<img alt="Exporting DataPlugins in DIAdem" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/images/diadem_export.png?raw=true" width="600"><br>
 
 ## Known Limitations
 <details>

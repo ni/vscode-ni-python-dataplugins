@@ -1,79 +1,79 @@
 import csv
+import datetime
 import os
-import sys
+from pathlib import Path
 
 
 class Plugin:
 
     channelNames = []
     data = []
-    tdm_model = {}
+    tdm_tree = {}
 
     def read_store(self, parameter):
-        file_path = os.path.realpath(parameter['file'])
+        file_path = os.path.realpath(parameter["file"])
 
-        with open(file_path, newline='') as csvfile:
-            tab_delimiter = '\t'
+        with open(file_path, newline="") as csvfile:
+            tab_delimiter = "\t"
             reader = csv.DictReader(csvfile, delimiter=tab_delimiter)
             self.data = list(reader)
             self.channelNames = reader.fieldnames
 
-        self.tdm_model['Example'] = {
-            "description": "Example file"}
-        self.tdm_model['Example']['groups'] = []
-
         ###
         # possible data types:
-        # DataTypeChnFloat32, DataTypeChnString, DataTypeChnDate, DataTypeChnUInt8, DataTypeChnInt16, DataTypeChnInt32, DataTypeChnInt64
+        # DataTypeChnFloat32, DataTypeChnFloat64, DataTypeChnString, DataTypeChnDate, DataTypeChnUInt8, DataTypeChnInt16, DataTypeChnInt32, DataTypeChnInt64
         ###
 
-        group1 = {
-            "name": "Example",
-            "description": "The first group",
+        self.tdm_tree = {
             "author": "National Instruments",
-            "channels": [{
-                "name": self.channelNames[0],
-                "description": "",
-                "values": [],
-                "info": "Time in seconds",
-                "type": "DataTypeChnFloat64"
-            }, {
-                "name": self.channelNames[1],
-                "description": "",
-                "values": [],
-                "unit_string": "km/h",
-                "type": "DataTypeChnFloat64"
-            }, {
-                "name": self.channelNames[2],
-                "description": "",
-                "values": [],
-                "type": "DataTypeChnFloat64"
-            }, {
-                "name": self.channelNames[3],
-                "description": "",
-                "values": [],
-                "type": "DataTypeChnFloat64"
-            }, {
-                "name": self.channelNames[4],
-                "description": "",
-                "values": [],
-                "type": "DataTypeChnFloat64"
-            }, {
-                "name": self.channelNames[5],
-                "description": "",
-                "values": [],
-                "type": "DataTypeChnString"
+            "description": "Example file",
+            "groups": [{
+                "name": "Example",
+                "description": "The first group",
+                "time": datetime.datetime(2020, 2, 11, 15, 31, 59, 342380),
+                "channels": [{
+                    "name": self.channelNames[0],
+                    "description": "",
+                    "values": [],
+                    "info": "Time in seconds",
+                    "type": "DataTypeChnFloat64"
+                }, {
+                    "name": self.channelNames[1],
+                    "description": "",
+                    "values": [],
+                    "unit_string": "km/h",
+                    "type": "DataTypeChnFloat64"
+                }, {
+                    "name": self.channelNames[2],
+                    "description": "",
+                    "values": [],
+                    "type": "DataTypeChnFloat64"
+                }, {
+                    "name": self.channelNames[3],
+                    "description": "",
+                    "values": [],
+                    "type": "DataTypeChnFloat64"
+                }, {
+                    "name": self.channelNames[4],
+                    "description": "",
+                    "values": [],
+                    "type": "DataTypeChnFloat64"
+                }, {
+                    "name": self.channelNames[5],
+                    "description": "",
+                    "values": [],
+                    "type": "DataTypeChnString"
+                }]
             }]
         }
 
-        self.tdm_model['Example']['groups'].extend([group1])
-        return self.tdm_model
+        return {Path(file_path).stem: self.tdm_tree}
 
     def read_channel_length(self, grp_index, chn_index):
         return len(self.data)
 
     def read_channel_values(self, grp_index, chn_index, numberToSkip, numberToTake):
-        dataType = self.tdm_model['Example']['groups'][grp_index]['channels'][chn_index]['type']
+        dataType = self.tdm_tree["groups"][grp_index]["channels"][chn_index]["type"]
         values = []
         for row in self.data:
             value = row[self.channelNames[chn_index]]
