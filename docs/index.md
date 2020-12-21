@@ -105,7 +105,7 @@ def read_store(self, parameter):
 
 Use the file parameter to access your file using text, csv or binary readers. The data has to be filled into a python dictionary. It represents the [structure of tdm/tdms files](https://www.ni.com/en-us/support/documentation/supplemental/06/the-ni-tdms-file-format.html) that consist of one root, 0...m groups and 0...n channels:
 
-<img alt="TDM structure with file, groups and channels" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/images/tdm_structure.png?raw=true" width="500"><br>
+<img alt="TDM structure with file, groups and channels" src="https://github.com/ni/vscode-ni-python-dataplugins/tree/master/docs/images/tdm_structure.png?raw=true" width="500"><br>
 
 <details>
 <summary>Example dictionary</summary>
@@ -263,7 +263,7 @@ def read_store(self, parameter):
 ## Export
 Export Python DataPlugins to make them available on other systems. Use DIAdem to export a DataPlugin as a URI file.
 
-<img alt="Exporting DataPlugins in DIAdem" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/images/diadem_export.png?raw=true" width="600"><br>
+<img alt="Exporting DataPlugins in DIAdem" src="https://github.com/ni/vscode-ni-python-dataplugins/tree/master/docs/images/diadem_export.png?raw=true" width="600"><br>
 
 ## Known Limitations
 <details>
