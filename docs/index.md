@@ -3,6 +3,8 @@
     * [Plugin class](#plugin-class)
     * [Store read](#store-read)
   * [Callback Loading](#callback-loading)
+  * [Error Handling](#error-handling)
+    * [Not My File](#not-my-file)
   * [Export](#export)
   * [Known Limitations](#known-limitations)
 
@@ -203,6 +205,7 @@ def read_store(self, parameter):
    raise Exception("Leave read_store with exception")
 ```
 
+### Not My File
 A special case is "Not My File". This error should be raised when the DataPlugin detects that the file to be opened, is not suited for this DataPlugin. This special error can be raised only in the `read_store` function by returning `None`:
 
 ```python
