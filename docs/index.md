@@ -55,11 +55,10 @@ def read_store(self, parameter):
 
 </p>
 </details>
-<br>
 
 Use the file parameter to access your file using text, csv or binary readers. The data has to be filled into a python dictionary. It represents the [structure of tdm/tdms files](https://www.ni.com/en-us/support/documentation/supplemental/06/the-ni-tdms-file-format.html) that consist of one root, 0...m groups and 0...n channels:
 
-<img alt="tdm structure with file, groups and channels" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/tdm_structure.png?raw=true" width="500"><br>
+<img alt="TDM structure with file, groups and channels" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/tdm_structure.png?raw=true" width="500"><br>
 
 <details>
 <summary>Example dictionary</summary>
@@ -94,7 +93,6 @@ return {Path(file_path).stem: self.tdm_tree}
 ```
 </p>
 </details>
-<br>
 
 <details>
 <summary>Dictionary Schema</summary>
@@ -132,7 +130,6 @@ Schema({
 </p>
 <p>All further extra keys will show up as custom properties in DIAdem, Labview or SystemLink DataFinder.</p>
 </details>
-<br>
 
 See full example: [csv-read-with-direct-loading](https://github.com/ni/vscode-ni-python-dataplugins/tree/master/examples/csv-read-with-direct-loading)
 
@@ -156,7 +153,6 @@ When handling big data sets, it can make sense to not load all data at once. Ins
 
 </p>
 </details>
-<br>
 
 We outsource the functionality to load the bulk data values in a different function within the `Plugin` class. The function has the following definition:
 
@@ -183,7 +179,6 @@ def read_channel_values(self, grp_index, chn_index, numberToSkip, numberToTake):
 
 </p>
 </details>
-<br>
 
 The client applications are calling that function to retrieve channel values (or a subset of values). The DataPlugin needs to implement the function to return the values for a given group and channel index. It also needs to ensure only the correct subset of values is returned for a given `numberToSkip` and `numberToTake`.
 
@@ -199,10 +194,28 @@ def read_channel_length(self, grp_index, chn_index):
 
 See full example: [csv-read-with-callback-loading](https://github.com/ni/vscode-ni-python-dataplugins/tree/master/examples/csv-read-with-callback-loading)
 
+## Error Handling
+Python DataPlugins can raise errors in all callback functions. The raised error will be transported to DIAdem, LabVIEW or SystemLink DataFinder.
+
+```python
+def read_store(self, parameter):
+   ...
+   raise Exception("Leave read_store with exception")
+```
+
+A special case is "Not My File". This error should be raised when the DataPlugin detects that the file to be opened, is not suited for this DataPlugin. This special error can be raised only in the `read_store` function by returning `None`:
+
+```python
+def read_store(self, parameter):
+   ...
+   if notMyFile:
+      return None
+```
+
 ## Export
 Export Python DataPlugins to make them available on other systems. Use DIAdem to export a DataPlugin as a URI file.
 
-<img alt="exporting DataPlugins in DIAdem" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/diadem_export.png?raw=true" width="500"><br>
+<img alt="Exporting DataPlugins in DIAdem" src="https://github.com/ni/vscode-ni-python-dataplugins/blob/better-docs/docs/diadem_export.png?raw=true" width="600"><br>
 
 ## Known Limitations
 <details>
