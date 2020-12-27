@@ -4,8 +4,6 @@ from pathlib import Path
 
 class Plugin:
 
-    tdm_model = {}
-
     def read_store(self, parameter):
         file_path = os.path.realpath(parameter["file"])
 

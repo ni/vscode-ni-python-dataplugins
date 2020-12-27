@@ -6,8 +6,6 @@ from pathlib import Path
 
 class Plugin:
 
-    tdm_model = {}
-
     def read_store(self, parameter):
         file_path = os.path.realpath(parameter["file"])
         values = self.load_npy_file(file_path)
@@ -113,7 +111,7 @@ if __name__ == "__main__":
     p = Plugin()
     dir_path = os.path.dirname(os.path.realpath(__file__))
     parameter = {
-        "file": dir_path + "\\data.npy"
+        "file": dir_path + "\\Example.npy"
     }
 
     print("\n %s" % p.read_store(parameter))

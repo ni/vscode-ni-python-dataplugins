@@ -89,8 +89,9 @@ class Plugin:
 if __name__ == "__main__":
     print("For testing your plugin first, you can run that python file directly from command line")
     p = Plugin()
+    dir_path = os.path.dirname(os.path.realpath(__file__))
     parameter = {
-        "file": "C:\\Users\\Public\\Documents\\National Instruments\\DIAdem 2020\\Data\\Example.csv"
+        "file": dir_path + "\\Example.csv"
     }
     print("\n %s" % p.read_store(parameter))
     print("\nChannel length: %s" % p.read_channel_length(0, 0))
