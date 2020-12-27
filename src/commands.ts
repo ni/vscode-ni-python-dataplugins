@@ -55,22 +55,29 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
 }
 
 export async function exportPluginFromContextMenu(uri: vscode.Uri) {
-   const extensions = await vscu.showInputBox('Please enter the file extensions your DataPlugin can handle in the right syntax: ', '*.tdm; *.xls ...');
    const scriptPath: string = uri.fsPath;
    const pluginName: string = path.basename(path.dirname(scriptPath));
 
-   let exportPath: string = config.exportPath || '';
-   if (extensions) {
-      if (!exportPath) {
-         const options: vscode.SaveDialogOptions = {
-            defaultUri: vscode.Uri.parse(`${config.dataPluginFolder}\\${pluginName}`),
-            filters: { 'Uri': ['uri'] },
-         };
-
-         const fileInfos = await vscode.window.showSaveDialog({ ...options });
-         exportPath = fileInfos?.fsPath || '';
-      }
-
-      await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}\\${pluginName}.uri`);
+   let extensions: string | undefined = await fileutils.readFileExtensionConfig(path.dirname(scriptPath));
+   if (!extensions) {
+      extensions = await vscu.showInputBox('Please enter the file extensions your DataPlugin can handle in the right syntax: ', '*.tdm; *.xls ...');
+   } 
+   
+   if (!extensions) {
+      return;
    }
+
+   let exportPath: string = config.exportPath || '';
+   if (!exportPath) {
+      const options: vscode.SaveDialogOptions = {
+         defaultUri: vscode.Uri.file(`${config.dataPluginFolder}\\${pluginName}\\${pluginName}.uri`),
+         filters: { 'Uri': ['uri'] },
+      };
+
+      const fileInfos = await vscode.window.showSaveDialog({ ...options });
+      exportPath = fileInfos?.fsPath || '';
+   }
+
+   await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`);
+
 }

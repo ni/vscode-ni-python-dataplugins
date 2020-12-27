@@ -12,7 +12,7 @@ export class UriTemplate {
          `<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath><script>${pythonScriptPath}</script>]]></easypluginparam>` +
          '<querysupported>0</querysupported>' +
          '<fastloadsupported>0</fastloadsupported>' +
-         `<filefilters extension="${fileExtensions}"><description>${fileName} Dateien (${fileExtensions})</description></filefilters>` +
+         `<filefilters extension="${fileExtensions}"><description>${fileName} Files (${fileExtensions})</description></filefilters>` +
          '<platform>x64</platform></storetype></usireginfo>';
    }
 
