@@ -6,6 +6,13 @@
    "version": "1.0.0",
    "configurations": [
       {
+         "name": "Debug Python Script",
+         "type": "python",
+         "request": "launch",
+         "program": "${file}" ,
+         "console": "integratedTerminal"
+      },
+      {
          "name": "Load Data with DIAdem",
          "type": "python",
          "request": "launch",
