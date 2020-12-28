@@ -27,13 +27,20 @@ export function createFolderSync(folder: string) {
 }
 
 export async function readFileExtensionConfig(workspaceDir: string): Promise<string | undefined> {
-   const filePath: string = path.join(workspaceDir, '.extensions');
+   const filePath: string = path.join(workspaceDir, '.file-extensions');
    if (fs.existsSync(filePath)) {
       const head = await readFirstLineOfFile(filePath);
-      return Promise.resolve(head != '' ? head : undefined);
+      return Promise.resolve(head !== '' ? head : undefined);
    }
 
    return Promise.resolve(undefined);
+}
+
+export function storeFileExtensionConfig(workspaceDir: string, fileExtensions: string): void {
+   const filePath: string = path.join(workspaceDir, '.file-extensions');
+   if (fs.existsSync(filePath)) {
+      fs.writeFile(filePath, fileExtensions);
+   }
 }
 
 export async function writeUriFile(scriptPath: string, fileExtensions: string, exportPath: string): Promise<void> {

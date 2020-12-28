@@ -15,6 +15,7 @@ describe('Basic UI Tests', () => {
 
    it('Should create a new DataPlugin project', async () => {
       const randomName: string = Guid.create().toString();
+      await new Promise(res => setTimeout(res, 5000)); // wait for loading vscode completely
       const workbench = new Workbench();
       await workbench.executeCommand('NI DataPlugins: Create new Python-DataPlugin');
       await new Promise(res => setTimeout(res, 500));

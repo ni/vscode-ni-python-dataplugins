@@ -9,10 +9,7 @@ import { Languages } from './plugin-languages.enum';
 
 export async function createDataPlugin(): Promise<DataPlugin | null> {
    const examples: string[] = vscu.loadExamples();
-   const examplesNames: string[] = new Array();
-   for (let i = 0; i < examples.length; i++) {
-      examplesNames[i] = path.basename(examples[i]);
-   }
+   const examplesNames: string[] = examples.map((example) => { return path.basename(example) });
 
    const scriptName: string | undefined = await vscu.showInputBox('DataPlugin name: ', 'Please enter your DataPlugin name');
    if (!scriptName) {
@@ -61,10 +58,13 @@ export async function exportPluginFromContextMenu(uri: vscode.Uri) {
    let extensions: string | undefined = await fileutils.readFileExtensionConfig(path.dirname(scriptPath));
    if (!extensions) {
       extensions = await vscu.showInputBox('Please enter the file extensions your DataPlugin can handle in the right syntax: ', '*.tdm; *.xls ...');
-   } 
-   
-   if (!extensions) {
-      return;
+
+      if (!extensions) {
+         return;
+      }
+
+      // Store selected extensions so we don't have to ask again
+      fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
    }
 
    let exportPath: string = config.exportPath || '';
