@@ -1,4 +1,3 @@
-import * as config from './config';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as readline from 'readline';

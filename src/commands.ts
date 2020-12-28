@@ -9,7 +9,7 @@ import { Languages } from './plugin-languages.enum';
 
 export async function createDataPlugin(): Promise<DataPlugin | null> {
    const examples: string[] = vscu.loadExamples();
-   const examplesNames: string[] = examples.map((example) => { return path.basename(example) });
+   const examplesNames: string[] = examples.map((example) => { return path.basename(example); });
 
    const scriptName: string | undefined = await vscu.showInputBox('DataPlugin name: ', 'Please enter your DataPlugin name');
    if (!scriptName) {

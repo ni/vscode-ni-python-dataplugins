@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { Guid } from 'guid-typescript';
-import { InputBox, Workbench, TextEditor, WebDriver, VSBrowser, EditorView, SideBarView } from 'vscode-extension-tester';
+import { InputBox, Workbench, WebDriver, VSBrowser, SideBarView } from 'vscode-extension-tester';
 
 /*
    API Reference: https://github.com/redhat-developer/vscode-extension-tester/wiki/Page-Object-APIs
