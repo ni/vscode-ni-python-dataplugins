@@ -16,7 +16,7 @@ A [Visual Studio Code](https://code.visualstudio.com/) extension that provides d
 ```
 NI DataPlugins: Create new Python-DataPlugin
 ```
-**Step 3.** Export the DataPlugin. Right click on the \*.py file you want to export -> Choose "NI DataPlugins: Export DataPlugin".
+**Step 3.** Export the DataPlugin. Right click on the \*.py file you want to export -> Choose "NI DataPlugins: Export DataPlugin". Create a file `.file-extensions` in the root directory of your project and list all file extensions that your DataPlugin should support. If no list is defined, you will be prompted to provide a list of file extensions on first export of your DataPlugin.
 
 # Settings
 
