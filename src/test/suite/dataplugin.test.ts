@@ -57,7 +57,7 @@ suite('DataPlugin Test Suite', () => {
          // tslint:disable-next-line: no-unused-expression
          new DataPlugin(randomName, 'hello-world', Languages.Python);
       } catch (e) {
-         assert.equal(e.errorType, ErrorType.FILEEXISTS);
+         assert.strictEqual(e.errorType, ErrorType.FILEEXISTS);
       }
    });
 });
