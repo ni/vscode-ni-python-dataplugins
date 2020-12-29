@@ -61,5 +61,5 @@
       }
     ]
   },
-  "defaultSeverity": "warning"
+  "defaultSeverity": "error"
 }

@@ -21,14 +21,15 @@ describe('Basic UI Tests', () => {
 
       // Prepare Workspace
       const workspaceDir: string = path.join(__dirname, 'sample_workspace_1');
+      // tslint:disable-next-line
       fs.existsSync(workspaceDir) && fs.rmdirSync(workspaceDir, { recursive: true });
       fs.mkdirSync(workspaceDir);
-      fs.writeFileSync(path.join(workspaceDir, 'dataplugin.py'), 'class Plugin:')
+      fs.writeFileSync(path.join(workspaceDir, 'dataplugin.py'), 'class Plugin:');
 
       // init
       const workbench = new Workbench();
 
-      // Open Workspace      
+      // Open Workspace
       await workbench.executeCommand('Extest: Open Folder');
       await new Promise(res => setTimeout(res, 500));
 
@@ -58,6 +59,7 @@ describe('Basic UI Tests', () => {
 
       // Delete file extensions settings
       const fileExtension = path.join(workspaceDir, '.file-extensions');
+      // tslint:disable-next-line
       fs.existsSync(fileExtension) && fs.unlinkSync(fileExtension);
 
       // Open ContextMenu and click Export
@@ -73,8 +75,8 @@ describe('Basic UI Tests', () => {
       await fileExtensionInputBox.setText('*.csv');
       await fileExtensionInputBox.cancel();
 
-      // Write .file-extensions file      
-      fs.writeFileSync(fileExtension, '*.csv')
+      // Write .file-extensions file
+      fs.writeFileSync(fileExtension, '*.csv');
 
       // Click Export again, this time no file extension prompt should show up
       const menu2 = await item?.openContextMenu();
