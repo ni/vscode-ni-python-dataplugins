@@ -20,13 +20,27 @@ NI DataPlugins: Create new Python-DataPlugin
 
 # Settings
 
+
+
+## Export Path
+Set the export path for all your plugins in Preferences -> Settings -> Extensions -> Vscode-NI-Python-DataPlugins -> Plugin Export Path. The path can be a folder or a *.uri file.
+
+<details>
+<summary>Example</summary>
+<p>
+
 ```json
 {
-    "NI-DataPlugins.PluginExportPath": ""
+    "NI-DataPlugins.PluginExportPath": "C:\\Temp"
+}
+// OR
+{
+    "NI-DataPlugins.PluginExportPath": "C:\\Temp\\MyPlugin.uri"
 }
 ```
 
-**Export-Path** Set the export path for all your plugins in Preferences -> Settings -> Extensions -> Vscode-NI-Python-DataPlugins -> Plugin Export Path 
+</p>
+</details>
 
 # Contribute
 
