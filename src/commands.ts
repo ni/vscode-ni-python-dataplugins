@@ -52,6 +52,7 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
 }
 
 export async function exportPluginFromContextMenu(uri: vscode.Uri) {
+   let storeFileExtensionsAfterExport: boolean = false;
    const scriptPath: string = uri.fsPath;
    const pluginName: string = path.basename(path.dirname(scriptPath));
 
@@ -70,8 +71,7 @@ export async function exportPluginFromContextMenu(uri: vscode.Uri) {
          return;
       }
 
-      // Store selected extensions so we don't have to ask again
-      fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
+      storeFileExtensionsAfterExport = true;
    }
 
    let exportPath: string = config.exportPath || '';
@@ -82,9 +82,20 @@ export async function exportPluginFromContextMenu(uri: vscode.Uri) {
       };
 
       const fileInfos = await vscode.window.showSaveDialog({ ...options });
-      exportPath = fileInfos?.fsPath || '';
+      if (!fileInfos) {
+         return;
+      }
+
+      exportPath = fileInfos.fsPath;
+   }
+
+   const isDirectory = path.extname(exportPath) === '';
+   if (isDirectory) {
+      exportPath = path.join(exportPath, `${pluginName}.uri`);
    }
 
    await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`);
 
+   // Store selected extensions so we don't have to ask again
+   fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
 }

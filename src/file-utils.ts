@@ -38,7 +38,7 @@ export async function readFileExtensionConfig(workspaceDir: string): Promise<str
 export function storeFileExtensionConfig(workspaceDir: string, fileExtensions: string): void {
    const filePath: string = path.join(workspaceDir, '.file-extensions');
    if (fs.existsSync(filePath)) {
-      fs.writeFile(filePath, fileExtensions);
+      fs.writeFileSync(filePath, fileExtensions);
    }
 }
 
