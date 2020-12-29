@@ -9,10 +9,7 @@ import { Languages } from './plugin-languages.enum';
 
 export async function createDataPlugin(): Promise<DataPlugin | null> {
    const examples: string[] = vscu.loadExamples();
-   const examplesNames: string[] = new Array();
-   for (let i = 0; i < examples.length; i++) {
-      examplesNames[i] = path.basename(examples[i]);
-   }
+   const examplesNames: string[] = examples.map((example) => { return path.basename(example); });
 
    const scriptName: string | undefined = await vscu.showInputBox('DataPlugin name: ', 'Please enter your DataPlugin name');
    if (!scriptName) {
@@ -55,22 +52,50 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
 }
 
 export async function exportPluginFromContextMenu(uri: vscode.Uri) {
-   const extensions = await vscu.showInputBox('Please enter the file extensions your DataPlugin can handle in the right syntax: ', '*.tdm; *.xls ...');
+   let storeFileExtensionsAfterExport: boolean = false;
    const scriptPath: string = uri.fsPath;
    const pluginName: string = path.basename(path.dirname(scriptPath));
 
-   let exportPath: string = config.exportPath || '';
-   if (extensions) {
-      if (!exportPath) {
-         const options: vscode.SaveDialogOptions = {
-            defaultUri: vscode.Uri.parse(`${config.dataPluginFolder}\\${pluginName}`),
-            filters: { 'Uri': ['uri'] },
-         };
+   let extensions: string | undefined;
 
-         const fileInfos = await vscode.window.showSaveDialog({ ...options });
-         exportPath = fileInfos?.fsPath || '';
+   try {
+      extensions = await fileutils.readFileExtensionConfig(path.dirname(scriptPath));
+   } catch (e) {
+      extensions = undefined;
+   }
+
+   if (!extensions) {
+      extensions = await vscu.showInputBox('Please enter the file extensions your DataPlugin can handle in the right syntax: ', '*.tdm; *.xls ...');
+
+      if (!extensions) {
+         return;
       }
 
-      await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}\\${pluginName}.uri`);
+      storeFileExtensionsAfterExport = true;
    }
+
+   let exportPath: string = config.exportPath || '';
+   if (!exportPath) {
+      const options: vscode.SaveDialogOptions = {
+         defaultUri: vscode.Uri.file(`${config.dataPluginFolder}\\${pluginName}\\${pluginName}.uri`),
+         filters: { 'Uri': ['uri'] },
+      };
+
+      const fileInfos = await vscode.window.showSaveDialog({ ...options });
+      if (!fileInfos) {
+         return;
+      }
+
+      exportPath = fileInfos.fsPath;
+   }
+
+   const isDirectory = path.extname(exportPath) === '';
+   if (isDirectory) {
+      exportPath = path.join(exportPath, `${pluginName}.uri`);
+   }
+
+   await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`);
+
+   // Store selected extensions so we don't have to ask again
+   fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
 }

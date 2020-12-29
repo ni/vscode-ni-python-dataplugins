@@ -16,17 +16,31 @@ A [Visual Studio Code](https://code.visualstudio.com/) extension that provides d
 ```
 NI DataPlugins: Create new Python-DataPlugin
 ```
-**Step 3.** Export the DataPlugin. Right click on the \*.py file you want to export -> Choose "NI DataPlugins: Export DataPlugin".
+**Step 3.** Export the DataPlugin. Right click on the \*.py file you want to export -> Choose "NI DataPlugins: Export DataPlugin". Create a file `.file-extensions` in the root directory of your project and list all file extensions that your DataPlugin should support. If no list is defined, you will be prompted to provide a list of file extensions on first export of your DataPlugin.
 
 # Settings
 
+
+
+## Export Path
+Set the export path for all your plugins in Preferences -> Settings -> Extensions -> Vscode-NI-Python-DataPlugins -> Plugin Export Path. The path can be a folder or a *.uri file.
+
+<details>
+<summary>Example</summary>
+<p>
+
 ```json
 {
-    "NI-DataPlugins.PluginExportPath": ""
+    "NI-DataPlugins.PluginExportPath": "C:\\Temp"
+}
+// OR
+{
+    "NI-DataPlugins.PluginExportPath": "C:\\Temp\\MyPlugin.uri"
 }
 ```
 
-**Export-Path** Set the export path for all your plugins in Preferences -> Settings -> Extensions -> Vscode-NI-Python-DataPlugins -> Plugin Export Path 
+</p>
+</details>
 
 # Contribute
 
