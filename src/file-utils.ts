@@ -25,14 +25,14 @@ export function createFolderSync(folder: string) {
    }
 }
 
-export async function readFileExtensionConfig(workspaceDir: string): Promise<string | undefined> {
+export async function readFileExtensionConfig(workspaceDir: string): Promise<string> {
    const filePath: string = path.join(workspaceDir, '.file-extensions');
    if (fs.existsSync(filePath)) {
       const head = await readFirstLineOfFile(filePath);
-      return Promise.resolve(head !== '' ? head : undefined);
+      return Promise.resolve(head);
    }
 
-   return Promise.resolve(undefined);
+   return Promise.reject('file not found');
 }
 
 export function storeFileExtensionConfig(workspaceDir: string, fileExtensions: string): void {

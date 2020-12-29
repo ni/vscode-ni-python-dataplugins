@@ -55,7 +55,14 @@ export async function exportPluginFromContextMenu(uri: vscode.Uri) {
    const scriptPath: string = uri.fsPath;
    const pluginName: string = path.basename(path.dirname(scriptPath));
 
-   let extensions: string | undefined = await fileutils.readFileExtensionConfig(path.dirname(scriptPath));
+   let extensions: string | undefined;
+
+   try {
+      extensions = await fileutils.readFileExtensionConfig(path.dirname(scriptPath));
+   } catch (e) {
+      extensions = undefined;
+   }
+
    if (!extensions) {
       extensions = await vscu.showInputBox('Please enter the file extensions your DataPlugin can handle in the right syntax: ', '*.tdm; *.xls ...');
 

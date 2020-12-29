@@ -8,18 +8,19 @@ suite('File-Utils Test Suite', () => {
    vscode.window.showInformationMessage('Start File-Utils tests.');
 
    test('should return correct values when reading file extension config', async () => {
-      let fileExtensions: string | undefined;
+      let fileExtensions: string;
+      const filePath: string = path.join(__dirname, '.file-extensions');
 
-      fs.unlinkSync(path.join(__dirname, '.file-extensions'));
-      fileExtensions = await fileutils.readFileExtensionConfig(__dirname);
-      assert.ok(fileExtensions === undefined);
+      fs.existsSync(filePath) && fs.unlinkSync(filePath);
 
-      await fs.writeFile(path.join(__dirname, '.file-extensions'), '*.csv,*.txt');
+      await assert.rejects(fileutils.readFileExtensionConfig(__dirname), /file not found/);
+
+      await fs.writeFile(filePath, '*.csv,*.txt');
       fileExtensions = await fileutils.readFileExtensionConfig(__dirname);
       assert.ok(fileExtensions === '*.csv,*.txt');
 
-      await fs.writeFile(path.join(__dirname, '.file-extensions'), '');
+      await fs.writeFile(filePath, '');
       fileExtensions = await fileutils.readFileExtensionConfig(__dirname);
-      assert.ok(fileExtensions === undefined);
+      assert.ok(fileExtensions === '');
    }).timeout(10000);
 });
