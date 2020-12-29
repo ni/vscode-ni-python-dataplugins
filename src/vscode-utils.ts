@@ -6,8 +6,11 @@ import * as config from './config';
 import * as fileutils from './file-utils';
 import { DataPlugin } from './dataplugin';
 
+let extensionOutput: vscode.OutputChannel;
+const debugOutputChannel: string = 'NI_DataPlugins';
+
 export async function disposeDataPlugin(dataPlugin: DataPlugin) {
-   const pluginFolder : string = dataPlugin.folderPath;
+   const pluginFolder: string = dataPlugin.folderPath;
    fs.remove(pluginFolder);
 }
 
@@ -21,6 +24,13 @@ export async function exportDataPlugin(scriptPath: string, fileExtensions: strin
    if (result === 'Register DataPlugin') {
       await open(exportPath);
    }
+}
+
+export function getOutputChannel(): vscode.OutputChannel {
+   if (!extensionOutput) {
+      extensionOutput = vscode.window.createOutputChannel(debugOutputChannel);
+   }
+   return extensionOutput;
 }
 
 export function loadExamples(): string[] {

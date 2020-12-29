@@ -17,7 +17,9 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
    }
 
    if (fs.existsSync(`${config.dataPluginFolder}\\${scriptName}`)) {
-      await vscode.window.showInformationMessage(`${config.extPrefix} There is already a DataPlugin named "${scriptName}"!`);
+      const errorMsg: string = `${config.extPrefix} There is already a DataPlugin named "${scriptName}"!`;
+      vscu.getOutputChannel().appendLine(`error: ${errorMsg}`);
+      await vscode.window.showInformationMessage(errorMsg);
       return null;
    }
 
@@ -46,6 +48,7 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
       await vscu.showDataPluginInVSCode(dataPlugin);
       return dataPlugin;
    } catch (e) {
+      vscu.getOutputChannel().appendLine(`error: ${e.message}`);
       vscode.window.showErrorMessage(e.message);
       throw e;
    }
@@ -61,6 +64,7 @@ export async function exportPluginFromContextMenu(uri: vscode.Uri) {
    try {
       extensions = await fileutils.readFileExtensionConfig(path.dirname(scriptPath));
    } catch (e) {
+      vscu.getOutputChannel().appendLine(`info: .file-extensions cannot be read. Prompting instead.`);
       extensions = undefined;
    }
 
@@ -95,7 +99,9 @@ export async function exportPluginFromContextMenu(uri: vscode.Uri) {
    }
 
    await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`);
+   vscu.getOutputChannel().appendLine(`info: exporting DataPlugin to ${exportPath}`);
 
    // Store selected extensions so we don't have to ask again
    fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
+   vscu.getOutputChannel().appendLine(`info: storing file extension defaults in ${path.dirname(scriptPath)}.`);
 }
