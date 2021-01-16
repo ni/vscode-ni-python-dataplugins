@@ -29,7 +29,9 @@ NI DataPlugins: Create new Python-DataPlugin
 
 ## Advanced Settings
 
-### Start with your own template
+### Custom Template
+
+Start writing your DataPlugin with your own custom template. Simply add your template to the `examples` directory of this extension. You find the extension in `$HOME/.vscode/extensions` folder on Mac and Linux or the `%USERPROFILE%\.vscode\extensions` folder on Windows.
 
 ### Export Path
 
