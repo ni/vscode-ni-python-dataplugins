@@ -39,6 +39,7 @@ Every Python DataPlugins needs to implement a read_store method. This method is 
 import datetime
 import os
 from pathlib import Path
+
 def read_store(self, parameter):
    """
       Read data file and return a python dictionary
@@ -112,7 +113,7 @@ Use the file parameter to access your file using text, csv or binary readers. Th
 <p>
 
 ```python 
-self.tdm_tree = {
+tdm_tree = {
    "author": "National Instruments",
    "description": "Example file",
    "groups": [{
@@ -136,7 +137,7 @@ self.tdm_tree = {
 }
 
 file_path = os.path.realpath(parameter["file"])
-return {Path(file_path).stem: self.tdm_tree}
+return {Path(file_path).stem: tdm_tree}
 ```
 </p>
 </details>
