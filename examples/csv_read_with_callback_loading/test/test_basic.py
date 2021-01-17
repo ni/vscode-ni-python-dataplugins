@@ -1,6 +1,5 @@
 import unittest
 import sys
-import csv_read_with_callback_loading
 
 
 class BasicDataPluginTests(unittest.TestCase):
@@ -11,6 +10,7 @@ class BasicDataPluginTests(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    sys.path.append('..')
+    sys.path.append('.')
+    from csv_read_with_callback_loading import Plugin
     
     unittest.main()
