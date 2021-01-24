@@ -2,7 +2,7 @@
   "name": "vscode-ni-python-dataplugins",
   "displayName": "NI Python DataPlugins",
   "description": "Create and export NI DataPlugins in Python",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "publisher": "NI",
   "author": "National Instruments",
   "license": "MIT",
