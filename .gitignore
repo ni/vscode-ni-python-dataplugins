@@ -4,3 +4,4 @@ out
 .vscode-test
 test-resources/**
 *.vsix
+__pycache__

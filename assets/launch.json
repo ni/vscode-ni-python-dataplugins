@@ -13,6 +13,13 @@
          "console": "integratedTerminal"
       },
       {
+         "name": "Run Unit Tests",
+         "type": "python",
+         "request": "launch",
+         "program": "${workspaceFolder}/test_plugin.py" ,
+         "console": "integratedTerminal"
+      },
+      {
          "name": "Load Data with DIAdem",
          "type": "python",
          "request": "launch",
