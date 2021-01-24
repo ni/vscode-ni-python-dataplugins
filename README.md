@@ -13,7 +13,8 @@ A [Visual Studio Code](https://code.visualstudio.com/) extension that provides d
 - Locate the .vsix file you download and click "Open".
 - Click "Restart" to confirm.
 
-<img alt="Installing the extension" src="./docs/images/install-from-vsix.png?raw=true" width="600"><br>
+[Installing the extension](docs/images/install-from-vsix.png)
+<!-- <img alt="Installing the extension" src="./docs/images/install-from-vsix.png?raw=true" width="600"><br> -->
 
 **Step 2.** Create a new DataPlugin. Launch VS Code Command Palette (Ctrl+Shift+P), paste the following command, and press enter.
 
