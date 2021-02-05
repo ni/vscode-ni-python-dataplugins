@@ -1,6 +1,6 @@
 # NI DataPlugins extension for Visual Studio Code
 
-A [Visual Studio Code](https://code.visualstudio.com/) Extension that provides development support for [NI DataPlugins](https://www.ni.com/downloads/dataplugins) written in [Python](https://www.python.org). For more information about writing Python DataPlugins, please refer to the [SystemLink Operations Handbook](https://operations.systemlink.io).
+A [Visual Studio Code](https://code.visualstudio.com/) Extension that provides development support for [NI DataPlugins](https://www.ni.com/downloads/dataplugins) written in [Python](https://www.python.org). For more information about writing Python DataPlugins, please refer to the [SystemLink Operations Handbook](https://operations.systemlink.io/python-dataplugins/python-dataplugins).
 
 ![CI](https://github.com/ni/vscode-ni-python-dataplugins/workflows/CI/badge.svg)
 
