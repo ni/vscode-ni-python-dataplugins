@@ -73,4 +73,5 @@ npm run test:e2e
 ```
 
 ## License
+
 See [LICENSE](https://github.com/ni/vscode-ni-python-dataplugins/blob/master/LICENSE) for details about how this extension is licensed.
