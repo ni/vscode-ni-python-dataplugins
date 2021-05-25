@@ -42,7 +42,7 @@ describe('Basic UI Tests', () => {
       // Open Explorer side bar
       const sideBarView = new SideBarView();
       const explorer = await new ActivityBar().getViewControl('Explorer');
-      await explorer.openView();
+      await explorer?.openView();
 
       // Find python file
       const content = await sideBarView.getContent();
