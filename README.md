@@ -53,3 +53,24 @@ Set the export path for all your plugins in Preferences -> Settings -> Extension
 ## Contribute
 
 Contribute to this project by finding issues, requesting features or creating Pull Requests. General documentation about developing extensions for Visual Studio Code can be found [here](https://code.visualstudio.com/api) and [here](https://vscode-docs.readthedocs.io/en/stable/extensions/debugging-extensions/).
+
+### Developer Setup
+
+If you want to compile this extension, run the following commands:
+
+```sh
+git clone https://github.com/ni/vscode-ni-python-dataplugins.git
+cd vscode-ni-python-dataplugins
+npm install
+```
+
+Run the extension from VSCode by hitting `F5`. Test your changes by running
+
+```sh
+npm run lint
+npm run test
+npm run test:e2e
+```
+
+## License
+See [LICENSE](https://github.com/ni/vscode-ni-python-dataplugins/blob/master/LICENSE) for details about how this extension is licensed.
