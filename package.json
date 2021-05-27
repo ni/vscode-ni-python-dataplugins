@@ -83,7 +83,7 @@
     "compile": "tsc -p ./",
     "createpkg": "vsce package -o vscode-ni-python-dataplugins.vsix",
     "depcheck": "npm-check -u",
-    "lint": "npm run tslint && npm run mdlint",
+    "lint": "npm run tslint",
     "tslint": "tslint -p ./",
     "mdlint": "./node_modules/.bin/markdownlint README.md examples/**/*.md",
     "pretest": "npm run compile && npm run lint",

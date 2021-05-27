@@ -1,11 +1,11 @@
 import * as assert from 'assert';
-import * as path from 'path';
 import * as vscode from 'vscode';
 import * as config from '../../config';
 import * as vscu from '../../vscode-utils';
 import { after } from 'mocha';
 import { DataPlugin } from '../../dataplugin';
 import { ErrorType } from '../../dataplugin-error';
+import { Example } from '../../example';
 import { Guid } from 'guid-typescript';
 import { Languages } from '../../plugin-languages.enum';
 
@@ -34,18 +34,17 @@ suite('DataPlugin Test Suite', () => {
    }).timeout(10000);
 
    test('should be able to create every template as class', async () => {
-      const examples: string[] = vscu.loadExamples();
+      const examples: Example[] = vscu.loadExamples();
       for (const example of examples) {
          const randomName: string = Guid.create().toString();
-         const examplesName: string = path.basename(example);
-         const dataPlugin: DataPlugin = new DataPlugin(randomName, examplesName, Languages.Python);
+         const dataPlugin: DataPlugin = new DataPlugin(randomName, example.name, Languages.Python);
          await dataPlugin.pluginIsInitialized();
          dataPluginsToClean.push(dataPlugin);
 
          assert.ok(dataPlugin.name === randomName);
          assert.ok(dataPlugin.language === Languages.Python);
-         assert.ok(dataPlugin.baseTemplate === examplesName);
-         assert.ok(dataPlugin.scriptPath === `${config.dataPluginFolder}\\${dataPlugin.name}\\${examplesName}.py`);
+         assert.ok(dataPlugin.baseTemplate === example.name);
+         assert.ok(dataPlugin.scriptPath === `${config.dataPluginFolder}\\${dataPlugin.name}\\${example.name}.py`);
       }
    }).timeout(10000);
 

@@ -5,11 +5,11 @@ import * as config from './config';
 import * as fileutils from './file-utils';
 import * as vscu from './vscode-utils';
 import { DataPlugin } from './dataplugin';
+import { Example } from './example';
 import { Languages } from './plugin-languages.enum';
 
 export async function createDataPlugin(): Promise<DataPlugin | null> {
-   const examples: string[] = vscu.loadExamples();
-   const examplesNames: string[] = examples.map((example) => { return path.basename(example); });
+   const examples: Example[] = vscu.loadExamples();
 
    const scriptName: string | undefined = await vscu.showInputBox('DataPlugin name: ', 'Please enter your DataPlugin name');
    if (!scriptName) {
@@ -23,9 +23,18 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
 
    const pluginQuickPickItems: vscode.QuickPickItem[] = [];
 
-   for (const item of examplesNames) {
+   pluginQuickPickItems.push({
+      detail: 'Select a sample file to be supported by your DataPlugin.',
+      description: 'Browse files...',
+      label: '$(folder) Start with sample data',
+      picked: true
+   });
+
+   for (const item of examples) {
       pluginQuickPickItems.push({
-         label: item,
+         detail: await item.getDetails(),
+         description: 'Example',
+         label: `$(file-code) ${item.name}`
       });
    }
 

@@ -1,3 +1,4 @@
+# A direct loading example for CSV-like files
 import csv
 import datetime
 import os
