@@ -1,6 +1,0 @@
-node_modules/
-out/
-test-resources/
-**/*d.ts
-.eslintrc.js
-.vscode-test
