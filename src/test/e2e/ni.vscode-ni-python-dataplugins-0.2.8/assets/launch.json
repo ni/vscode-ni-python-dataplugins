@@ -1,0 +1,34 @@
+// A launch configuration that compiles the extension and then opens it inside a new window
+// Use IntelliSense to learn about possible attributes.
+// Hover to view descriptions of existing attributes.
+// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+{
+   "version": "1.0.0",
+   "configurations": [
+      {
+         "name": "Debug Python Script",
+         "type": "python",
+         "request": "launch",
+         "program": "${file}" ,
+         "console": "integratedTerminal"
+      },
+      {
+         "name": "Run Unit Tests",
+         "type": "python",
+         "request": "launch",
+         "program": "${workspaceFolder}/test_plugin.py" ,
+         "console": "integratedTerminal"
+      },
+      {
+         "name": "Load Data with DIAdem",
+         "type": "python",
+         "request": "launch",
+         "program": "${workspaceFolder}/.ni/diadem_load.py",
+         "args": [
+            "--DataPlugin_Name=\"${workspaceFolderBasename}\"",
+            "--data_file=\"${workspaceFolder}\\Example.csv \""
+         ],        
+         "console": "externalTerminal"
+      }
+   ]
+}
