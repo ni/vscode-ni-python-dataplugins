@@ -44,6 +44,7 @@ export async function openDocumentAndShow(docPath: string) {
 }
 
 export async function showDataPluginInVSCode(dataPlugin: DataPlugin) {
+   await dataPlugin.pluginIsInitialized();
    // Creates the DIAdem folder in the workspace.
    vscode.workspace.updateWorkspaceFolders(0, 0, { uri: vscode.Uri.file(`${dataPlugin.folderPath}`), name: dataPlugin.name });
 

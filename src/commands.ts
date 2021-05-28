@@ -7,21 +7,22 @@ import * as vscu from './vscode-utils';
 import { DataPlugin } from './dataplugin';
 import { Example } from './example';
 import { Languages } from './plugin-languages.enum';
+import { QuickPickItemWithExample } from './quick-pick-item-with-example';
 
 export async function createDataPlugin(): Promise<DataPlugin | null> {
    const examples: Example[] = vscu.loadExamples();
 
-   const scriptName: string | undefined = await vscu.showInputBox('DataPlugin name: ', 'Please enter your DataPlugin name');
-   if (!scriptName) {
+   const dataPluginName: string | undefined = await vscu.showInputBox('DataPlugin name: ', 'Please enter your DataPlugin name');
+   if (!dataPluginName) {
       return null;
    }
 
-   if (fs.existsSync(`${config.dataPluginFolder}\\${scriptName}`)) {
-      await vscode.window.showInformationMessage(`${config.extPrefix} There is already a DataPlugin named "${scriptName}"!`);
+   if (fs.existsSync(`${config.dataPluginFolder}\\${dataPluginName}`)) {
+      await vscode.window.showInformationMessage(`${config.extPrefix} There is already a DataPlugin named "${dataPluginName}"!`);
       return null;
    }
 
-   const pluginQuickPickItems: vscode.QuickPickItem[] = [];
+   const pluginQuickPickItems: QuickPickItemWithExample[] = [];
 
    pluginQuickPickItems.push({
       detail: 'Select a sample file to be supported by your DataPlugin.',
@@ -34,30 +35,39 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
       pluginQuickPickItems.push({
          detail: await item.getDetails(),
          description: 'Example',
-         label: `$(file-code) ${item.name}`
+         label: `$(file-code) ${item.name}`,
+         example: item
       });
    }
 
-   const pluginType = await vscu.showQuickPick(
-      'Please choose a template to start with',
-      false,
-      false,
-      pluginQuickPickItems
-   );
+   const quickPickItem = await vscode.window.showQuickPick<QuickPickItemWithExample>(pluginQuickPickItems, {
+      canPickMany: false,
+      matchOnDescription: false,
+      placeHolder: 'Please choose a template to start with',
+   });
 
-   if (!pluginType) {
+   if (!quickPickItem) {
       return null;
    }
 
-   try {
-      const dataPlugin: DataPlugin = new DataPlugin(scriptName, pluginType.label, Languages.Python);
-      await dataPlugin.pluginIsInitialized();
-      await vscu.showDataPluginInVSCode(dataPlugin);
-      return dataPlugin;
-   } catch (e) {
-      vscode.window.showErrorMessage(e.message);
-      throw e;
+   const isExample: boolean = !quickPickItem.picked;
+
+   // Return DataPlugin from example template
+   if (isExample) {
+      try {
+         const exampleName: string = quickPickItem.example?.name ?? '';
+         const dataPlugin: DataPlugin = new DataPlugin(dataPluginName, exampleName, Languages.Python);
+         await vscu.showDataPluginInVSCode(dataPlugin);
+         return dataPlugin;
+      } catch (e) {
+         vscode.window.showErrorMessage(e.message);
+         throw e;
+      }
    }
+
+   // Return DataPlugin from Sample Data File
+   const dataPlugin: DataPlugin = new DataPlugin(dataPluginName, 'hello_world', Languages.Python);
+   return await createDataPluginFromSampleFile(dataPlugin);
 }
 
 export async function exportPluginFromContextMenu(uri: vscode.Uri) {
@@ -107,4 +117,34 @@ export async function exportPluginFromContextMenu(uri: vscode.Uri) {
 
    // Store selected extensions so we don't have to ask again
    fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
+}
+
+async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<DataPlugin | null> {
+   const openDialogOptions = {
+      canSelectFiles: true,
+      canSelectFolders: false,
+      canSelectMany: false,
+      title: 'Choose your sample data file'
+   }
+
+   const selectedFiles = await vscode.window.showOpenDialog({ ...openDialogOptions });
+   if (selectedFiles) {
+      const sampleFile = selectedFiles[0];
+      const fileExtension = fileutils.getFileExtensionFromFileName(sampleFile.path);
+      if (fileExtension) {
+         try {
+            fileutils.storeFileExtensionConfig(path.dirname(dataPlugin.scriptPath), `*.${fileExtension}`)
+            await vscu.showDataPluginInVSCode(dataPlugin);            
+            return dataPlugin;
+         } catch (e) {
+            vscode.window.showErrorMessage(e.message);
+            throw e;
+         }
+      } else {
+         vscode.window.showErrorMessage('The file extension could not be determined.');
+         return null;
+      }
+   }
+
+   return null;
 }

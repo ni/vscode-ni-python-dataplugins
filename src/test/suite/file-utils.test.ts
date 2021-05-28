@@ -30,4 +30,12 @@ suite('File-Utils Test Suite', () => {
       const firstLine: string = await fileutils.readFirstLineOfFile(filePath);
       assert.ok(firstLine === '{');
    }).timeout(10000);
+
+   test('should correctly return the file extension from a given file', () => {
+      const filePath: string = path.join(__dirname, '../../../', 'package.json');
+      const fileExtension = fileutils.getFileExtensionFromFileName(filePath);
+      assert.ok(fileExtension === 'json');
+      const undefinedExtension = fileutils.getFileExtensionFromFileName('package');
+      assert.ok(undefinedExtension === undefined);
+   });
 });
