@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as config from './config';
 import * as fileutils from './file-utils';
@@ -148,24 +148,32 @@ async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<D
     const selectedFiles = await vscode.window.showOpenDialog({ ...openDialogOptions });
     if (selectedFiles) {
         const sampleFile = selectedFiles[0];
-        const fileExtension = fileutils.getFileExtensionFromFileName(sampleFile.path);
+        // copy sample file to workspace
+        try {
+            const sampleFileName = path.basename(sampleFile.fsPath);
+            await fs.copy(sampleFile.fsPath, path.join(dataPlugin.folderPath, sampleFileName));
+        } catch (e) {
+            void vscode.window.showErrorMessage('Could not copy sample file to workspace.');
+        }
+
+        // determine file extension and store
+        const fileExtension = fileutils.getFileExtensionFromFileName(sampleFile.fsPath);
         if (fileExtension) {
-            try {
-                fileutils.storeFileExtensionConfig(
-                    path.dirname(dataPlugin.scriptPath),
-                    `*.${fileExtension}`
-                );
-                await vscu.showDataPluginInVSCode(dataPlugin);
-                return dataPlugin;
-            } catch (e) {
-                if (e instanceof Error) {
-                    void vscode.window.showErrorMessage(e.message);
-                }
-                throw e;
+            fileutils.storeFileExtensionConfig(
+                path.dirname(dataPlugin.scriptPath),
+                `*.${fileExtension}`
+            );
+        }
+
+        // create DataPlugin
+        try {
+            await vscu.showDataPluginInVSCode(dataPlugin);
+            return dataPlugin;
+        } catch (e) {
+            if (e instanceof Error) {
+                void vscode.window.showErrorMessage(e.message);
             }
-        } else {
-            void vscode.window.showErrorMessage('The file extension could not be determined.');
-            return null;
+            throw e;
         }
     }
 
