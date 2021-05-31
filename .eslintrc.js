@@ -10,6 +10,6 @@ module.exports = {
    rules: {
       'no-console': 'off',
       'import/no-extraneous-dependencies': 'off',
-      'no-void': 'off'
+      'no-void': ['error', { allowAsStatement: true }]
    }
 }
