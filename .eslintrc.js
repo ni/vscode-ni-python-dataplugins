@@ -9,7 +9,7 @@ module.exports = {
    },
    rules: {
       'no-console': 'off',
-      'import/no-extraneous-dependencies': 'off',
+      'import/no-extraneous-dependencies': ['error', {'devDependencies': ['src/test/**/*.ts']}],
       'no-void': ['error', { allowAsStatement: true }]
    }
 }
