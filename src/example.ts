@@ -1,26 +1,29 @@
 import * as fileutils from './file-utils';
-export class Example {
-   private _folder: string;
-   private _name: string;
 
-   public get folder() {
-      return this._folder;
-   }
+class Example {
+    private readonly _folder: string;
+    private readonly _name: string;
 
-   public get name() {
-      return this._name;
-   }
+    public constructor(folder: string, name: string) {
+        this._folder = folder;
+        this._name = name;
+    }
 
-   public getScriptPath() {
-      return `${this._folder}\\${this._name}\\${this._name}.py`;
-   }
+    public get folder(): string {
+        return this._folder;
+    }
 
-   constructor(folder: string, name: string) {
-      this._folder = folder;
-      this._name = name;
-   }
+    public get name(): string {
+        return this._name;
+    }
 
-   public async getDetails(): Promise<string> {
-      return (await fileutils.readFirstLineOfFile(this.getScriptPath())).substring(2);
-   }
+    public getScriptPath(): string {
+        return `${this._folder}\\${this._name}\\${this._name}.py`;
+    }
+
+    public async getDetails(): Promise<string> {
+        return (await fileutils.readFirstLineOfFile(this.getScriptPath())).substring(2);
+    }
 }
+
+export default Example;
