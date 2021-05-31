@@ -1,0 +1,8 @@
+node_modules/
+out/
+src/test/e2e/vscode-extension-tester.*
+src/test/e2e/ni.*
+test-resources/
+**/*d.ts
+.eslintrc.js
+.vscode-test
