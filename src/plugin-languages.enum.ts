@@ -1,3 +1,5 @@
-export enum Languages {
-   Python = 'Python'
+enum Languages {
+    Python = 'Python'
 }
+
+export default Languages;

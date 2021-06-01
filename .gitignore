@@ -2,6 +2,8 @@ node_modules
 out
 *.code-workspace
 .vscode-test
+src/test/e2e/vscode-extension-tester.*
+src/test/e2e/ni.*
 test-resources/**
 *.vsix
 __pycache__
