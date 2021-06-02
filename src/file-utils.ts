@@ -25,15 +25,6 @@ export function createFolderSync(folder: string): void {
     }
 }
 
-export function getFileExtensionFromFileName(fullPath: string): string | undefined {
-    const splitString: string[] = fullPath.split('.');
-    if (splitString.length === 1) {
-        return;
-    }
-    // eslint-disable-next-line consistent-return
-    return splitString.pop();
-}
-
 export async function readFileExtensionConfig(workspaceDir: string): Promise<string> {
     const filePath: string = path.join(workspaceDir, '.file-extensions');
     if (fs.existsSync(filePath)) {

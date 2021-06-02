@@ -59,7 +59,7 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
         return null;
     }
 
-    const isExample = !quickPickItem.picked;
+    const isExample = !!quickPickItem.example;
 
     // Return DataPlugin from example template
     if (isExample) {
@@ -146,18 +146,21 @@ async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<D
     };
 
     const selectedFiles = await vscode.window.showOpenDialog({ ...openDialogOptions });
-    if (selectedFiles) {
-        const sampleFile = selectedFiles[0];
-        // copy sample file to workspace
+    const sampleFile = selectedFiles?.[0];
+    if (sampleFile) {
         try {
             const sampleFileName = path.basename(sampleFile.fsPath);
             await fs.copy(sampleFile.fsPath, path.join(dataPlugin.folderPath, sampleFileName));
         } catch (e) {
-            void vscode.window.showErrorMessage('Could not copy sample file to workspace.');
+            if (e instanceof Error) {
+                void vscode.window.showErrorMessage(
+                    `Could not copy sample file to workspace: ${e.message}`
+                );
+            }
         }
 
         // determine file extension and store
-        const fileExtension = fileutils.getFileExtensionFromFileName(sampleFile.fsPath);
+        const fileExtension = path.extname(sampleFile.fsPath);
         if (fileExtension) {
             fileutils.storeFileExtensionConfig(
                 path.dirname(dataPlugin.scriptPath),
