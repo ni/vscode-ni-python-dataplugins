@@ -1,65 +1,88 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as config from './config';
 import * as fileutils from './file-utils';
 import * as vscu from './vscode-utils';
 import DataPlugin from './dataplugin';
+import Example from './example';
 import Languages from './plugin-languages.enum';
+import { QuickPickItemWithExample } from './quick-pick-item-with-example';
 
 export async function createDataPlugin(): Promise<DataPlugin | null> {
-    const examples: string[] = vscu.loadExamples();
-    const examplesNames: string[] = examples.map(example => path.basename(example));
+    const examples: Example[] = vscu.loadExamples();
 
-    const scriptName: string | undefined = await vscu.showInputBox(
+    const dataPluginName: string | undefined = await vscu.showInputBox(
         'DataPlugin name: ',
         'Please enter your DataPlugin name'
     );
-    if (!scriptName) {
+    if (!dataPluginName) {
         return null;
     }
 
-    if (fs.existsSync(`${config.dataPluginFolder}\\${scriptName}`)) {
+    if (fs.existsSync(`${config.dataPluginFolder}\\${dataPluginName}`)) {
         await vscode.window.showInformationMessage(
-            `${config.extPrefix} There is already a DataPlugin named "${scriptName}"!`
+            `${config.extPrefix} There is already a DataPlugin named "${dataPluginName}"!`
         );
         return null;
     }
 
-    const pluginQuickPickItems: vscode.QuickPickItem[] = [];
+    const pluginQuickPickItems: QuickPickItemWithExample[] = [];
 
-    for (const item of examplesNames) {
+    pluginQuickPickItems.push({
+        detail: 'Select a sample file to be supported by your DataPlugin.',
+        description: 'Browse files...',
+        label: '$(folder) Start with sample data',
+        picked: true
+    });
+
+    for (const item of examples) {
         pluginQuickPickItems.push({
-            label: item
+            // eslint-disable-next-line no-await-in-loop
+            detail: await item.getDetails(),
+            description: 'Example',
+            label: `$(file-code) ${item.name}`,
+            example: item
         });
     }
 
-    const pluginType: vscode.QuickPickItem | undefined = await vscu.showQuickPick(
-        'Please choose a template to start with',
-        false,
-        false,
-        pluginQuickPickItems
+    const quickPickItem = await vscode.window.showQuickPick<QuickPickItemWithExample>(
+        pluginQuickPickItems,
+        {
+            canPickMany: false,
+            matchOnDescription: false,
+            placeHolder: 'Please choose a template to start with'
+        }
     );
 
-    if (!pluginType) {
+    if (!quickPickItem) {
         return null;
     }
 
-    try {
-        const dataPlugin: DataPlugin = new DataPlugin(
-            scriptName,
-            pluginType.label,
-            Languages.Python
-        );
-        await dataPlugin.pluginIsInitialized();
-        await vscu.showDataPluginInVSCode(dataPlugin);
-        return dataPlugin;
-    } catch (e) {
-        if (e instanceof Error) {
-            await vscode.window.showErrorMessage(e.message);
+    const isExample = !!quickPickItem.example;
+
+    // Return DataPlugin from example template
+    if (isExample) {
+        try {
+            const exampleName: string = quickPickItem.example?.name ?? '';
+            const dataPlugin: DataPlugin = new DataPlugin(
+                dataPluginName,
+                exampleName,
+                Languages.Python
+            );
+            await vscu.showDataPluginInVSCode(dataPlugin);
+            return dataPlugin;
+        } catch (e) {
+            if (e instanceof Error) {
+                void vscode.window.showErrorMessage(e.message);
+            }
+            throw e;
         }
-        throw e;
     }
+
+    // Return DataPlugin from Sample Data File
+    const dataPlugin: DataPlugin = new DataPlugin(dataPluginName, 'hello_world', Languages.Python);
+    return createDataPluginFromSampleFile(dataPlugin);
 }
 
 export async function exportPluginFromContextMenu(uri: vscode.Uri): Promise<void> {
@@ -112,4 +135,50 @@ export async function exportPluginFromContextMenu(uri: vscode.Uri): Promise<void
 
     // Store selected extensions so we don't have to ask again
     fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
+}
+
+async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<DataPlugin | null> {
+    const openDialogOptions = {
+        canSelectFiles: true,
+        canSelectFolders: false,
+        canSelectMany: false,
+        title: 'Choose your sample data file'
+    };
+
+    const selectedFiles = await vscode.window.showOpenDialog({ ...openDialogOptions });
+    const sampleFile = selectedFiles?.[0];
+    if (sampleFile) {
+        try {
+            const sampleFileName = path.basename(sampleFile.fsPath);
+            await fs.copy(sampleFile.fsPath, path.join(dataPlugin.folderPath, sampleFileName));
+        } catch (e) {
+            if (e instanceof Error) {
+                void vscode.window.showErrorMessage(
+                    `Could not copy sample file to workspace: ${e.message}`
+                );
+            }
+        }
+
+        // determine file extension and store
+        const fileExtension = path.extname(sampleFile.fsPath);
+        if (fileExtension) {
+            fileutils.storeFileExtensionConfig(
+                path.dirname(dataPlugin.scriptPath),
+                `*.${fileExtension}`
+            );
+        }
+
+        // create DataPlugin
+        try {
+            await vscu.showDataPluginInVSCode(dataPlugin);
+            return dataPlugin;
+        } catch (e) {
+            if (e instanceof Error) {
+                void vscode.window.showErrorMessage(e.message);
+            }
+            throw e;
+        }
+    }
+
+    return null;
 }

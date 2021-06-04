@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as readline from 'readline';
 import UriTemplate from './uri-template';
 
-async function readFirstLineOfFile(filePath: string): Promise<string> {
+export async function readFirstLineOfFile(filePath: string): Promise<string> {
     const rl = readline.createInterface({
         input: fs.createReadStream(filePath)
     });

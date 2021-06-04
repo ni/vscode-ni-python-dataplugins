@@ -45,4 +45,24 @@ describe('Basic UI Tests', () => {
         const item = await section.findItem(randomName);
         assert.notStrictEqual(undefined, item);
     }).timeout(40000);
+
+    it('Should create a new DataPlugin from sample file', async () => {
+        const randomName: string = Guid.create().toString();
+        await new Promise(res => setTimeout(res, 5000)); // wait for loading vscode completely
+        const workbench = new Workbench();
+        await workbench.executeCommand('NI DataPlugins: Create new Python-DataPlugin');
+        await new Promise(res => setTimeout(res, 500));
+
+        const enterDataPluginNameInputBox = await driver.wait(() => new InputBox(), 1000);
+        await enterDataPluginNameInputBox.setText(randomName);
+        await enterDataPluginNameInputBox.confirm();
+        await new Promise(res => setTimeout(res, 5000));
+
+        // Input box allows to start with sample data?
+        const chooseTemplateInput = await driver.wait(() => new InputBox(), 1000);
+        const quickPicks = await chooseTemplateInput.getQuickPicks();
+        const firstItem = quickPicks[0];
+        const firstItemText = await firstItem.getLabel();
+        assert.strictEqual(firstItemText, ' Start with sample data');
+    }).timeout(40000);
 });

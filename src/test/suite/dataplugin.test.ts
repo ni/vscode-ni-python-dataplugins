@@ -1,13 +1,13 @@
-import * as assert from 'assert';
-import * as path from 'path';
-import * as vscode from 'vscode';
 import { after } from 'mocha';
 import { Guid } from 'guid-typescript';
+import * as assert from 'assert';
+import * as vscode from 'vscode';
 import * as config from '../../config';
 import * as vscu from '../../vscode-utils';
-import { ErrorType } from '../../dataplugin-error';
+import Example from '../../example';
 import DataPlugin from '../../dataplugin';
 import Languages from '../../plugin-languages.enum';
+import { ErrorType } from '../../dataplugin-error';
 
 suite('DataPlugin Test Suite', () => {
     const dataPluginsToClean: DataPlugin[] = [];
@@ -37,10 +37,10 @@ suite('DataPlugin Test Suite', () => {
     }).timeout(10000);
 
     test('should be able to create every template as class', async () => {
-        const examples: string[] = vscu.loadExamples();
+        const examples: Example[] = vscu.loadExamples();
         for (const example of examples) {
             const randomName: string = Guid.create().toString();
-            const examplesName: string = path.basename(example);
+            const examplesName: string = example.name;
             const dataPlugin: DataPlugin = new DataPlugin(
                 randomName,
                 examplesName,

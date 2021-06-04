@@ -1,3 +1,4 @@
+# A basic example that shows the loading of npy files
 import os
 import re
 from array import array
