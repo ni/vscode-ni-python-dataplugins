@@ -35,8 +35,13 @@
         "title": "NI DataPlugins: Create new Python-DataPlugin"
       },
       {
-        "command": "nipy.exportPluginFromContextMenu",
+        "command": "nipy.exportPlugin",
         "title": "NI DataPlugins: Export DataPlugin",
+        "category": "NI DataPlugins"
+      },
+      {
+        "command": "nipy.registerPlugin",
+        "title": "NI DataPlugins: Register DataPlugin for Development",
         "category": "NI DataPlugins"
       }
     ],
@@ -53,16 +58,15 @@
       }
     ],
     "menus": {
-      "commandPalette": [
-        {
-          "command": "nipy.exportPluginFromContextMenu",
-          "when": "false"
-        }
-      ],
       "explorer/context": [
         {
           "when": "resourceLangId == python",
-          "command": "nipy.exportPluginFromContextMenu",
+          "command": "nipy.exportPlugin",
+          "group": "NI"
+        }, 
+        {
+          "when": "resourceLangId == python",
+          "command": "nipy.registerPlugin",
           "group": "NI"
         },
         {

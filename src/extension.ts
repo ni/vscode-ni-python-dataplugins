@@ -14,12 +14,18 @@ export function activate(context: vscode.ExtensionContext): void {
             commands.createDataPlugin();
         }
     );
-    const exportPluginFromContextMenuCommand = vscode.commands.registerCommand(
-        'nipy.exportPluginFromContextMenu',
+    const exportPluginCommand = vscode.commands.registerCommand(
+        'nipy.exportPlugin',
         async (uri: vscode.Uri) => {
-            void commands.exportPluginFromContextMenu(uri);
+            void commands.exportPlugin(uri);
+        }
+    );
+    const registerPluginCommand = vscode.commands.registerCommand(
+        'nipy.registerPlugin',
+        async (uri: vscode.Uri) => {
+            void commands.registerPlugin(uri);
         }
     );
 
-    context.subscriptions.push(createDataPluginCommand, exportPluginFromContextMenuCommand);
+    context.subscriptions.push(createDataPluginCommand, exportPluginCommand, registerPluginCommand);
 }

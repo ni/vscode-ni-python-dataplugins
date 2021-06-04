@@ -13,9 +13,9 @@ suite('Commands Test Suite', () => {
         }
     }).timeout(60000);
 
-    test('should be able to run command: nipy.exportPluginFromContextMenu', done => {
+    test('should be able to run command: nipy.exportPlugin', done => {
         try {
-            void vscode.commands.executeCommand('nipy.exportPluginFromContextMenu').then(() => {
+            void vscode.commands.executeCommand('nipy.exportPlugin').then(() => {
                 done();
             });
         } catch (error) {

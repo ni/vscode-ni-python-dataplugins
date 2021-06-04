@@ -14,9 +14,14 @@ export async function disposeDataPlugin(dataPlugin: DataPlugin): Promise<void> {
 export async function exportDataPlugin(
     scriptPath: string,
     fileExtensions: string,
-    exportPath: string
+    exportPath: string,
+    promptInfoMessage = true
 ): Promise<void> {
     await fileutils.writeUriFile(scriptPath, fileExtensions, exportPath);
+
+    if (!promptInfoMessage) {
+        return;
+    }
 
     const result = await vscode.window.showInformationMessage(
         `${config.extPrefix} Sucessfully exported DataPlugin`,
