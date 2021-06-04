@@ -4,6 +4,7 @@ out
 .vscode-test
 src/test/e2e/vscode-extension-tester.*
 src/test/e2e/ni.*
+src/test/e2e/.obsolete
 test-resources/**
 *.vsix
 __pycache__

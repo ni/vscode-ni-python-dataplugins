@@ -25,4 +25,10 @@ suite('File-Utils Test Suite', () => {
         fileExtensions = await fileutils.readFileExtensionConfig(__dirname);
         assert.ok(fileExtensions === '');
     }).timeout(10000);
+
+    test('should correctly return the first line of a file', async () => {
+        const filePath: string = path.join(__dirname, '../../../', 'package.json');
+        const firstLine: string = await fileutils.readFirstLineOfFile(filePath);
+        assert.ok(firstLine === '{');
+    }).timeout(10000);
 });

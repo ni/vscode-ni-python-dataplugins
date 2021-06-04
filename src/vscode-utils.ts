@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import * as config from './config';
 import * as fileutils from './file-utils';
 import DataPlugin from './dataplugin';
+import Example from './example';
 
 export async function disposeDataPlugin(dataPlugin: DataPlugin): Promise<void> {
     const pluginFolder: string = dataPlugin.folderPath;
@@ -36,17 +37,16 @@ export async function exportDataPlugin(
     }
 }
 
-export function loadExamples(): string[] {
-    const exampleFolder = path.resolve(`${path.dirname(__dirname)}\\examples`);
-
+export function loadExamples(): Example[] {
+    const examplesFolder = path.resolve(`${path.dirname(__dirname)}\\examples`);
     const examplesNames: string[] = fs
-        .readdirSync(exampleFolder)
-        .filter(file => fs.statSync(path.join(exampleFolder, file)).isDirectory());
-    const examplesPaths: string[] = [];
-    for (let i = 0; i < examplesNames.length; i++) {
-        examplesPaths[i] = `${exampleFolder}\\${examplesNames[i]}`;
-    }
-    return examplesPaths;
+        .readdirSync(examplesFolder)
+        .filter(folder => fs.statSync(path.join(examplesFolder, folder)).isDirectory());
+    const examples = examplesNames.map(name => {
+        return new Example(examplesFolder, name);
+    });
+
+    return examples;
 }
 
 export function isDocumentEmpty(): boolean {

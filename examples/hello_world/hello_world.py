@@ -1,3 +1,4 @@
+# A simple "hello world" example for CSV-like files
 import os
 from pathlib import Path
 
