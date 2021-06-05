@@ -1,6 +1,8 @@
-import * as vscode from 'vscode';
 import * as fs from 'fs-extra';
+import * as open from 'open';
+import * as os from 'os';
 import * as path from 'path';
+import * as vscode from 'vscode';
 import * as config from './config';
 import * as fileutils from './file-utils';
 import * as vscu from './vscode-utils';
@@ -85,27 +87,12 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
     return createDataPluginFromSampleFile(dataPlugin);
 }
 
-export async function exportPluginFromContextMenu(uri: vscode.Uri): Promise<void> {
+export async function exportPlugin(uri: vscode.Uri): Promise<void> {
     const scriptPath: string = uri.fsPath;
     const pluginName: string = path.basename(path.dirname(scriptPath));
-
-    let extensions: string | undefined;
-
-    try {
-        extensions = await fileutils.readFileExtensionConfig(path.dirname(scriptPath));
-    } catch (e) {
-        extensions = undefined;
-    }
-
+    const extensions = await readOrRequestFileExtensionConfig(uri);
     if (!extensions) {
-        extensions = await vscu.showInputBox(
-            'Please enter the file extensions your DataPlugin can handle in the right syntax: ',
-            '*.tdm; *.xls ...'
-        );
-
-        if (!extensions) {
-            return;
-        }
+        return;
     }
 
     let exportPath: string = config.exportPath || '';
@@ -133,6 +120,35 @@ export async function exportPluginFromContextMenu(uri: vscode.Uri): Promise<void
 
     await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`);
 
+    // Store selected extensions so we don't have to ask again
+    fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
+}
+
+export async function registerPlugin(uri: vscode.Uri): Promise<void> {
+    const scriptPath: string = uri.fsPath;
+    const pluginName: string = path.basename(path.dirname(scriptPath));
+    const exportPath: string = path.join(os.tmpdir(), `${pluginName}.uri`);
+    const extensions = await readOrRequestFileExtensionConfig(uri);
+    if (!extensions) {
+        return;
+    }
+
+    await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`, false);
+    const process = await open(exportPath);
+    process.on('exit', rc => {
+        const foundUsiReg = rc === 0;
+        if (!foundUsiReg) {
+            const result = vscode.window.showErrorMessage(
+                `UsiReg is not associated with the file extension *.uri. The DataPlugin has been exported to: ${exportPath}`,
+                'Open in Explorer'
+            );
+            void result.then(r => {
+                if (r === 'Open in Explorer') {
+                    void open(path.dirname(exportPath));
+                }
+            });
+        }
+    });
     // Store selected extensions so we don't have to ask again
     fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
 }
@@ -181,4 +197,27 @@ async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<D
     }
 
     return null;
+}
+
+async function readOrRequestFileExtensionConfig(uri: vscode.Uri): Promise<string> {
+    let extensions: string | undefined;
+
+    try {
+        extensions = await fileutils.readFileExtensionConfig(path.dirname(uri.fsPath));
+    } catch (e) {
+        extensions = undefined;
+    }
+
+    if (!extensions) {
+        extensions = await vscu.showInputBox(
+            'Please enter the file extensions your DataPlugin can handle in the right syntax: ',
+            '*.tdm; *.xls ...'
+        );
+
+        if (!extensions) {
+            return '';
+        }
+    }
+
+    return extensions;
 }
