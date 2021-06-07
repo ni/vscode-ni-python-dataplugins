@@ -16,9 +16,10 @@ export async function exportDataPlugin(
     scriptPath: string,
     fileExtensions: string,
     exportPath: string,
+    embedScript = false,
     promptInfoMessage = true
 ): Promise<void> {
-    await fileutils.writeUriFile(scriptPath, fileExtensions, exportPath);
+    await fileutils.writeUriFile(scriptPath, fileExtensions, exportPath, embedScript);
 
     if (!promptInfoMessage) {
         return;
@@ -29,6 +30,7 @@ export async function exportDataPlugin(
         'Open in Explorer',
         'Register DataPlugin'
     );
+
     if (result === 'Open in Explorer') {
         await open(path.dirname(exportPath));
     }

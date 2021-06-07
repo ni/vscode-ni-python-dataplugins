@@ -31,4 +31,36 @@ suite('File-Utils Test Suite', () => {
         const firstLine: string = await fileutils.readFirstLineOfFile(filePath);
         assert.ok(firstLine === '{');
     }).timeout(10000);
+
+    test('should correctly reference script and not embed it', async () => {
+        const testScript: string = path.join(__dirname, 'test.py');
+        const outputUri = path.join(__dirname, 'output.uri');
+
+        if (fs.existsSync(testScript)) {
+            fs.unlinkSync(testScript);
+        }
+
+        await fs.writeFile(testScript, 'class Plugin:');
+        await fileutils.writeUriFile(testScript, '*.csv', outputUri);
+
+        const fileContent = fs.readFileSync(outputUri, { encoding: 'utf8' });
+        assert.ok(fileContent.includes('CDATA[class Plugin:]') === false);
+        assert.ok(fileContent.includes('1698750118') === false);
+    }).timeout(10000);
+
+    test('should correctly embed script in uri file', async () => {
+        const testScript: string = path.join(__dirname, 'test.py');
+        const outputUri = path.join(__dirname, 'output.uri');
+
+        if (fs.existsSync(testScript)) {
+            fs.unlinkSync(testScript);
+        }
+
+        await fs.writeFile(testScript, 'class Plugin:');
+        await fileutils.writeUriFile(testScript, '*.csv', outputUri, true);
+
+        const fileContent = fs.readFileSync(outputUri, { encoding: 'utf8' });
+        assert.ok(fileContent.includes('CDATA[class Plugin:]'));
+        assert.ok(fileContent.includes('1698750118'));
+    }).timeout(10000);
 });
