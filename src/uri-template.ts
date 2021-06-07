@@ -25,27 +25,26 @@ export class UriTemplate {
             `<description>${dataPluginName}</description>` +
             '<filepath>uspTdmMarshaller.dll</filepath>' +
             '<exportsupported>NO</exportsupported>' +
-            '<caching>YES</caching>';
+            '<caching>YES</caching>' +
+            '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>' +
+            '<querysupported>0</querysupported>' +
+            '<fastloadsupported>0</fastloadsupported>' +
+            `<filefilters extension="${fileExtensions}"><description>${dataPluginName} Files (${fileExtensions})</description></filefilters>`;
 
         if (typeof pythonScript === 'string') {
             this._templateString +=
-                `<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath><script>${pythonScript}</script>]]></easypluginparam>` +
-                '<querysupported>0</querysupported>' +
-                '<fastloadsupported>0</fastloadsupported>' +
-                `<filefilters extension="${fileExtensions}"><description>${dataPluginName} Files (${fileExtensions})</description></filefilters>` +
-                '<platform>x64</platform></storetype></usireginfo>';
+                `<script>${pythonScript}</script>]]></easypluginparam>` +
+                '<platform>x64</platform></storetype>';
         } else {
             const pyScriptName: string = path.basename(pythonScript.fullPath);
             this._templateString +=
-                `<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath><script>@USIPLUGINDIREX@DataPlugins\\${dataPluginName}\\${pyScriptName}</script>]]></easypluginparam>` +
-                '<querysupported>0</querysupported>' +
-                '<fastloadsupported>0</fastloadsupported>' +
-                `<filefilters extension="${fileExtensions}"><description>${dataPluginName} Files (${fileExtensions})</description></filefilters>` +
+                `<script>@USIPLUGINDIREX@DataPlugins\\${dataPluginName}\\${pyScriptName}</script>]]></easypluginparam>` +
                 '<platform>x64</platform></storetype>' +
                 `<files><file name="${dataPluginName}"><![CDATA[${pythonScript.content}]]>` +
-                `<checksum>${pythonScript.checksum}</checksum></file></files>` +
-                '</usireginfo>';
+                `<checksum>${pythonScript.checksum}</checksum></file></files>`;
         }
+
+        this._templateString += '</usireginfo>';
     }
 
     /**
