@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as readline from 'readline';
-import UriTemplate from './uri-template';
+import { UriTemplate, PythonScript } from './uri-template';
 
 export async function readFirstLineOfFile(filePath: string): Promise<string> {
     const rl = readline.createInterface({
@@ -48,6 +48,10 @@ export async function writeUriFile(
     exportPath: string
 ): Promise<void> {
     const dirName = path.basename(path.dirname(scriptPath));
-    const uriTemplate = new UriTemplate(`${dirName}`, scriptPath, fileExtensions);
+    const pyScript: PythonScript = {
+        content: 'asdasd',
+        checksum: 123
+    };
+    const uriTemplate = new UriTemplate(`${dirName}`, pyScript, fileExtensions);
     await fs.writeFile(exportPath, uriTemplate.templateString, { flag: 'w' });
 }
