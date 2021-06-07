@@ -23,13 +23,19 @@ NI DataPlugins: Create new Python-DataPlugin
 
 ![Creating a new DataPlugin](./docs/images/create-new-dataplugin.gif)
 
-**Step 3.** Export the DataPlugin. Right-click the \*.py file you want to export. Choose __NI DataPlugins: Export DataPlugin__. Create a file `.file-extensions` in the root directory of your project and list all file extensions that you want your DataPlugin to support. If no list is defined, you will be prompted to provide a list of file extensions when you export your DataPlugin.
+**Step 3.** Export the DataPlugin. Right-click the \*.py file you want to export. 
+- __NI DataPlugins: Export DataPlugin__: This option is recommended when you want to publish your DataPlugin and make it available to other people. Your code will be embedded in the exchange file.
+- __NI DataPlugins: Register DataPlugin for Development__: This option registers the DataPlugin inplace and can only be used on your development machine. You will be able to test your code changes directly in DIAdem, LabVIEW or SystemLink.
 
 ## Advanced Settings
 
 ### Custom Template
 
 Start writing your DataPlugin with your own custom template. Simply add your template to the `examples` directory. You find the example folder at `$HOME/.vscode/extensions/vscode-ni-python-dataplugins` under Mac and Linux or at `%USERPROFILE%\.vscode\extensions` folder under Windows.
+
+### .file-extensions
+
+Create a file `.file-extensions` in the root directory of your project and list all file extensions that you want your DataPlugin to support. If no list is defined, you will be prompted to provide a list of file extensions when you export your DataPlugin.
 
 ### Export Path
 
