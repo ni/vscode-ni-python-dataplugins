@@ -180,7 +180,7 @@ async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<D
         if (fileExtension) {
             fileutils.storeFileExtensionConfig(
                 path.dirname(dataPlugin.scriptPath),
-                `*.${fileExtension}`
+                `*${fileExtension}`
             );
         }
 
