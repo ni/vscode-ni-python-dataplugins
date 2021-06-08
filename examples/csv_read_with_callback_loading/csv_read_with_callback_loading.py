@@ -14,7 +14,7 @@ class Plugin:
     def read_store(self, parameter):
         file_path = os.path.realpath(parameter["file"])
 
-        with open(file_path, newline="", encoding="utf8") as csvfile:
+        with open(file_path, newline="", encoding="utf-8") as csvfile:
             tab_delimiter = "\t"
             # skip the first 4 lines
             # for i in range(4):

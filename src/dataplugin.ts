@@ -81,7 +81,7 @@ class DataPlugin {
      */
     public replaceStringInScript(substr: string, newSubStr: string): void {
         const scriptPath = this.scriptPath;
-        let content: string = fs.readFileSync(scriptPath, { encoding: 'utf8' });
+        let content = fs.readFileSync(scriptPath, { encoding: 'utf8' });
         content = content.replace(substr, newSubStr);
         fs.writeFileSync(scriptPath, content);
     }
