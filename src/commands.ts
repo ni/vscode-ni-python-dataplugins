@@ -118,7 +118,7 @@ export async function exportPlugin(uri: vscode.Uri): Promise<void> {
         exportPath = path.join(exportPath, `${pluginName}.uri`);
     }
 
-    await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`);
+    await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`, true);
 
     // Store selected extensions so we don't have to ask again
     fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
@@ -133,7 +133,7 @@ export async function registerPlugin(uri: vscode.Uri): Promise<void> {
         return;
     }
 
-    await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`, false);
+    await vscu.exportDataPlugin(scriptPath, extensions.toString(), `${exportPath}`);
     const process = await open(exportPath);
     process.on('exit', rc => {
         const foundUsiReg = rc === 0;

@@ -1,7 +1,8 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as readline from 'readline';
-import UriTemplate from './uri-template';
+import CRC from './crc';
+import { UriTemplate, PythonScript } from './uri-template';
 
 export async function readFirstLineOfFile(filePath: string): Promise<string> {
     const rl = readline.createInterface({
@@ -42,12 +43,32 @@ export function storeFileExtensionConfig(workspaceDir: string, fileExtensions: s
     }
 }
 
+/**
+ * @param scriptPath full file path to script that is exported
+ * @param fileExtensions supported file extensions of the DataPlugin
+ * @param exportPath full path to
+ * @param embedScript embed the script inside uri file
+ */
 export async function writeUriFile(
     scriptPath: string,
     fileExtensions: string,
-    exportPath: string
+    exportPath: string,
+    embedScript = false
 ): Promise<void> {
-    const dirName = path.basename(path.dirname(scriptPath));
-    const uriTemplate = new UriTemplate(`${dirName}`, scriptPath, fileExtensions);
+    const pluginName = path.basename(path.dirname(scriptPath));
+
+    let uriTemplate: UriTemplate;
+    if (embedScript) {
+        const fileContent = fs.readFileSync(scriptPath, { encoding: 'utf8' });
+        const pyScript: PythonScript = {
+            content: fileContent,
+            checksum: CRC.crc32(fileContent),
+            fullPath: scriptPath
+        };
+        uriTemplate = new UriTemplate(pluginName, pyScript, fileExtensions);
+    } else {
+        uriTemplate = new UriTemplate(pluginName, scriptPath, fileExtensions);
+    }
+
     await fs.writeFile(exportPath, uriTemplate.templateString, { flag: 'w' });
 }
