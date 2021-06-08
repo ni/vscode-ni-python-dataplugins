@@ -58,6 +58,16 @@
       }
     ],
     "menus": {
+      "commandPalette": [
+        {
+          "command": "nipy.exportPlugin",
+          "when": "false"
+        },
+        {
+          "command": "nipy.registerPlugin",
+          "when": "false"
+        }
+      ],
       "explorer/context": [
         {
           "when": "resourceLangId == python",
