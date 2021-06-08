@@ -1,6 +1,8 @@
 import { after } from 'mocha';
 import { Guid } from 'guid-typescript';
 import * as assert from 'assert';
+import * as fs from 'fs-extra';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import * as config from '../../config';
 import * as vscu from '../../vscode-utils';
@@ -58,6 +60,28 @@ suite('DataPlugin Test Suite', () => {
                     `${config.dataPluginFolder}\\${dataPlugin.name}\\${examplesName}.py`
             );
         }
+    }).timeout(10000);
+
+    test('should correctly rename the main DataPlugin script', async () => {
+        const randomName: string = Guid.create().toString();
+        const dataPlugin: DataPlugin = new DataPlugin(randomName, 'hello_world', Languages.Python);
+        await dataPlugin.pluginIsInitialized();
+        const originalScriptPath = dataPlugin.scriptPath;
+        dataPlugin.renameDataPluginScript('new_name');
+        assert.notStrictEqual(originalScriptPath, dataPlugin.scriptPath);
+        assert.strictEqual(path.dirname(originalScriptPath), path.dirname(dataPlugin.scriptPath));
+        assert.strictEqual(path.basename(dataPlugin.scriptPath), 'new_name.py');
+    }).timeout(10000);
+
+    test('should correctly replace a string in the main DataPlugin scrupt', async () => {
+        const randomName: string = Guid.create().toString();
+        const dataPlugin: DataPlugin = new DataPlugin(randomName, 'hello_world', Languages.Python);
+        await dataPlugin.pluginIsInitialized();
+        dataPlugin.replaceStringInScript('Example.csv', 'new_name');
+        const scriptPath = dataPlugin.scriptPath;
+        const content = fs.readFileSync(scriptPath, { encoding: 'utf8' });
+        assert.ok(content.includes('new_name'));
+        assert.ok(content.includes('Example.csv') === false);
     }).timeout(10000);
 
     test('should throw FileExistsError', async () => {

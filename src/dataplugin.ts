@@ -65,6 +65,27 @@ class DataPlugin {
         }
     }
 
+    /**
+     * @param newName New name of script file. Provide name without file extension
+     */
+    public renameDataPluginScript(newName: string): void {
+        const scriptPath = this.scriptPath;
+        const newScriptPath = path.join(path.dirname(scriptPath), `${newName}.py`);
+        fs.renameSync(scriptPath, newScriptPath);
+        this.scriptPath = newScriptPath;
+    }
+
+    /**
+     * @param substr A String that is to be replaced by newSubstr
+     * @param newSubStr Replacement string
+     */
+    public replaceStringInScript(substr: string, newSubStr: string): void {
+        const scriptPath = this.scriptPath;
+        let content: string = fs.readFileSync(scriptPath, { encoding: 'utf8' });
+        content = content.replace(substr, newSubStr);
+        fs.writeFileSync(scriptPath, content);
+    }
+
     public async createMainPy(): Promise<void> {
         try {
             const extensionsFile = '.file-extensions';

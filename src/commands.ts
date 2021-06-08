@@ -83,8 +83,7 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
     }
 
     // Return DataPlugin from Sample Data File
-    const dataPlugin: DataPlugin = new DataPlugin(dataPluginName, 'hello_world', Languages.Python);
-    return createDataPluginFromSampleFile(dataPlugin);
+    return createDataPluginFromSampleFile(dataPluginName);
 }
 
 export async function exportPlugin(uri: vscode.Uri): Promise<void> {
@@ -153,7 +152,8 @@ export async function registerPlugin(uri: vscode.Uri): Promise<void> {
     fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
 }
 
-async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<DataPlugin | null> {
+async function createDataPluginFromSampleFile(dataPluginName: string): Promise<DataPlugin | null> {
+    const dataPlugin: DataPlugin = new DataPlugin(dataPluginName, 'hello_world', Languages.Python);
     const openDialogOptions = {
         canSelectFiles: true,
         canSelectFolders: false,
@@ -184,17 +184,10 @@ async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<D
             );
         }
 
-        // manipulate example script
+        // manipulate script
         try {
-            const scriptPath = dataPlugin.scriptPath;
-            let content: string = fs.readFileSync(scriptPath, { encoding: 'utf8' });
-            content = content.replace('Example.csv', sampleFileName);
-
-            fs.writeFileSync(scriptPath, content);
-
-            const newScriptPath = path.join(path.dirname(scriptPath), `${dataPlugin.name}.py`);
-            fs.renameSync(scriptPath, newScriptPath);
-            dataPlugin.scriptPath = newScriptPath;
+            dataPlugin.replaceStringInScript('Example.csv', sampleFileName);
+            dataPlugin.renameDataPluginScript(dataPlugin.name);
         } catch (e) {
             if (e instanceof Error) {
                 void vscode.window.showErrorMessage(e.message);
