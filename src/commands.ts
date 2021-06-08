@@ -164,8 +164,8 @@ async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<D
     const selectedFiles = await vscode.window.showOpenDialog({ ...openDialogOptions });
     const sampleFile = selectedFiles?.[0];
     if (sampleFile) {
+        const sampleFileName = path.basename(sampleFile.fsPath);
         try {
-            const sampleFileName = path.basename(sampleFile.fsPath);
             await fs.copy(sampleFile.fsPath, path.join(dataPlugin.folderPath, sampleFileName));
         } catch (e) {
             if (e instanceof Error) {
@@ -182,6 +182,24 @@ async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<D
                 path.dirname(dataPlugin.scriptPath),
                 `*${fileExtension}`
             );
+        }
+
+        // manipulate example script
+        try {
+            const scriptPath = dataPlugin.scriptPath;
+            let content: string = fs.readFileSync(scriptPath, { encoding: 'utf8' });
+            content = content.replace('Example.csv', sampleFileName);
+
+            fs.writeFileSync(scriptPath, content);
+
+            const newScriptPath = path.join(path.dirname(scriptPath), `${dataPlugin.name}.py`);
+            fs.renameSync(scriptPath, newScriptPath);
+            dataPlugin.scriptPath = newScriptPath;
+        } catch (e) {
+            if (e instanceof Error) {
+                void vscode.window.showErrorMessage(e.message);
+            }
+            throw e;
         }
 
         // create DataPlugin
