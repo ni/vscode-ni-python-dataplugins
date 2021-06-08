@@ -15,8 +15,11 @@ class Plugin:
     def read_store(self, parameter):
         file_path = os.path.realpath(parameter["file"])
 
-        with open(file_path, newline="") as csvfile:
+        with open(file_path, newline="", encoding="utf8") as csvfile:
             tab_delimiter = "\t"
+            # skip the first 4 lines
+            # for i in range(4):
+               #  csvfile.readline()
             reader = csv.DictReader(csvfile, delimiter=tab_delimiter)
             self.data = list(reader)
             self.channelNames = reader.fieldnames
