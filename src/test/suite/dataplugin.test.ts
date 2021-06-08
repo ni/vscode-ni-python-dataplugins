@@ -73,7 +73,7 @@ suite('DataPlugin Test Suite', () => {
         assert.strictEqual(path.basename(dataPlugin.scriptPath), 'new_name.py');
     }).timeout(10000);
 
-    test('should correctly replace a string in the main DataPlugin scrupt', async () => {
+    test('should correctly replace a string in the main DataPlugin script', async () => {
         const randomName: string = Guid.create().toString();
         const dataPlugin: DataPlugin = new DataPlugin(randomName, 'hello_world', Languages.Python);
         await dataPlugin.pluginIsInitialized();
