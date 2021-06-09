@@ -18,12 +18,13 @@ suite('URI-Template Test Suite', () => {
             '<filepath>uspTdmMarshaller.dll</filepath>' +
             '<exportsupported>NO</exportsupported>' +
             '<caching>YES</caching>' +
-            '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>' +
             '<querysupported>0</querysupported>' +
             '<fastloadsupported>0</fastloadsupported>' +
+            '<platform>x64</platform>' +
             `<filefilters extension="${fileExtensions}"><description>${dataPluginName} Files (${fileExtensions})</description></filefilters>` +
+            '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>' +
             `<script>${scriptPath}</script>]]></easypluginparam>` +
-            '<platform>x64</platform></storetype></usireginfo>';
+            '</storetype></usireginfo>';
 
         const uriTemplate = new UriTemplate('MyDataPlugin', 'C:/temp/script.py', '*.csv');
         const templateString = uriTemplate.templateString;
@@ -48,14 +49,14 @@ suite('URI-Template Test Suite', () => {
             '<filepath>uspTdmMarshaller.dll</filepath>' +
             '<exportsupported>NO</exportsupported>' +
             '<caching>YES</caching>' +
-            '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>' +
             '<querysupported>0</querysupported>' +
             '<fastloadsupported>0</fastloadsupported>' +
+            '<platform>x64</platform>' +
             `<filefilters extension="${fileExtensions}"><description>${dataPluginName} Files (${fileExtensions})</description></filefilters>` +
+            '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>' +
             `<script>@USIPLUGINDIREX@DataPlugins\\${dataPluginName}\\script.py</script>]]></easypluginparam>` +
-            '<platform>x64</platform></storetype>' +
-            `<files><file name="${dataPluginName}"><![CDATA[${pythonScript.content}]]>` +
-            `<checksum>${pythonScript.checksum}</checksum></file></files></usireginfo>`;
+            `<files><file name="script.py"><![CDATA[${pythonScript.content}]]>` +
+            `<checksum>${pythonScript.checksum}</checksum></file></files></storetype></usireginfo>`;
 
         const uriTemplate = new UriTemplate('MyDataPlugin', pythonScript, '*.csv');
         const templateString = uriTemplate.templateString;
