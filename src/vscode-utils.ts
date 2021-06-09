@@ -58,6 +58,23 @@ export function isDocumentEmpty(): boolean {
     return !vscode.window.activeTextEditor?.document.getText.toString();
 }
 
+export function isValidFileExtensionInput(input: string): boolean {
+    const regExSingleExtension = new RegExp(/^\*\.[a-zA-Z]*(;)*/gm); // *.csv || *.csv;
+    const regExMultipleExtensions = new RegExp(/^\*\.[a-zA-Z]*(;)(\s)?(\*\.[a-zA-Z]*(;)*)*/gm); // *.csv;*.txt || *.csv;*.txt; || *.csv; *.txt;
+
+    const matchSingleExtension = input?.match(regExSingleExtension);
+    const matchMultipleExtensions = input?.match(regExMultipleExtensions);
+
+    let matchArray = matchSingleExtension;
+    if (matchMultipleExtensions) {
+        matchArray = matchMultipleExtensions;
+    }
+
+    const isFullMatch = matchArray?.join().length === input?.length;
+    const isValidInput = !!matchArray && isFullMatch;
+    return isValidInput;
+}
+
 export async function openDocumentAndShow(docPath: string): Promise<vscode.TextEditor> {
     const textDocument = await vscode.workspace.openTextDocument(docPath);
     return vscode.window.showTextDocument(textDocument);

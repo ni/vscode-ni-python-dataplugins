@@ -226,13 +226,22 @@ async function readOrRequestFileExtensionConfig(uri: vscode.Uri): Promise<string
     }
 
     if (!extensions) {
-        extensions = await vscu.showInputBox(
-            'Please enter the file extensions your DataPlugin can handle in the right syntax: ',
-            '*.tdm; *.xls ...'
-        );
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            // eslint-disable-next-line no-await-in-loop
+            extensions = await vscu.showInputBox(
+                'Please enter the file extensions your DataPlugin can handle in the right syntax: ',
+                '*.tdm; *.xls ...'
+            );
 
-        if (!extensions) {
-            return '';
+            if (!extensions) {
+                return '';
+            }
+
+            const isValidInput = vscu.isValidFileExtensionInput(extensions);
+            if (isValidInput) {
+                break;
+            }
         }
     }
 
