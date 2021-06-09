@@ -43,7 +43,7 @@ Use the following __Snippets__ to quickly select one of the supported data types
 - `DataTypeChnInt32`
 - `DataTypeChnInt64`
 
-Use the following __Snippets__ to create most needed method stubs:
+Use the following __Snippets__ to insert the most common stubs:
 
 - `if __name__ == "__main__"`
 - `def read_channel_length`
