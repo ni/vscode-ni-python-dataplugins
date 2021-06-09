@@ -48,7 +48,7 @@
     "keybindings": [
         {
             "command": "nipy.registerPlugin",
-            "key": "ctrl+F5",
+            "key": "ctrl+alt+F5",
             "when": "editorTextFocus"
         }
     ],
