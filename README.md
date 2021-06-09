@@ -30,9 +30,9 @@ NI DataPlugins: Create new Python-DataPlugin
 
 ## Snippets
 
-This extension defines a few helpful __Snippets__ that extend the auto-completion capabilities of VSCode. Start typing and press __Ctrl+Space__ to see a list of suggestions.
+This extension defines a few helpful __Snippets__ that extend the auto-completion capabilities of VSCode. Start typing and press __Ctrl+Space__ to display a list of suggestions.
 
-Use the following __Snippets__ to quickly select one of the supported data types:
+Use the following __Snippets__ to quickly select a supported data type:
 
 - `DataTypeChnFloat32`
 - `DataTypeChnFloat64`
@@ -50,7 +50,7 @@ Use the following __Snippets__ to insert the most common stubs:
 - `def read_channel_values`
 - `def read_store`
 
-Feel free to __contribute__ more helpful __Snippets__ to the project: [snippets/snippets.json](./snippets/snippets.json)
+Feel free to __contribute__ additional __Snippets__ to the project: [snippets/snippets.json](./snippets/snippets.json)
 
 ## Advanced Settings
 
