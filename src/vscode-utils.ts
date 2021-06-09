@@ -54,6 +54,16 @@ export function loadExamples(): Example[] {
     return examples;
 }
 
+export function getOpenPythonScript(): vscode.Uri | undefined {
+    const uri = vscode.window.activeTextEditor?.document.uri;
+    const isPython = path.extname(uri?.fsPath ?? '') === '.py';
+    if (uri && isPython) {
+        return uri;
+    }
+
+    return undefined;
+}
+
 export function isDocumentEmpty(): boolean {
     return !vscode.window.activeTextEditor?.document.getText.toString();
 }
