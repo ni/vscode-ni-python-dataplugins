@@ -26,25 +26,23 @@ export class UriTemplate {
             '<filepath>uspTdmMarshaller.dll</filepath>' +
             '<exportsupported>NO</exportsupported>' +
             '<caching>YES</caching>' +
-            '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>' +
             '<querysupported>0</querysupported>' +
             '<fastloadsupported>0</fastloadsupported>' +
-            `<filefilters extension="${fileExtensions}"><description>${dataPluginName} Files (${fileExtensions})</description></filefilters>`;
+            '<platform>x64</platform>' +
+            `<filefilters extension="${fileExtensions}"><description>${dataPluginName} Files (${fileExtensions})</description></filefilters>` +
+            '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>';
 
         if (typeof pythonScript === 'string') {
-            this._templateString +=
-                `<script>${pythonScript}</script>]]></easypluginparam>` +
-                '<platform>x64</platform></storetype>';
+            this._templateString += `<script>${pythonScript}</script>]]></easypluginparam>`;
         } else {
             const pyScriptName: string = path.basename(pythonScript.fullPath);
             this._templateString +=
                 `<script>@USIPLUGINDIREX@DataPlugins\\${dataPluginName}\\${pyScriptName}</script>]]></easypluginparam>` +
-                '<platform>x64</platform></storetype>' +
-                `<files><file name="${dataPluginName}"><![CDATA[${pythonScript.content}]]>` +
+                `<files><file name="${pyScriptName}"><![CDATA[${pythonScript.content}]]>` +
                 `<checksum>${pythonScript.checksum}</checksum></file></files>`;
         }
 
-        this._templateString += '</usireginfo>';
+        this._templateString += '</storetype></usireginfo>';
     }
 
     /**
