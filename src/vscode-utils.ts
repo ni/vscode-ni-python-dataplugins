@@ -12,16 +12,19 @@ export async function disposeDataPlugin(dataPlugin: DataPlugin): Promise<void> {
     void fs.remove(pluginFolder);
 }
 
+interface ExportOptions {
+    embedScript?: boolean;
+    promptInfoMessage?: boolean;
+}
 export async function exportDataPlugin(
     scriptPath: string,
     fileExtensions: string,
     exportPath: string,
-    embedScript = false,
-    promptInfoMessage = true
+    options: ExportOptions
 ): Promise<void> {
-    await fileutils.writeUriFile(scriptPath, fileExtensions, exportPath, embedScript);
+    await fileutils.writeUriFile(scriptPath, fileExtensions, exportPath, options.embedScript);
 
-    if (!promptInfoMessage) {
+    if (!options.promptInfoMessage) {
         return;
     }
 
