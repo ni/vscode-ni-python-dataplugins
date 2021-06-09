@@ -45,7 +45,7 @@ export function loadExamples(): Example[] {
         .readdirSync(examplesFolder)
         .filter(folder => fs.statSync(path.join(examplesFolder, folder)).isDirectory());
     const examples = examplesNames.map(name => {
-        return new Example(examplesFolder, name);
+        return new Example(path.join(examplesFolder, name), name);
     });
 
     return examples;

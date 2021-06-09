@@ -22,4 +22,14 @@ suite('Commands Test Suite', () => {
             done(new Error(error));
         }
     }).timeout(60000);
+
+    test('should be able to run command: nipy.registerPlugin', done => {
+        try {
+            void vscode.commands.executeCommand('nipy.registerPlugin').then(() => {
+                done();
+            });
+        } catch (error) {
+            done(new Error(error));
+        }
+    }).timeout(60000);
 });

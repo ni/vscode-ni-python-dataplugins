@@ -83,8 +83,7 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
     }
 
     // Return DataPlugin from Sample Data File
-    const dataPlugin: DataPlugin = new DataPlugin(dataPluginName, 'hello_world', Languages.Python);
-    return createDataPluginFromSampleFile(dataPlugin);
+    return createDataPluginFromSampleFile(dataPluginName);
 }
 
 export async function exportPlugin(uri: vscode.Uri): Promise<void> {
@@ -153,7 +152,8 @@ export async function registerPlugin(uri: vscode.Uri): Promise<void> {
     fileutils.storeFileExtensionConfig(path.dirname(scriptPath), extensions);
 }
 
-async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<DataPlugin | null> {
+async function createDataPluginFromSampleFile(dataPluginName: string): Promise<DataPlugin | null> {
+    const dataPlugin: DataPlugin = new DataPlugin(dataPluginName, 'hello_world', Languages.Python);
     const openDialogOptions = {
         canSelectFiles: true,
         canSelectFolders: false,
@@ -164,8 +164,8 @@ async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<D
     const selectedFiles = await vscode.window.showOpenDialog({ ...openDialogOptions });
     const sampleFile = selectedFiles?.[0];
     if (sampleFile) {
+        const sampleFileName = path.basename(sampleFile.fsPath);
         try {
-            const sampleFileName = path.basename(sampleFile.fsPath);
             await fs.copy(sampleFile.fsPath, path.join(dataPlugin.folderPath, sampleFileName));
         } catch (e) {
             if (e instanceof Error) {
@@ -182,6 +182,17 @@ async function createDataPluginFromSampleFile(dataPlugin: DataPlugin): Promise<D
                 path.dirname(dataPlugin.scriptPath),
                 `*${fileExtension}`
             );
+        }
+
+        // manipulate script
+        try {
+            dataPlugin.replaceStringInScript('Example.csv', sampleFileName);
+            dataPlugin.renameDataPluginScript(dataPlugin.name);
+        } catch (e) {
+            if (e instanceof Error) {
+                void vscode.window.showErrorMessage(e.message);
+            }
+            throw e;
         }
 
         // create DataPlugin

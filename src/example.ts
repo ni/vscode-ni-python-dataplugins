@@ -1,3 +1,4 @@
+import * as path from 'path';
 import * as fileutils from './file-utils';
 
 class Example {
@@ -10,7 +11,7 @@ class Example {
     }
 
     public getScriptPath(): string {
-        return `${this.folder}\\${this.name}\\${this.name}.py`;
+        return path.join(this.folder, `${this.name}.py`);
     }
 
     public async getDetails(): Promise<string> {
