@@ -28,6 +28,28 @@ NI DataPlugins: Create new Python-DataPlugin
 - __NI DataPlugins: Export DataPlugin__: Use this option to publish your DataPlugin and make it available to other users. Your code will be embedded in the *.uri file.
 - __NI DataPlugins: Register DataPlugin for Development__: Use this option to register the DataPlugin exclusively on your development machine and test your code changes in DIAdem, LabVIEW, or SystemLink.
 
+## Snippets
+
+Use the following __Snippets__ to quickly select one of the supported data types:
+
+- `DataTypeChnFloat32`
+- `DataTypeChnFloat64`
+- `DataTypeChnString`
+- `DataTypeChnDate`
+- `DataTypeChnUInt8`
+- `DataTypeChnInt16`
+- `DataTypeChnInt32`
+- `DataTypeChnInt64`
+
+Use the following __Snippets__ to create most needed method stubs:
+
+- `if __name__ == "__main__"`
+- `def read_channel_length`
+- `def read_channel_values`
+- `def read_store`
+
+Feel free to __contribute__ more helpful __Snippets__ to the project: [snippets/snippets.json](./snippets/snippets.json)
+
 ## Advanced Settings
 
 ### Custom Template
