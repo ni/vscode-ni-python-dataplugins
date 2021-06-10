@@ -25,8 +25,32 @@ NI DataPlugins: Create new Python-DataPlugin
 
 **Step 3.** Export the DataPlugin. Right-click the \*.py file you want to export.
 
-- __NI DataPlugins: Export DataPlugin__: Use this option to publish your DataPlugin and make it available to other users. Your code will be embedded in the *.uri file.
+- __NI DataPlugins: Export DataPlugin__: Your code will be embedded in a *.uri file that you can share with others.
 - __NI DataPlugins: Register DataPlugin for Development__: Use this option to register the DataPlugin exclusively on your development machine and test your code changes in DIAdem, LabVIEW, or SystemLink.
+
+## Snippets
+
+This extension defines a few helpful __Snippets__ that extend the auto-completion capabilities of VSCode. Start typing and press __Ctrl+Space__ to display a list of suggestions.
+
+Use the following __Snippets__ to quickly select a supported data type:
+
+- `DataTypeChnFloat32`
+- `DataTypeChnFloat64`
+- `DataTypeChnString`
+- `DataTypeChnDate`
+- `DataTypeChnUInt8`
+- `DataTypeChnInt16`
+- `DataTypeChnInt32`
+- `DataTypeChnInt64`
+
+Use the following __Snippets__ to insert the most common stubs:
+
+- `if __name__ == "__main__"`
+- `def read_channel_length`
+- `def read_channel_values`
+- `def read_store`
+
+Feel free to __contribute__ additional __Snippets__ to the project: [snippets/snippets.json](./snippets/snippets.json)
 
 ## Advanced Settings
 

@@ -54,8 +54,35 @@ export function loadExamples(): Example[] {
     return examples;
 }
 
+export function getOpenPythonScript(): vscode.Uri | undefined {
+    const uri = vscode.window.activeTextEditor?.document.uri;
+    const isPython = path.extname(uri?.fsPath ?? '') === '.py';
+    if (uri && isPython) {
+        return uri;
+    }
+
+    return undefined;
+}
+
 export function isDocumentEmpty(): boolean {
     return !vscode.window.activeTextEditor?.document.getText.toString();
+}
+
+export function isValidFileExtensionInput(input: string): boolean {
+    const regExSingleExtension = new RegExp(/^\*\.[a-zA-Z]*(;)*/gm); // *.csv || *.csv;
+    const regExMultipleExtensions = new RegExp(/^\*\.[a-zA-Z]*(;)(\s)?(\*\.[a-zA-Z]*(;)*)*/gm); // *.csv;*.txt || *.csv;*.txt; || *.csv; *.txt;
+
+    const matchSingleExtension = input?.match(regExSingleExtension);
+    const matchMultipleExtensions = input?.match(regExMultipleExtensions);
+
+    let matches = matchSingleExtension;
+    if (matchMultipleExtensions) {
+        matches = matchMultipleExtensions;
+    }
+
+    const isFullMatch = matches?.join().length === input?.length;
+    const isValidInput = !!matches && isFullMatch;
+    return isValidInput;
 }
 
 export async function openDocumentAndShow(docPath: string): Promise<vscode.TextEditor> {
