@@ -87,6 +87,10 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
 }
 
 export async function exportPlugin(uri: vscode.Uri): Promise<void> {
+    if (!uri) {
+        return;
+    }
+
     const scriptPath: string = uri.fsPath;
     const pluginName: string = path.basename(path.dirname(scriptPath));
     const extensions = await readOrRequestFileExtensionConfig(uri);
@@ -127,6 +131,10 @@ export async function exportPlugin(uri: vscode.Uri): Promise<void> {
 }
 
 export async function registerPlugin(uri: vscode.Uri): Promise<void> {
+    if (!uri) {
+        return;
+    }
+
     const scriptPath: string = uri.fsPath;
     const pluginName: string = path.basename(path.dirname(scriptPath));
     const exportPath: string = path.join(os.tmpdir(), `${pluginName}.uri`);
