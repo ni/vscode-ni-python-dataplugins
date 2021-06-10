@@ -72,6 +72,7 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
                 exampleName,
                 Languages.Python
             );
+            await dataPlugin.pluginIsInitialized();
             await vscu.showDataPluginInVSCode(dataPlugin);
             return dataPlugin;
         } catch (e) {
@@ -168,6 +169,8 @@ export async function registerPlugin(uri: vscode.Uri): Promise<void> {
 
 async function createDataPluginFromSampleFile(dataPluginName: string): Promise<DataPlugin | null> {
     const dataPlugin: DataPlugin = new DataPlugin(dataPluginName, 'hello_world', Languages.Python);
+    await dataPlugin.pluginIsInitialized();
+
     const openDialogOptions = {
         canSelectFiles: true,
         canSelectFolders: false,
