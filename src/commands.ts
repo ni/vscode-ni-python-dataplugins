@@ -230,7 +230,7 @@ async function readOrRequestFileExtensionConfig(uri: vscode.Uri): Promise<string
         while (true) {
             // eslint-disable-next-line no-await-in-loop
             extensions = await vscu.showInputBox(
-                'Please enter the file extensions your DataPlugin can handle in the right syntax: ',
+                'Enter the file extension(s) your DataPlugin handles using the following syntax: ',
                 '*.tdm; *.xls ...'
             );
 

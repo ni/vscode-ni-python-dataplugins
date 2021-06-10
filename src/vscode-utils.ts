@@ -65,13 +65,13 @@ export function isValidFileExtensionInput(input: string): boolean {
     const matchSingleExtension = input?.match(regExSingleExtension);
     const matchMultipleExtensions = input?.match(regExMultipleExtensions);
 
-    let matchArray = matchSingleExtension;
+    let matches = matchSingleExtension;
     if (matchMultipleExtensions) {
-        matchArray = matchMultipleExtensions;
+        matches = matchMultipleExtensions;
     }
 
-    const isFullMatch = matchArray?.join().length === input?.length;
-    const isValidInput = !!matchArray && isFullMatch;
+    const isFullMatch = matches?.join().length === input?.length;
+    const isValidInput = !!matches && isFullMatch;
     return isValidInput;
 }
 
