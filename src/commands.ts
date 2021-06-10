@@ -87,6 +87,10 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
 }
 
 export async function exportPlugin(uri: vscode.Uri): Promise<void> {
+    if (!uri) {
+        return;
+    }
+
     const scriptPath: string = uri.fsPath;
     const pluginName: string = path.basename(path.dirname(scriptPath));
     const extensions = await readOrRequestFileExtensionConfig(uri);
