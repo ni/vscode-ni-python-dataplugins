@@ -45,6 +45,13 @@
         "category": "NI DataPlugins"
       }
     ],
+    "keybindings": [
+        {
+            "command": "nipy.registerPlugin",
+            "key": "ctrl+alt+F5",
+            "when": "editorTextFocus"
+        }
+    ],
     "configuration": [
       {
         "title": "Vscode-NI-Python-DataPlugins",

@@ -127,7 +127,11 @@ export async function exportPlugin(uri: vscode.Uri): Promise<void> {
 }
 
 export async function registerPlugin(uri: vscode.Uri): Promise<void> {
-    const scriptPath: string = uri.fsPath;
+    const scriptPath = uri?.fsPath ?? vscu.getOpenPythonScript()?.fsPath;
+    if (!scriptPath) {
+        return;
+    }
+
     const pluginName: string = path.basename(path.dirname(scriptPath));
     const exportPath: string = path.join(os.tmpdir(), `${pluginName}.uri`);
     const extensions = await readOrRequestFileExtensionConfig(uri);
