@@ -61,7 +61,7 @@
           "NI-DataPlugins.PluginExportPath": {
             "type": "string",
             "default": null,
-            "description": "Specifies the folder path for plugin export. If empty, a File-Save dialog is prompted for every export (Reload required)."
+            "description": "Specifies the folder path for plugin export. If empty, a File-Save dialog is prompted for every export. Requires a reload of VSCode."
           }
         }
       }
