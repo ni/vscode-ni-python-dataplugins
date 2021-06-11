@@ -72,6 +72,27 @@ class DataPlugin {
         return dataPlugin;
     }
 
+    /**
+     * @param newName New name of script file. Provide name without file extension
+     */
+    public renameDataPluginScript(newName: string): void {
+        const scriptPath = this.scriptPath;
+        const newScriptPath = path.join(path.dirname(scriptPath), `${newName}.py`);
+        fs.renameSync(scriptPath, newScriptPath);
+        this.scriptPath = newScriptPath;
+    }
+
+    /**
+     * @param substr A String that is to be replaced by newSubstr
+     * @param newSubStr Replacement string
+     */
+    public replaceStringInScript(substr: string, newSubStr: string): void {
+        const scriptPath = this.scriptPath;
+        let content = fs.readFileSync(scriptPath, { encoding: 'utf8' });
+        content = content.replace(substr, newSubStr);
+        fs.writeFileSync(scriptPath, content);
+    }
+
     private async prepareWorkspace(): Promise<void> {
         try {
             const extensionsFile = '.file-extensions';
@@ -99,27 +120,6 @@ class DataPlugin {
         } catch (e) {
             throw new Error(`${config.extPrefix}Failed to create DataPlugin!`);
         }
-    }
-
-    /**
-     * @param newName New name of script file. Provide name without file extension
-     */
-    public renameDataPluginScript(newName: string): void {
-        const scriptPath = this.scriptPath;
-        const newScriptPath = path.join(path.dirname(scriptPath), `${newName}.py`);
-        fs.renameSync(scriptPath, newScriptPath);
-        this.scriptPath = newScriptPath;
-    }
-
-    /**
-     * @param substr A String that is to be replaced by newSubstr
-     * @param newSubStr Replacement string
-     */
-    public replaceStringInScript(substr: string, newSubStr: string): void {
-        const scriptPath = this.scriptPath;
-        let content = fs.readFileSync(scriptPath, { encoding: 'utf8' });
-        content = content.replace(substr, newSubStr);
-        fs.writeFileSync(scriptPath, content);
     }
 }
 
