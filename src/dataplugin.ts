@@ -68,34 +68,30 @@ class DataPlugin {
         language: Languages
     ): Promise<DataPlugin> {
         const dataPlugin = new DataPlugin(name, baseTemplate, language);
-        await DataPlugin.prepareWorkspace(dataPlugin);
+        await dataPlugin.prepareWorkspace();
         return dataPlugin;
     }
 
-    public static async prepareWorkspace(dataPlugin: DataPlugin): Promise<void> {
+    private async prepareWorkspace(): Promise<void> {
         try {
             const extensionsFile = '.file-extensions';
             const launchFile = 'launch.json';
             const loadFile = 'diadem_load.py';
             const assetFolder: string = path.join(dirNamePath, 'assets');
-            const exampleFolder: string = path.join(
-                dirNamePath,
-                'examples',
-                dataPlugin.baseTemplate
-            );
+            const exampleFolder: string = path.join(dirNamePath, 'examples', this.baseTemplate);
 
-            await fs.copy(exampleFolder, dataPlugin.folderPath);
+            await fs.copy(exampleFolder, this.folderPath);
             await fs.copy(
                 path.join(assetFolder, extensionsFile),
-                path.join(dataPlugin.folderPath, extensionsFile)
+                path.join(this.folderPath, extensionsFile)
             );
             await fs.copy(
                 path.join(assetFolder, loadFile),
-                path.join(dataPlugin.folderPath, '.ni', loadFile)
+                path.join(this.folderPath, '.ni', loadFile)
             );
             await fs.copy(
                 path.join(assetFolder, launchFile),
-                path.join(dataPlugin.folderPath, '.vscode', launchFile)
+                path.join(this.folderPath, '.vscode', launchFile)
             );
 
             await Promise.resolve();
