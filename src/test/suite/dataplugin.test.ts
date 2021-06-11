@@ -25,8 +25,11 @@ suite('DataPlugin Test Suite', () => {
     test('should create class and initialize', async () => {
         const baseTemplate = 'hello_world';
         const randomName: string = Guid.create().toString();
-        const dataPlugin: DataPlugin = new DataPlugin(randomName, baseTemplate, Languages.Python);
-        await dataPlugin.pluginIsInitialized();
+        const dataPlugin: DataPlugin = await DataPlugin.createDataPlugin(
+            randomName,
+            baseTemplate,
+            Languages.Python
+        );
         dataPluginsToClean.push(dataPlugin);
 
         assert.ok(dataPlugin.name === randomName);
@@ -43,13 +46,13 @@ suite('DataPlugin Test Suite', () => {
         for (const example of examples) {
             const randomName: string = Guid.create().toString();
             const examplesName: string = example.name;
-            const dataPlugin: DataPlugin = new DataPlugin(
+            // eslint-disable-next-line no-await-in-loop
+            const dataPlugin: DataPlugin = await DataPlugin.createDataPlugin(
                 randomName,
                 examplesName,
                 Languages.Python
             );
-            // eslint-disable-next-line no-await-in-loop
-            await dataPlugin.pluginIsInitialized();
+
             dataPluginsToClean.push(dataPlugin);
 
             assert.ok(dataPlugin.name === randomName);
@@ -64,8 +67,11 @@ suite('DataPlugin Test Suite', () => {
 
     test('should correctly rename the main DataPlugin script', async () => {
         const randomName: string = Guid.create().toString();
-        const dataPlugin: DataPlugin = new DataPlugin(randomName, 'hello_world', Languages.Python);
-        await dataPlugin.pluginIsInitialized();
+        const dataPlugin: DataPlugin = await DataPlugin.createDataPlugin(
+            randomName,
+            'hello_world',
+            Languages.Python
+        );
         const originalScriptPath = dataPlugin.scriptPath;
         dataPlugin.renameDataPluginScript('new_name');
         assert.notStrictEqual(originalScriptPath, dataPlugin.scriptPath);
@@ -75,8 +81,11 @@ suite('DataPlugin Test Suite', () => {
 
     test('should correctly replace a string in the main DataPlugin script', async () => {
         const randomName: string = Guid.create().toString();
-        const dataPlugin: DataPlugin = new DataPlugin(randomName, 'hello_world', Languages.Python);
-        await dataPlugin.pluginIsInitialized();
+        const dataPlugin: DataPlugin = await DataPlugin.createDataPlugin(
+            randomName,
+            'hello_world',
+            Languages.Python
+        );
         dataPlugin.replaceStringInScript('Example.csv', 'new_name');
         const scriptPath = dataPlugin.scriptPath;
         const content = fs.readFileSync(scriptPath, { encoding: 'utf8' });
@@ -86,11 +95,10 @@ suite('DataPlugin Test Suite', () => {
 
     test('should throw FileExistsError', async () => {
         const randomName: string = Guid.create().toString();
-        const dataPlugin: DataPlugin = new DataPlugin(randomName, 'hello_world', Languages.Python);
-        await dataPlugin.pluginIsInitialized();
+        await DataPlugin.createDataPlugin(randomName, 'hello_world', Languages.Python);
         try {
             // eslint-disable-next-line no-new
-            new DataPlugin(randomName, 'hello_world', Languages.Python);
+            await DataPlugin.createDataPlugin(randomName, 'hello_world', Languages.Python);
         } catch (e) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             assert.strictEqual(e.errorType, ErrorType.FILEEXISTS);

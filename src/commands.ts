@@ -67,11 +67,12 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
     if (isExample) {
         try {
             const exampleName: string = quickPickItem.example?.name ?? '';
-            const dataPlugin: DataPlugin = new DataPlugin(
+            const dataPlugin: DataPlugin = await DataPlugin.createDataPlugin(
                 dataPluginName,
                 exampleName,
                 Languages.Python
             );
+
             await vscu.showDataPluginInVSCode(dataPlugin);
             return dataPlugin;
         } catch (e) {
@@ -167,7 +168,12 @@ export async function registerPlugin(uri: vscode.Uri): Promise<void> {
 }
 
 async function createDataPluginFromSampleFile(dataPluginName: string): Promise<DataPlugin | null> {
-    const dataPlugin: DataPlugin = new DataPlugin(dataPluginName, 'hello_world', Languages.Python);
+    const dataPlugin: DataPlugin = await DataPlugin.createDataPlugin(
+        dataPluginName,
+        'hello_world',
+        Languages.Python
+    );
+
     const openDialogOptions = {
         canSelectFiles: true,
         canSelectFolders: false,

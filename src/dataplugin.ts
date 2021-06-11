@@ -50,7 +50,7 @@ class DataPlugin {
         return this._baseTemplate;
     }
 
-    public constructor(name: string, baseTemplate: string, language: Languages) {
+    private constructor(name: string, baseTemplate: string, language: Languages) {
         this._name = name;
         this._baseTemplate = baseTemplate;
         this._language = language;
@@ -59,10 +59,17 @@ class DataPlugin {
 
         if (fs.existsSync(this.scriptPath)) {
             throw new FileExistsError(`${config.extPrefix}DataPlugin already exists`);
-        } else {
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            this.createMainPy();
         }
+    }
+
+    public static async createDataPlugin(
+        name: string,
+        baseTemplate: string,
+        language: Languages
+    ): Promise<DataPlugin> {
+        const dataPlugin = new DataPlugin(name, baseTemplate, language);
+        await dataPlugin.prepareWorkspace();
+        return dataPlugin;
     }
 
     /**
@@ -86,7 +93,7 @@ class DataPlugin {
         fs.writeFileSync(scriptPath, content);
     }
 
-    public async createMainPy(): Promise<void> {
+    private async prepareWorkspace(): Promise<void> {
         try {
             const extensionsFile = '.file-extensions';
             const launchFile = 'launch.json';
@@ -113,21 +120,6 @@ class DataPlugin {
         } catch (e) {
             throw new Error(`${config.extPrefix}Failed to create DataPlugin!`);
         }
-    }
-
-    public async pluginIsInitialized(): Promise<boolean> {
-        return new Promise(resolve => {
-            let isInitialized: boolean = fs.existsSync(this.scriptPath);
-
-            const interval = setInterval(() => {
-                if (!isInitialized) {
-                    isInitialized = fs.existsSync(this.scriptPath);
-                } else {
-                    clearInterval(interval);
-                    resolve(true);
-                }
-            }, 500);
-        });
     }
 }
 

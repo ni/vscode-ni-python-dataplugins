@@ -26,7 +26,7 @@ NI DataPlugins: Create new Python-DataPlugin
 **Step 3.** Export the DataPlugin. Right-click the \*.py file you want to export.
 
 - __NI DataPlugins: Export DataPlugin__: Your code will be embedded in a *.uri file that you can share with others.
-- __NI DataPlugins: Register DataPlugin for Development__: Use this option to register the DataPlugin exclusively on your development machine and test your code changes in DIAdem, LabVIEW, or SystemLink.
+- __NI DataPlugins: Register DataPlugin for Development__ (CTRL+ALT+F5): Use this option to register the DataPlugin exclusively on your development machine and test your code changes in DIAdem, LabVIEW, or SystemLink.
 
 ## Snippets
 
