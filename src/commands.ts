@@ -92,14 +92,15 @@ export async function exportPlugin(uri: vscode.Uri): Promise<void> {
         return;
     }
 
-    const scriptPath: string = uri.fsPath;
-    const pluginName: string = path.basename(path.dirname(scriptPath));
-    const extensions = await readOrRequestFileExtensionConfig(uri);
+    const scriptPath = uri.fsPath;
+    const workspaceDir = path.dirname(scriptPath);
+    const pluginName = path.basename(path.dirname(scriptPath));
+    const extensions = await readOrRequestFileExtensionConfig(workspaceDir);
     if (!extensions) {
         return;
     }
 
-    let exportPath: string = config.exportPath || '';
+    let exportPath = config.exportPath || '';
     if (!exportPath) {
         const options: vscode.SaveDialogOptions = {
             defaultUri: vscode.Uri.file(
@@ -137,9 +138,10 @@ export async function registerPlugin(uri: vscode.Uri): Promise<void> {
         return;
     }
 
-    const pluginName: string = path.basename(path.dirname(scriptPath));
-    const exportPath: string = path.join(os.tmpdir(), `${pluginName}.uri`);
-    const extensions = await readOrRequestFileExtensionConfig(uri);
+    const workspaceDir = path.dirname(scriptPath);
+    const pluginName = path.basename(workspaceDir);
+    const exportPath = path.join(os.tmpdir(), `${pluginName}.uri`);
+    const extensions = await readOrRequestFileExtensionConfig(workspaceDir);
     if (!extensions) {
         return;
     }
@@ -230,11 +232,11 @@ async function createDataPluginFromSampleFile(dataPluginName: string): Promise<D
     return null;
 }
 
-async function readOrRequestFileExtensionConfig(uri: vscode.Uri): Promise<string> {
+async function readOrRequestFileExtensionConfig(workspaceDir: string): Promise<string> {
     let extensions: string | undefined;
 
     try {
-        extensions = await fileutils.readFileExtensionConfig(path.dirname(uri.fsPath));
+        extensions = await fileutils.readFileExtensionConfig(workspaceDir);
     } catch (e) {
         extensions = undefined;
     }
