@@ -50,7 +50,7 @@ class DataPlugin {
         return this._baseTemplate;
     }
 
-    public constructor(name: string, baseTemplate: string, language: Languages) {
+    private constructor(name: string, baseTemplate: string, language: Languages) {
         this._name = name;
         this._baseTemplate = baseTemplate;
         this._language = language;
@@ -59,9 +59,49 @@ class DataPlugin {
 
         if (fs.existsSync(this.scriptPath)) {
             throw new FileExistsError(`${config.extPrefix}DataPlugin already exists`);
-        } else {
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            this.createMainPy();
+        }
+    }
+
+    public static async createDataPlugin(
+        name: string,
+        baseTemplate: string,
+        language: Languages
+    ): Promise<DataPlugin> {
+        const dataPlugin = new DataPlugin(name, baseTemplate, language);
+        await DataPlugin.prepareWorkspace(dataPlugin);
+        return dataPlugin;
+    }
+
+    public static async prepareWorkspace(dataPlugin: DataPlugin): Promise<void> {
+        try {
+            const extensionsFile = '.file-extensions';
+            const launchFile = 'launch.json';
+            const loadFile = 'diadem_load.py';
+            const assetFolder: string = path.join(dirNamePath, 'assets');
+            const exampleFolder: string = path.join(
+                dirNamePath,
+                'examples',
+                dataPlugin.baseTemplate
+            );
+
+            await fs.copy(exampleFolder, dataPlugin.folderPath);
+            await fs.copy(
+                path.join(assetFolder, extensionsFile),
+                path.join(dataPlugin.folderPath, extensionsFile)
+            );
+            await fs.copy(
+                path.join(assetFolder, loadFile),
+                path.join(dataPlugin.folderPath, '.ni', loadFile)
+            );
+            await fs.copy(
+                path.join(assetFolder, launchFile),
+                path.join(dataPlugin.folderPath, '.vscode', launchFile)
+            );
+
+            await Promise.resolve();
+            return;
+        } catch (e) {
+            throw new Error(`${config.extPrefix}Failed to create DataPlugin!`);
         }
     }
 
@@ -84,50 +124,6 @@ class DataPlugin {
         let content = fs.readFileSync(scriptPath, { encoding: 'utf8' });
         content = content.replace(substr, newSubStr);
         fs.writeFileSync(scriptPath, content);
-    }
-
-    public async createMainPy(): Promise<void> {
-        try {
-            const extensionsFile = '.file-extensions';
-            const launchFile = 'launch.json';
-            const loadFile = 'diadem_load.py';
-            const assetFolder: string = path.join(dirNamePath, 'assets');
-            const exampleFolder: string = path.join(dirNamePath, 'examples', this.baseTemplate);
-
-            await fs.copy(exampleFolder, this.folderPath);
-            await fs.copy(
-                path.join(assetFolder, extensionsFile),
-                path.join(this.folderPath, extensionsFile)
-            );
-            await fs.copy(
-                path.join(assetFolder, loadFile),
-                path.join(this.folderPath, '.ni', loadFile)
-            );
-            await fs.copy(
-                path.join(assetFolder, launchFile),
-                path.join(this.folderPath, '.vscode', launchFile)
-            );
-
-            await Promise.resolve();
-            return;
-        } catch (e) {
-            throw new Error(`${config.extPrefix}Failed to create DataPlugin!`);
-        }
-    }
-
-    public async pluginIsInitialized(): Promise<boolean> {
-        return new Promise(resolve => {
-            let isInitialized: boolean = fs.existsSync(this.scriptPath);
-
-            const interval = setInterval(() => {
-                if (!isInitialized) {
-                    isInitialized = fs.existsSync(this.scriptPath);
-                } else {
-                    clearInterval(interval);
-                    resolve(true);
-                }
-            }, 500);
-        });
     }
 }
 
