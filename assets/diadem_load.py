@@ -13,7 +13,7 @@ class RunDIAdem():
         while 1:
             if (False == self._oDIAdem_Comand.bInterfaceLocked):
                 break
-        print("DIAdem __init__ gestartet: ")
+        print("DIAdem __init__ started: ")
 
     # -- Method to Load a given DataFile with a DataPlugin
     def LoadData(self, sFileNamePath, sDpName):
@@ -26,7 +26,7 @@ class RunDIAdem():
         print("DIAdem DataFileLoad: " + str(iSuccess))
 
     def Close(self):
-        print("DIAdem Geschlossen")
+        print("DIAdem closed")
 
 # ------------------------------------------------------------------
 
