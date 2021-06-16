@@ -1,9 +1,9 @@
 import * as homedir from 'os';
+import * as path from 'path';
 import * as vscode from 'vscode';
 
-// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-export const userDocuments = `${homedir.homedir}\\Documents`;
-export const dataPluginFolder = `${userDocuments}\\NI_DataPlugin`;
+export const userDocuments = path.join(homedir.homedir(), 'Documents');
+export const dataPluginFolder = path.join(userDocuments, 'NI-Python-DataPlugins');
 export const extPrefix = 'NI DataPlugins: ';
 // eslint-disable-next-line operator-linebreak
 export const niConfig: vscode.WorkspaceConfiguration =

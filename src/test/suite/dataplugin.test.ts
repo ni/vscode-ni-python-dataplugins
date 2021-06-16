@@ -37,7 +37,7 @@ suite('DataPlugin Test Suite', () => {
         assert.ok(dataPlugin.baseTemplate === baseTemplate);
         assert.ok(
             dataPlugin.scriptPath ===
-                `${config.dataPluginFolder}\\${dataPlugin.name}\\${baseTemplate}.py`
+                path.join(config.dataPluginFolder, dataPlugin.name, `${baseTemplate}.py`)
         );
     }).timeout(10000);
 
@@ -60,7 +60,7 @@ suite('DataPlugin Test Suite', () => {
             assert.ok(dataPlugin.baseTemplate === examplesName);
             assert.ok(
                 dataPlugin.scriptPath ===
-                    `${config.dataPluginFolder}\\${dataPlugin.name}\\${examplesName}.py`
+                    path.join(config.dataPluginFolder, dataPlugin.name, `${examplesName}.py`)
             );
         }
     }).timeout(10000);

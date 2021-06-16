@@ -38,12 +38,10 @@ suite('Commands Test Suite', () => {
 
     test('should be able to get the currently open python file', async () => {
         const pythonFile = vscode.Uri.file(
-            `${__dirname}\\..\\..\\..\\examples\\hello_world\\hello_world.py`
+            `${__dirname}/../../../examples/hello_world/hello_world.py`
         );
 
-        const mdFile = vscode.Uri.file(
-            `${__dirname}\\..\\..\\..\\examples\\hello_world\\README.md`
-        );
+        const mdFile = vscode.Uri.file(`${__dirname}/../../../examples/hello_world/README.md`);
 
         await vscode.commands.executeCommand('vscode.open', pythonFile);
         const openFile = vscu.getOpenPythonScript();
