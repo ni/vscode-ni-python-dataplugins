@@ -43,7 +43,7 @@ export async function exportDataPlugin(
 }
 
 export function loadExamples(): Example[] {
-    const examplesFolder = path.resolve(`${path.dirname(__dirname)}\\examples`);
+    const examplesFolder = path.resolve(path.join(path.dirname(__dirname), 'examples'));
     const examplesNames: string[] = fs
         .readdirSync(examplesFolder)
         .filter(folder => fs.statSync(path.join(examplesFolder, folder)).isDirectory());

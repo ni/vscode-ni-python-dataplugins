@@ -54,8 +54,8 @@ class DataPlugin {
         this._name = name;
         this._baseTemplate = baseTemplate;
         this._language = language;
-        this._folderPath = `${dataPluginFolder}\\${name}`;
-        this._scriptPath = `${dataPluginFolder}\\${name}\\${baseTemplate}.py`;
+        this._folderPath = path.join(dataPluginFolder, name);
+        this._scriptPath = path.join(dataPluginFolder, name, `${baseTemplate}.py`);
 
         if (fs.existsSync(this.scriptPath)) {
             throw new FileExistsError(`${config.extPrefix}DataPlugin already exists`);

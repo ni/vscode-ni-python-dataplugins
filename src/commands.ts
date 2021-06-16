@@ -22,7 +22,8 @@ export async function createDataPlugin(): Promise<DataPlugin | null> {
         return null;
     }
 
-    if (fs.existsSync(`${config.dataPluginFolder}\\${dataPluginName}`)) {
+    const pluginFolder = path.join(config.dataPluginFolder, dataPluginName);
+    if (fs.existsSync(pluginFolder)) {
         await vscode.window.showInformationMessage(
             `${config.extPrefix} There is already a DataPlugin named "${dataPluginName}"!`
         );
@@ -104,7 +105,7 @@ export async function exportPlugin(uri: vscode.Uri): Promise<void> {
     if (!exportPath) {
         const options: vscode.SaveDialogOptions = {
             defaultUri: vscode.Uri.file(
-                `${config.dataPluginFolder}\\${pluginName}\\${pluginName}.uri`
+                path.join(config.dataPluginFolder, pluginName, `${pluginName}.uri`)
             ),
             // eslint-disable-next-line @typescript-eslint/naming-convention
             filters: { Uri: ['uri'] }
