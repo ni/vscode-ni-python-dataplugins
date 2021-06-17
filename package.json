@@ -56,12 +56,12 @@
     ],
     "configuration": [
       {
-        "title": "Vscode-NI-Python-DataPlugins",
+        "title": "Python DataPlugins",
         "properties": {
-          "NI-DataPlugins.PluginExportPath": {
+          "Python-DataPlugins.exportPath": {
             "type": "string",
             "default": null,
-            "description": "Specifies the folder path for plugin export. If empty, a File-Save dialog is prompted for every export. Requires a reload of VSCode."
+            "description": "Specifies the folder path for DataPlugin export. If empty, a File-Save dialog is prompted for every export. Requires a reload of VSCode."
           }
         }
       }
