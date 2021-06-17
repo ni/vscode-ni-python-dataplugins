@@ -7,5 +7,5 @@ export const dataPluginFolder = path.join(userDocuments, 'NI-Python-DataPlugins'
 export const extPrefix = 'NI DataPlugins: ';
 // eslint-disable-next-line operator-linebreak
 export const niConfig: vscode.WorkspaceConfiguration =
-    vscode.workspace.getConfiguration('NI-DataPlugins');
-export const exportPath: string | undefined = niConfig.get('PluginExportPath');
+    vscode.workspace.getConfiguration('DataPlugins');
+export const exportPath: string | undefined = niConfig.get('exportPath');

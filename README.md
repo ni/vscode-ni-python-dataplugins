@@ -64,18 +64,18 @@ Create a file `.file-extensions` in the root directory of your project and list 
 
 ### Export Path
 
-Set the export path for all your plugins in __Preferences -> Settings -> Extensions -> Vscode-NI-Python-DataPlugins -> Plugin Export Path__. The path can be a folder or a *.uri file.
+Set the export path for all your plugins in __Preferences -> Settings -> Extensions -> NI Python DataPlugins -> Export Path__. The path can be a folder or a *.uri file.
 
 <details>
 <summary>Example</summary>
 
 ```json
 {
-    "NI-DataPlugins.PluginExportPath": "C:\\Temp"
+    "DataPlugins.exportPath": "C:\\Temp"
 }
 // OR
 {
-    "NI-DataPlugins.PluginExportPath": "C:\\Temp\\MyPlugin.uri"
+    "DataPlugins.exportPath": "C:\\Temp\\MyPlugin.uri"
 }
 ```
 
