@@ -11,7 +11,7 @@ suite('URI-Template Test Suite', () => {
         const fileExtensions = '*.csv';
 
         const comparison =
-            `<usireginfo><storetype name="${dataPluginName}">` +
+            `<usireginfo version="${UriTemplate.usiCompatibilityVersion}"><storetype name="${dataPluginName}">` +
             '<type>python</type>' +
             `<alias>${dataPluginName}</alias>` +
             `<description>${dataPluginName}</description>` +
@@ -42,7 +42,7 @@ suite('URI-Template Test Suite', () => {
         };
 
         const comparison =
-            `<usireginfo><storetype name="${dataPluginName}">` +
+            `<usireginfo version="${UriTemplate.usiCompatibilityVersion}"><storetype name="${dataPluginName}">` +
             '<type>python</type>' +
             `<alias>${dataPluginName}</alias>` +
             `<description>${dataPluginName}</description>` +
@@ -62,4 +62,10 @@ suite('URI-Template Test Suite', () => {
         const templateString = uriTemplate.templateString;
         assert.strictEqual(comparison, templateString);
     }).timeout(10000);
+
+    test('should return a USI compatibility version with semantic formatting', () => {
+        const usiCompatibilityVersion = UriTemplate.usiCompatibilityVersion;
+        const split = usiCompatibilityVersion.split('.');
+        assert.strictEqual(split.length, 3);
+    });
 });
