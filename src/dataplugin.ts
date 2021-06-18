@@ -73,10 +73,6 @@ class DataPlugin {
     }
 
     /**
-     * @param newName New name of script file. Provide name without file extension
-     */
-
-    /**
      * @param substr A String that is to be replaced by newSubstr
      * @param newSubStr Replacement string
      */
