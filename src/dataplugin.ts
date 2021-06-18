@@ -73,16 +73,6 @@ class DataPlugin {
     }
 
     /**
-     * @param newName New name of script file. Provide name without file extension
-     */
-    public renameDataPluginScript(newName: string): void {
-        const scriptPath = this.scriptPath;
-        const newScriptPath = path.join(path.dirname(scriptPath), `${newName}.py`);
-        fs.renameSync(scriptPath, newScriptPath);
-        this.scriptPath = newScriptPath;
-    }
-
-    /**
      * @param substr A String that is to be replaced by newSubstr
      * @param newSubStr Replacement string
      */
@@ -115,11 +105,19 @@ class DataPlugin {
                 path.join(this.folderPath, '.vscode', launchFile)
             );
 
+            this.renameDataPluginScript(this.name);
             await Promise.resolve();
             return;
         } catch (e) {
             throw new Error(`${config.extPrefix}Failed to create DataPlugin!`);
         }
+    }
+
+    private renameDataPluginScript(newName: string): void {
+        const scriptPath = this.scriptPath;
+        const newScriptPath = path.join(path.dirname(scriptPath), `${newName}.py`);
+        fs.renameSync(scriptPath, newScriptPath);
+        this.scriptPath = newScriptPath;
     }
 }
 

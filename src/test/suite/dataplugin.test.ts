@@ -37,7 +37,7 @@ suite('DataPlugin Test Suite', () => {
         assert.ok(dataPlugin.baseTemplate === baseTemplate);
         assert.ok(
             dataPlugin.scriptPath ===
-                path.join(config.dataPluginFolder, dataPlugin.name, `${baseTemplate}.py`)
+                path.join(config.dataPluginFolder, dataPlugin.name, `${dataPlugin.name}.py`)
         );
     }).timeout(10000);
 
@@ -60,23 +60,9 @@ suite('DataPlugin Test Suite', () => {
             assert.ok(dataPlugin.baseTemplate === examplesName);
             assert.ok(
                 dataPlugin.scriptPath ===
-                    path.join(config.dataPluginFolder, dataPlugin.name, `${examplesName}.py`)
+                    path.join(config.dataPluginFolder, dataPlugin.name, `${dataPlugin.name}.py`)
             );
         }
-    }).timeout(10000);
-
-    test('should correctly rename the main DataPlugin script', async () => {
-        const randomName: string = Guid.create().toString();
-        const dataPlugin: DataPlugin = await DataPlugin.createDataPlugin(
-            randomName,
-            'hello_world',
-            Languages.Python
-        );
-        const originalScriptPath = dataPlugin.scriptPath;
-        dataPlugin.renameDataPluginScript('new_name');
-        assert.notStrictEqual(originalScriptPath, dataPlugin.scriptPath);
-        assert.strictEqual(path.dirname(originalScriptPath), path.dirname(dataPlugin.scriptPath));
-        assert.strictEqual(path.basename(dataPlugin.scriptPath), 'new_name.py');
     }).timeout(10000);
 
     test('should correctly replace a string in the main DataPlugin script', async () => {

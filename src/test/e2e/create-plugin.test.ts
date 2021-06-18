@@ -36,6 +36,7 @@ describe('Basic UI Tests', () => {
         await new Promise(res => setTimeout(res, 500));
         await chooseTemplateDropDown.setText('hello_world');
         await chooseTemplateDropDown.confirm();
+        await new Promise(res => setTimeout(res, 5000));
 
         // Project with correct name created in SideBar?
         const sideBarView = await driver.wait(() => new SideBarView(), 5000);

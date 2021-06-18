@@ -210,7 +210,6 @@ async function createDataPluginFromSampleFile(dataPluginName: string): Promise<D
         // manipulate script
         try {
             dataPlugin.replaceStringInScript('Example.csv', sampleFileName);
-            dataPlugin.renameDataPluginScript(dataPlugin.name);
         } catch (e) {
             if (e instanceof Error) {
                 void vscode.window.showErrorMessage(e.message);
