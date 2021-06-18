@@ -7,7 +7,9 @@ export interface PythonScript {
 }
 
 export class UriTemplate {
+    public static readonly usiCompatibilityVersion: string = '20.0.0';
     private readonly _templateString: string = '';
+
     /**
      * @param dataPluginName name of DataPlugin and uri
      * @param pythonScript full file path to script or object of file content, crc32 and name
@@ -19,7 +21,7 @@ export class UriTemplate {
         fileExtensions: string
     ) {
         this._templateString =
-            `<usireginfo><storetype name="${dataPluginName}">` +
+            `<usireginfo version="${UriTemplate.usiCompatibilityVersion}"><storetype name="${dataPluginName}">` +
             '<type>python</type>' +
             `<alias>${dataPluginName}</alias>` +
             `<description>${dataPluginName}</description>` +
