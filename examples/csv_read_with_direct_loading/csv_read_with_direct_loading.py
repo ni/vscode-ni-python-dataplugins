@@ -19,7 +19,7 @@ class Plugin:
             tab_delimiter = "\t"
             # skip the first 4 lines
             # for i in range(4):
-               #  csvfile.readline()
+            #  csvfile.readline()
             reader = csv.DictReader(csvfile, delimiter=tab_delimiter)
             self.data = list(reader)
             self.channelNames = reader.fieldnames
@@ -106,5 +106,7 @@ if __name__ == "__main__":
     )
     p = Plugin()
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    parameter = {"file": dir_path + "\\Example.csv"}
+    parameter = {
+        "file": os.path.join(dir_path, "Example.csv")
+    }
     print("\n %s" % p.read_store(parameter))

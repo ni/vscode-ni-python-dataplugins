@@ -71,5 +71,7 @@ if __name__ == "__main__":
     )
     p = Plugin()
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    parameter = {"file": dir_path + "\\Example.csv"}
+    parameter = {
+        "file": os.path.join(dir_path, "Example.csv")
+    }
     print("\n %s" % p.read_store(parameter))
