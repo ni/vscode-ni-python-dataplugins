@@ -75,10 +75,11 @@
     "prefix": "if __name__",
     "body": [
       "if __name__ == \"__main__\":",
-      "\tprint(\"For testing your plugin first, you can run that python file directly from command line\")",
+      "\tprint(\"To test your plugin first, run the Python file directly from the command line\")",
       "\tp = Plugin()",
+      "\tdir_path = os.path.dirname(os.path.realpath(__file__))",
       "\tparameter = {",
-      "\t\t\"file\": \"C:\\Users\\Public\\Documents\\National Instruments\\DIAdem 2020\\Data\\Example.csv\"",
+      "\t\t\"file\": os.path.join(dir_path, \"Example.csv\")",
       "\t}",
       "\tprint(\"\\n %s\" % p.read_store(parameter))",
       "\tprint(\"\\nChannel length: %s\" % p.read_channel_length(0, 0))",
