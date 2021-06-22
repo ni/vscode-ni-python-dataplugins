@@ -1,4 +1,4 @@
-# A simple "hello world" example for CSV-like files
+# A simple "hello world" example showing the tdm output structure
 import os
 from pathlib import Path
 
