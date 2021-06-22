@@ -1,6 +1,7 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as config from './config';
+import * as fileutils from './file-utils';
 import { FileExistsError } from './dataplugin-error';
 import Languages from './plugin-languages.enum';
 
@@ -72,17 +73,6 @@ class DataPlugin {
         return dataPlugin;
     }
 
-    /**
-     * @param substr A String that is to be replaced by newSubstr
-     * @param newSubStr Replacement string
-     */
-    public replaceStringInScript(substr: string, newSubStr: string): void {
-        const scriptPath = this.scriptPath;
-        let content = fs.readFileSync(scriptPath, { encoding: 'utf8' });
-        content = content.replace(substr, newSubStr);
-        fs.writeFileSync(scriptPath, content);
-    }
-
     private async prepareWorkspace(): Promise<void> {
         try {
             const extensionsFile = '.file-extensions';
@@ -106,6 +96,12 @@ class DataPlugin {
             );
 
             this.renameDataPluginScript(this.name);
+
+            const testScript = path.join(this.folderPath, 'test_plugin.py');
+            if (fs.existsSync(testScript)) {
+                fileutils.replaceStringInScript(testScript, this.baseTemplate, this.name);
+            }
+
             await Promise.resolve();
             return;
         } catch (e) {

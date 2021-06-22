@@ -36,6 +36,17 @@ export async function readFileExtensionConfig(workspaceDir: string): Promise<str
     return Promise.reject(new Error('file not found'));
 }
 
+/**
+ * @param scriptPath A full path to the script
+ * @param substr A String that is to be replaced by newSubstr
+ * @param newSubStr Replacement string
+ */
+export function replaceStringInScript(scriptPath: string, substr: string, newSubStr: string): void {
+    let content = fs.readFileSync(scriptPath, { encoding: 'utf8' });
+    content = content.replace(substr, newSubStr);
+    fs.writeFileSync(scriptPath, content);
+}
+
 export function storeFileExtensionConfig(workspaceDir: string, fileExtensions: string): void {
     const filePath: string = path.join(workspaceDir, '.file-extensions');
     if (fs.existsSync(filePath)) {

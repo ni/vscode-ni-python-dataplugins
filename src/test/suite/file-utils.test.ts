@@ -63,4 +63,18 @@ suite('File-Utils Test Suite', () => {
         assert.ok(fileContent.includes('CDATA[class Plugin:]'));
         assert.ok(fileContent.includes('1698750118'));
     }).timeout(10000);
+
+    test('should correctly replace a string in the main DataPlugin script', async () => {
+        const testScript: string = path.join(__dirname, 'test.py');
+
+        if (fs.existsSync(testScript)) {
+            fs.unlinkSync(testScript);
+        }
+
+        await fs.writeFile(testScript, 'class Plugin:');
+        fileutils.replaceStringInScript(testScript, 'class', 'ssalc');
+
+        const fileContent = fs.readFileSync(testScript, { encoding: 'utf8' });
+        assert.ok(fileContent.includes('ssalc Plugin:'));
+    }).timeout(10000);
 });

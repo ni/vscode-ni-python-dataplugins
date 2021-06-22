@@ -1,7 +1,6 @@
 import { after } from 'mocha';
 import { Guid } from 'guid-typescript';
 import * as assert from 'assert';
-import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import * as config from '../../config';
@@ -63,20 +62,6 @@ suite('DataPlugin Test Suite', () => {
                     path.join(config.dataPluginFolder, dataPlugin.name, `${dataPlugin.name}.py`)
             );
         }
-    }).timeout(10000);
-
-    test('should correctly replace a string in the main DataPlugin script', async () => {
-        const randomName: string = Guid.create().toString();
-        const dataPlugin: DataPlugin = await DataPlugin.createDataPlugin(
-            randomName,
-            'hello_world',
-            Languages.Python
-        );
-        dataPlugin.replaceStringInScript('Example.csv', 'new_name');
-        const scriptPath = dataPlugin.scriptPath;
-        const content = fs.readFileSync(scriptPath, { encoding: 'utf8' });
-        assert.ok(content.includes('new_name'));
-        assert.ok(content.includes('Example.csv') === false);
     }).timeout(10000);
 
     test('should throw FileExistsError', async () => {
