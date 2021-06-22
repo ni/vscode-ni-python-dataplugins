@@ -210,6 +210,14 @@ async function createDataPluginFromSampleFile(dataPluginName: string): Promise<D
         // manipulate script
         try {
             fileutils.replaceStringInScript(dataPlugin.scriptPath, 'Example.csv', sampleFileName);
+            // remove first comment line
+            const oldCommentaryLine = await fileutils.readFirstLineOfFile(dataPlugin.scriptPath);
+            const newCommentaryLine = "# This is the DataPlugin's main script";
+            fileutils.replaceStringInScript(
+                dataPlugin.scriptPath,
+                oldCommentaryLine,
+                newCommentaryLine
+            );
         } catch (e) {
             if (e instanceof Error) {
                 void vscode.window.showErrorMessage(e.message);
