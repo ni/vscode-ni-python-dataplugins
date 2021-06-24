@@ -70,11 +70,11 @@
       "commandPalette": [
         {
           "command": "nipy.exportPlugin",
-          "when": "false"
+          "when": "editorLangId == python"
         },
         {
           "command": "nipy.registerPlugin",
-          "when": "false"
+          "when": "editorLangId == python"
         }
       ],
       "explorer/context": [

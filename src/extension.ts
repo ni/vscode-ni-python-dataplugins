@@ -10,8 +10,7 @@ export function activate(context: vscode.ExtensionContext): void {
     const createDataPluginCommand = vscode.commands.registerCommand(
         'nipy.createDataPlugin',
         async () => {
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            commands.createDataPlugin();
+            void commands.createDataPlugin();
         }
     );
     const exportPluginCommand = vscode.commands.registerCommand(
