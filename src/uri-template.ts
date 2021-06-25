@@ -18,7 +18,8 @@ export class UriTemplate {
     public constructor(
         dataPluginName: string,
         pythonScript: string | PythonScript,
-        fileExtensions: string
+        fileExtensions: string,
+        lastExportTime: number
     ) {
         this._templateString =
             `<usireginfo version="${UriTemplate.usiCompatibilityVersion}"><storetype name="${dataPluginName}">` +
@@ -35,11 +36,12 @@ export class UriTemplate {
             '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>';
 
         if (typeof pythonScript === 'string') {
-            this._templateString += `<script>${pythonScript}</script>]]></easypluginparam>`;
+            this._templateString += `<script>${pythonScript}</script><lastexporttime>${lastExportTime}</lastexporttime>]]></easypluginparam>`;
         } else {
             const pyScriptName: string = path.basename(pythonScript.fullPath);
             this._templateString +=
-                `<script>@USIPLUGINDIREX@DataPlugins\\${dataPluginName}\\${pyScriptName}</script>]]></easypluginparam>` +
+                `<script>@USIPLUGINDIREX@DataPlugins\\${dataPluginName}\\${pyScriptName}</script>` +
+                `<lastexporttime>${lastExportTime}</lastexporttime>]]></easypluginparam>` +
                 `<files><file name="${pyScriptName}"><![CDATA[${pythonScript.content}]]>` +
                 `<checksum>${pythonScript.checksum}</checksum></file></files>`;
         }

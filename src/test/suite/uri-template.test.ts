@@ -23,10 +23,10 @@ suite('URI-Template Test Suite', () => {
             '<platform>x64</platform>' +
             `<filefilters extension="${fileExtensions}"><description>${dataPluginName} Files (${fileExtensions})</description></filefilters>` +
             '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>' +
-            `<script>${scriptPath}</script>]]></easypluginparam>` +
+            `<script>${scriptPath}</script><lastexporttime>123</lastexporttime>]]></easypluginparam>` +
             '</storetype></usireginfo>';
 
-        const uriTemplate = new UriTemplate('MyDataPlugin', 'C:/temp/script.py', '*.csv');
+        const uriTemplate = new UriTemplate('MyDataPlugin', 'C:/temp/script.py', '*.csv', 123);
         const templateString = uriTemplate.templateString;
         assert.strictEqual(comparison, templateString);
     }).timeout(10000);
@@ -54,11 +54,11 @@ suite('URI-Template Test Suite', () => {
             '<platform>x64</platform>' +
             `<filefilters extension="${fileExtensions}"><description>${dataPluginName} Files (${fileExtensions})</description></filefilters>` +
             '<easypluginparam><![CDATA[<dllpath>@USIBINDIR@\\PythonMarshaller\\uspPythonMarshaller.dll</dllpath>' +
-            `<script>@USIPLUGINDIREX@DataPlugins\\${dataPluginName}\\script.py</script>]]></easypluginparam>` +
+            `<script>@USIPLUGINDIREX@DataPlugins\\${dataPluginName}\\script.py</script><lastexporttime>123</lastexporttime>]]></easypluginparam>` +
             `<files><file name="script.py"><![CDATA[${pythonScript.content}]]>` +
             `<checksum>${pythonScript.checksum}</checksum></file></files></storetype></usireginfo>`;
 
-        const uriTemplate = new UriTemplate('MyDataPlugin', pythonScript, '*.csv');
+        const uriTemplate = new UriTemplate('MyDataPlugin', pythonScript, '*.csv', 123);
         const templateString = uriTemplate.templateString;
         assert.strictEqual(comparison, templateString);
     }).timeout(10000);
