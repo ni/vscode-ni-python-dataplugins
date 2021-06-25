@@ -67,6 +67,7 @@ export async function writeUriFile(
     embedScript = false
 ): Promise<void> {
     const pluginName = path.basename(path.dirname(scriptPath));
+    const lastExportTime = getEpochTime();
 
     let uriTemplate: UriTemplate;
     if (embedScript) {
@@ -76,10 +77,17 @@ export async function writeUriFile(
             checksum: CRC.crc32(fileContent),
             fullPath: scriptPath
         };
-        uriTemplate = new UriTemplate(pluginName, pyScript, fileExtensions);
+        uriTemplate = new UriTemplate(pluginName, pyScript, fileExtensions, lastExportTime);
     } else {
-        uriTemplate = new UriTemplate(pluginName, scriptPath, fileExtensions);
+        uriTemplate = new UriTemplate(pluginName, scriptPath, fileExtensions, lastExportTime);
     }
 
     await fs.writeFile(exportPath, uriTemplate.templateString, { flag: 'w' });
+}
+
+function getEpochTime(): number {
+    const diffSeconds = 2082844800; // 1/1/1904 to 1/1/1970
+    const unixEpochTime = Math.floor(new Date().getTime() / 1000);
+    const macEpochTime = unixEpochTime + diffSeconds;
+    return macEpochTime;
 }

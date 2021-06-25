@@ -77,4 +77,22 @@ suite('File-Utils Test Suite', () => {
         const fileContent = fs.readFileSync(testScript, { encoding: 'utf8' });
         assert.ok(fileContent.includes('ssalc Plugin:'));
     }).timeout(10000);
+
+    test('should correctly determine the USI lastexporttime', async () => {
+        const testScript: string = path.join(__dirname, 'test.py');
+        const outputUri = path.join(__dirname, 'output.uri');
+
+        if (fs.existsSync(testScript)) {
+            fs.unlinkSync(testScript);
+        }
+
+        const unixEpochTime = Math.floor(new Date().getTime() / 1000);
+        const macEpochTime = unixEpochTime + 2082844800;
+
+        await fs.writeFile(testScript, 'class Plugin:');
+        await fileutils.writeUriFile(testScript, '*.csv', outputUri, true);
+
+        const fileContent = fs.readFileSync(outputUri, { encoding: 'utf8' });
+        assert.ok(fileContent.includes(macEpochTime.toString()));
+    }).timeout(10000);
 });
