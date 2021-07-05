@@ -23,7 +23,7 @@
     "url": "https://github.com/ni/vscode-ni-python-dataplugins"
   },
   "galleryBanner": {
-    "color": "#C80000",
+    "color": "#2d2c2c",
     "theme": "dark"
   },
   "activationEvents": [
