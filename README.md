@@ -6,7 +6,7 @@ A [Visual Studio Code](https://code.visualstudio.com/) extension that provides d
 
 ## Quick Start
 
-**Step 1.** Install this extension. Download the latest *vsix* from [Release](https://github.com/jschumme/vscode-ni-python-dataplugins/releases).
+**Step 1.** Install this extension. Download from [marketplace](https://marketplace.visualstudio.com/items?itemName=ni.vscode-ni-python-dataplugins) or download the latest *vsix* from [Release](https://github.com/jschumme/vscode-ni-python-dataplugins/releases).
 
 - Open Visual Studio Code and select __View__->__Extensions__ from the menu to display the __Extensions__ pane.
 - Click the __...__ in the top-right corner of the __Extensions__ pane and select __Install from VSIX__.
