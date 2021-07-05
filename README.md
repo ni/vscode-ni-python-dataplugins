@@ -56,7 +56,7 @@ Feel free to __contribute__ additional __Snippets__ to the project: [snippets/sn
 
 ### Custom Template
 
-Start writing your DataPlugin with your own custom template. Simply add your template to the `examples` directory. You find the example folder at `$HOME/.vscode/extensions/vscode-ni-python-dataplugins` under Mac and Linux or at `%USERPROFILE%\.vscode\extensions` folder under Windows.
+Start writing your DataPlugin with your own custom template. Simply add your template to the `examples` directory. You find the examples folder at `$HOME/.vscode/extensions/ni.vscode-ni-python-dataplugins-<version>` under Mac and Linux or at `%USERPROFILE%\.vscode\extensions\ni.vscode-ni-python-dataplugins-<version>` folder under Windows.
 
 ### .file-extensions
 
