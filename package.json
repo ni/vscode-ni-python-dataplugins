@@ -1,10 +1,10 @@
 {
   "name": "vscode-ni-python-dataplugins",
   "author": "National Instruments",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "NI Python DataPlugins",
-  "description": "Create and export NI DataPlugins in Python",  
-  "publisher": "NI",  
+  "description": "Create and export NI DataPlugins in Python",
+  "publisher": "NI",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ni/vscode-ni-python-dataplugins/issues"
@@ -48,11 +48,11 @@
       }
     ],
     "keybindings": [
-        {
-            "command": "nipy.registerPlugin",
-            "key": "ctrl+alt+F5",
-            "when": "editorTextFocus"
-        }
+      {
+        "command": "nipy.registerPlugin",
+        "key": "ctrl+alt+F5",
+        "when": "editorTextFocus"
+      }
     ],
     "configuration": [
       {
