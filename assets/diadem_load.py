@@ -32,24 +32,29 @@ class RunDIAdem():
 
 
 # ------------------------------------------------------
-# Start this script like: python D:\python\DIAdem_Start.py --DataPlugin_Name="TDM" --data_file="Example.tdm"
+# Start this script like: python diadem_load.py --DataPlugin_Name="CSV" --data_file="Example.csv"
 # ------------------------------------------------------
 def main():
     import optparse
     # get the parameter from argument list or work with some defaults for testing
     parser = optparse.OptionParser()
     parser.add_option("--DataPlugin_Name",
-                      help="plugin name",
-                      dest="DP_Name", default="Touchstone_Complex")
+                      help="DataPlugin name",
+                      dest="DP_Name")
 
     parser.add_option("--data_file",
                       help="Data file to load with the DataPlugin",
-                      dest="DataFileName", default="d:\\python\\monopole_2port_Z_MA.s2p")
+                      dest="DataFileName")
 
     # ------------------------------------------------------
     (opts, args) = parser.parse_args()
+
+    if opts.DP_Name == None or opts.DataFileName == None:
+        parser.print_help()
+        return
+
     print("----- Start to Load Data with \"" + opts.DP_Name +
-          "\" DataPlugin and the file \""+opts.DataFileName + "\"--------")
+          "\" DataPlugin and the file \"" + opts.DataFileName + "\"--------")
 
     # ------------------------------------------------------
     dd = RunDIAdem()
